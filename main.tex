@@ -110,7 +110,7 @@ To show that these sets are equal, consider the sequence $\left(\frac{1}{n}\righ
 \end{proof}
 \section{Indicator Function}
 Let $A \subset \Omega$. The indicator function of $A$ is defined as
-\[I(x \in A)I_A(x) = \begin{cases}
+\[I(x \in A) = I_A(x) = \begin{cases}
     1 & x \in A\\
     0 & x \not\in A
 \end{cases}\]
@@ -142,7 +142,7 @@ Let $A \subset \Omega$. The indicator function of $A$ is defined as
 \subsection{Properties of Indicator Functions:}
 \begin{itemize}
     \item $I_{A \cup B} = \max(I_A, I_B)$
-    \item $_{A \cap B} = I_A \cdot I_B$
+    \item $I_{A \cap B} = I_A \cdot I_B$
     \item $I_{A \Delta B} = I_A + I_B \pmod{2}$
     \item $A \subset B$ if and only if $I_A \leq I_B$
     \item $I_{\cup_i A_i} \leq \sum_i I_{A_i}$
@@ -218,7 +218,7 @@ So, $\omega$ is not in finitely many of the $A_i$'s, therefore $\omega \in \limi
 \noindent
 \textbf{Example:} Consider sample space of flipping a coin and infinite number of times, and the event $E = \{HTTHT\}$, so the event that we get $HTTHT$ in that order. Because this outcome is possible, it will occur an infinite number of times in the sequence of events, so $E$ is in the limit superior, and the probability that $E$ occurs infinitely often is 1.
 \begin{lemma}
-    \[\]
+    Let $\{A_n\}$ be a sequence of events, then 
     \begin{enumerate}
         \item If $A_n \subset A_{n+1}$ for any integer $n$, then 
         \[\lim A_n = \bigcup_{n=1}^\infty A_n\]

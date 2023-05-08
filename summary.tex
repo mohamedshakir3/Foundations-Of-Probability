@@ -1,0 +1,206 @@
+
+\documentclass{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{environ}
+\makeatletter
+
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\title{CSI 2132 Midterm Cheat Sheet}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+%\colorbox[HTML]{e4e4e4}{\makebox[\textwidth-2\fboxsep][l]{texto}
+
+
+\definecolor{blue}{HTML}{A7BED3}
+\definecolor{brown}{HTML}{DAB894}
+\definecolor{pink}{HTML}{FFCAAF}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{fact}{Fact}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+
+
+
+
+
+\tikzset{header/.style={path picture={
+\fill[green, even odd rule, rounded corners]
+(path picture bounding box.south west) rectangle (path picture bounding box.north east) 
+([shift={( 2pt, 4pt)}] path picture bounding box.south west) -- 
+([shift={( 2pt,-2pt)}] path picture bounding box.north west) -- 
+([shift={(-2pt,-4pt)}] path picture bounding box.north east) -- 
+([shift={(-6pt, 6pt)}] path picture bounding box.south east) -- cycle;
+},
+label={[anchor=west, fill=green]north west:\textbf{#1:}},
+}} 
+
+\tikzstyle{mybox} = [draw=black, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=black, text=white, rounded corners, font=\bfseries]
+
+
+\tikzstyle{bluebox} = [draw=blue, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{bluetitle} =[fill=blue, inner sep=4pt, text=white, font=\small]
+
+
+\tikzstyle{brownbox} = [draw=brown, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{browntitle} =[fill=brown, inner sep=4pt, text=white, font=\small]
+
+\tikzstyle{pinkbox} = [draw=pink, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{pinktitle} =[fill=pink, inner sep=4pt, text=white, font=\small]
+
+\tikzstyle{redbox} = [draw=red!35, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{redtitle} =[fill=red!35, inner sep=4pt, text=white, font=\small]
+
+
+\NewEnviron{brownbox}[1]{
+    \begin{tikzpicture}
+    \node[brownbox](box){%
+    \begin{minipage}{0.9\textwidth}
+    \BODY
+    \end{minipage}};
+    \node[browntitle, right=10pt] at (box.north west) {#1};
+    \end{tikzpicture}
+}
+
+ \NewEnviron{redbox}[1]{
+    \begin{tikzpicture}
+    \node[redbox](box){%
+    \begin{minipage}{0.9\textwidth}
+    \BODY
+    \end{minipage}};
+    \node[redtitle, right=10pt] at (box.north west) {#1};
+    \end{tikzpicture}
+}
+   
+    
+
+\NewEnviron{bluebox}[1]{%
+\begin{tikzpicture}
+    \node[bluebox](box){%
+        \begin{minipage}{0.9\textwidth}
+            \BODY
+        \end{minipage}
+    };
+    
+\node[bluetitle, right=10pt] at (box.north west) {#1};
+\end{tikzpicture}
+}
+
+\NewEnviron{pinkbox}[1]{%
+\begin{tikzpicture}
+    \node[pinkbox](box){%
+        \begin{minipage}{0.9\textwidth}
+            \BODY
+        \end{minipage}
+    };
+    
+\node[pinktitle, right=10pt] at (box.north west) {#1};
+\end{tikzpicture}
+}
+
+
+
+\NewEnviron{blackbox}[1]{%
+\begin{tikzpicture}
+    \node[mybox](box){%
+        \begin{minipage}{0.3\textwidth}
+        \raggedright
+        \small{
+            \BODY
+        }
+        \end{minipage}
+    };
+    
+\node[fancytitle, right=10pt] at (box.north west) {#1};
+\end{tikzpicture}
+}
+
+
+\begin{document}
+
+\begin{center}{\large{\textbf{MAT 3172 Summary Sheet}}}\\
+\end{center}
+
+
+
+
+\begin{multicols*}{3}
+\begin{blackbox}{Indicator Functions}
+    \textbf{Definition.} Let $A \subset \Omega$. The indicator function of $A$ is defined as 
+    \[I(x \in A) = I_A(x) = \begin{cases}
+        1 & x \in A \\
+        0 & x \notin A
+    \end{cases}\]
+    \begin{bluebox}{Properties of Indicator Functions}
+        \begin{itemize}
+            \item $I_{A \cup B} = \max(I_A, I_B)$
+            \item $I_{A \cap B} = I_A \cdot I_B$
+            \item $I_{A \Delta B} = I_A + I_B \pmod{2}$
+            \item $A \subset B$ if and only if $I_A \leq I_B$
+            \item $I_{\cup_i A_i} \leq \sum_i I_{A_i}$
+        \end{itemize}
+    \end{bluebox}\\[-2ex]
+\end{blackbox}
+\begin{blackbox}{Set Theoretic Limits}
+    \textbf{Definition.} Let $\{A_n\}$ be a sequence of events,
+    \[\liminf A_n = \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m\]
+    \[\limsup A_n = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m\]
+    \begin{redbox}{Lemma}
+        \[\limsup A_n = \left\{
+            \omega: \sum_{i=1}^\infty I_{A_i}(\omega) = \infty
+        \right\}\]
+        \[\liminf A_n = \left\{
+            \omega: \sum_{i=1}^\infty I_{A_i^c}(\omega) < \infty
+        \right\}\]
+    \end{redbox}
+    To summarize, with the limit superior we have infinitely many cases where
+    $I_{A_i} (\omega) = 1$. For the limit inferior, it means that $\omega$ is in all but finitely many of
+    the $A_i$’s.
+    \begin{brownbox}{Lemma}
+        Let ${A_n}$ be a sequence of events. Then
+        \begin{enumerate}
+            \item If $A_n \subset A_{n+1}$ for any integer $n$, then 
+            \[\lim A_n = \bigcup_{n=1}^\infty A_n\]
+            \item If $A_{n+1} \subset A_n$ for any integer $n$, then 
+            \[\lim A_n \bigcap_{n=1}^\infty A_n\]
+        \end{enumerate}
+    \end{brownbox}\\[-2ex]
+\end{blackbox}
+
+
+\end{multicols*}
+\end{document}
