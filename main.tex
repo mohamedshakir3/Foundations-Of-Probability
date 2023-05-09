@@ -272,4 +272,104 @@ Similarly for the limit inferior,
 Therefore, we have 
 \[\bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m = B \cup C \text{ and } \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m = B \cap C\]
 If $B \cap C \neq B \cup C$, then $B \cap C = \liminf A_n \neq \limsup A_n = B \cup C$. 
+\section{Fields and Algebras}
+\begin{definition}[Fields (Algebras)]
+    A \emph{field} (or \emph{algebra}) is a class of subsets of $\Omega$ (called events) that contain $\Omega$ and are closed under finite union, finite intersection, and complementation. In otherwords, a family of subsets of $\Omega$ (say $\mathcal{A}$) is a field if 
+    \begin{itemize}
+        \item $\Omega \in \mathcal{A}$
+        \item If $A \in \mathcal{A}$, then $A^c \in \mathcal{A}$
+        \item IF $A,B \in \mathcal{A}$, then $A \cup B \in \mathcal{A}$
+    \end{itemize}
+\end{definition}
+\noindent
+\textbf{Remarks.} If $A,B \in \mathcal{A}$ then $A \cap B \in \mathcal{A}$. This is true because 
+\[(A^c \cup B^c)^c = A \cap B\]
+\begin{definition}[$\sigma$-field]
+    A $\sigma$-field (or $\sigma$-algebra) is a field that is closed under countable union (which implies that it is closed under countable intersection).
+\end{definition}
+\noindent
+\textbf{Example.} Let $\Omega$ be a set and $A,B \subset \Omega$. Then, 
+\[\mathcal{A} = \{\Omega, \emptyset, A, A^c, B, B^c, A\cup B, A \cap B, A \cap B^c, A^c \cap B, A^c \cup B^c, A^c \cap B^c\}\]
+\textbf{Examples of $\sigma$-fields.}
+\begin{itemize}
+    \item The power set $\mathcal{P}(\Omega)$
+    \item $\mathcal{F} = \{\Omega, \emptyset\}$
+    \item The family of subsets or $\real$ which are either countable or their complements are countable. 
+    \item Let $\mathcal{B}$ be the smallest $\sigma$-field containing all open sets. Then $\mathcal{B}$ is called the Borel $\sigma$-field.
+\end{itemize}
+
+
+\begin{definition}[Probability Measure]
+    Let $\Omega$ be a sample space and $\mathcal{F}$ be a $\sigma$-field on $\Omega$. A probability measure $P$ is defined on $\mathcal{F}$ such that 
+    \begin{enumerate}[label=(\roman*)]
+        \item $P(\Omega) = 1$
+        \item If $A_1, A_2, \ldots \in \mathcal{F}$ are disjoint, then 
+        \[P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P(A_1)\]
+    \end{enumerate}
+\end{definition}
+\subsection{Properties of Probability Measures}
+\begin{enumerate}[label=(\roman*)]
+    \item Since $P(\Omega) = 1 = P(\Omega \cup \emptyset) = P(\Omega) + P(\emptyset)$, we have $P(\emptyset) = 0$
+    \item Since $(A\setminus B) \cup (A \cap B) = A$ and $(A\setminus B) \cap (A \cap B) = \emptyset$, we have
+    \[P(A \setminus B) = P(A) - P(A \cap B)\]
+    \item Similarly, $(A \setminus B) \cup B = A \cup B$ and $(A \setminus B) \cap B = \emptyset$, which implies 
+    \[P(A \cup B) = P(A) + P(B) - P(A \cap B)\]
+    \item If $A \subset B$ then $A \cup (B \setminus A) = B$. Therefore, 
+    \[P(A) + P(B \setminus A) = P(B)\]
+    and furthermore,
+    $P(A) \leq P(B)$
+\end{enumerate}
+\subsection{Expectations}
+\begin{definition}
+    
+    Let $X: \Omega \to \real$ and assume $E$ be an operator with the following properties, 
+    \begin{enumerate}
+        \item If $X \geq 0$ then $E(X) \geq 0$
+        \item If $c \in \real$ is a constant, then $E(cX) = cE(X)$
+        \item $E(X_1 + X_2) = E(X_1) + E(X_2)$
+        \item $E(1) = 1$
+        \item If $X_n(\omega)$ is monotonically increasing and $X_n(\omega) \rightarrow X(\omega)$, then 
+        \[\lim_{n\rightarrow \infty} E(X_n) = E(X)\]
+    \end{enumerate}
+\end{definition}
+\noindent
+\textbf{Example.} Flip 2 coins, 
+\[\Omega = \{HH, HT, TH, TT\}\]
+Define $X: \Omega \rightarrow \real$, with 
+\[X(HH) = 2, X(HT) = X(TH) = 1, X(TT) = 0\]
+So $X$ is a random variable which represents the number of heads.\\[2ex]
+\textbf{Example.} Flip a coin until a head appears, 
+\[\Omega = \{H, TH, TTH, TTTH, \ldots\}\]
+With 
+\[X(H) = 1, X(TH) = 2, X(TTH) = 3, X(TTTH) = 4, \ldots\]
+So $X$ is a random variable which represents the number of trials until a head appears.\\[2ex]
+\textbf{Example.} Define 
+\[\Omega = \{(x,y): x^2 + y^2 \leq 1\}\]
+and 
+\[X(x,y) = \sqrt{x^2 + y^2} = \text{ Distance of $(x,y)$ from $(0,0)$}\]
+\textbf{Example.} Let $X$ be a random variable, and
+\[E(X) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D X(\omega)d\omega}{2D}\]
+Check if $E$ satisfies the definition for an expectation. \\[2ex]
+\textbf{Solution.} We have to check the 5 axioms, 
+\begin{enumerate}
+    \item Its clear that if $X \geq 0$ then $E(X) \geq 0$ since the integral of a non-negative function is non-negative.
+    \item 
+    \[E(cX) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D cX(\omega) d\omega}{2D} = c\lim_{D \rightarrow \infty}\frac{\int_{-D}^DX(\omega)d\omega}{2D} =  cE(x)\]
+    \item 
+    \begin{align*}
+        E(X_1 + X_2) &= \lim_{D \rightarrow \infty} \frac{\int_{-D}^D (X_1(\omega) + X_2(\omega)) d\omega}{2D}\\
+        &=\lim_{D \rightarrow \infty} \left(\frac{\int_{-D}^D X_1(\omega) d\omega}{2D} + \frac{\int_{-D}^D X_2(\omega) d\omega}{2D}\right)\\
+        &=\lim_{D \rightarrow \infty} \frac{\int_{-D}^D X_1(\omega) d\omega}{2D} + \lim_{D \rightarrow \infty}\frac{\int_{-D}^D X_2(\omega) d\omega}{2D}\\
+        &= E(X_1) + E(X_2)
+    \end{align*}
+    \item 
+    \[E(1) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D 1 d \omega}{2D} = \lim_{D\rightarrow \infty} \frac{2D}{2D} = 1\]
+    \item 
+    The 5th axiom fails however. Take $\Omega = \mathbb{R}$ and $X_n (\omega) = I_{[-n,-n]}(\omega)$, then 
+    \[\lim_{D \rightarrow \infty} \frac{\int_{-D}^D X(\omega)d\omega}{2D} = 0\]
+    But, $x_n(\omega) \rightarrow 1$. So the operator in this example is not a proper form of expectation. 
+\end{enumerate}
+
+
+
 \end{document}
