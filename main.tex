@@ -148,7 +148,7 @@ Let $A \subset \Omega$. The indicator function of $A$ is defined as
     \item $I_{\cup_i A_i} \leq \sum_i I_{A_i}$
 \end{itemize}
 
-\section{Limsup and Liminf of Sets}
+\section{Set Theoretic Limits}
 \textbf{Exercise:} Prove that
 \[I_{\cup_{i=1}^\infty A_i} = 1 - \prod_{i=1}^\infty(1 - I_{A_i})\]
 and 
@@ -278,7 +278,7 @@ If $B \cap C \neq B \cup C$, then $B \cap C = \liminf A_n \neq \limsup A_n = B \
     \begin{itemize}
         \item $\Omega \in \mathcal{A}$
         \item If $A \in \mathcal{A}$, then $A^c \in \mathcal{A}$
-        \item IF $A,B \in \mathcal{A}$, then $A \cup B \in \mathcal{A}$
+        \item If $A,B \in \mathcal{A}$, then $A \cup B \in \mathcal{A}$
     \end{itemize}
 \end{definition}
 \noindent
@@ -304,7 +304,7 @@ If $B \cap C \neq B \cup C$, then $B \cap C = \liminf A_n \neq \limsup A_n = B \
     \begin{enumerate}[label=(\roman*)]
         \item $P(\Omega) = 1$
         \item If $A_1, A_2, \ldots \in \mathcal{F}$ are disjoint, then 
-        \[P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P(A_1)\]
+        \[P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P(A_i)\]
     \end{enumerate}
 \end{definition}
 \subsection{Properties of Probability Measures}
@@ -322,8 +322,8 @@ If $B \cap C \neq B \cup C$, then $B \cap C = \liminf A_n \neq \limsup A_n = B \
 \subsection{Expectations}
 \begin{definition}
     
-    Let $X: \Omega \to \real$ and assume $E$ be an operator with the following properties, 
-    \begin{enumerate}
+    Let $X: \Omega \to \real$, an expecation $E$ be an operator with the following properties, 
+    \begin{enumerate}[label=(\roman*)]
         \item If $X \geq 0$ then $E(X) \geq 0$
         \item If $c \in \real$ is a constant, then $E(cX) = cE(X)$
         \item $E(X_1 + X_2) = E(X_1) + E(X_2)$

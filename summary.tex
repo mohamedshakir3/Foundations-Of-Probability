@@ -200,7 +200,83 @@ label={[anchor=west, fill=green]north west:\textbf{#1:}},
         \end{enumerate}
     \end{brownbox}\\[-2ex]
 \end{blackbox}
-
-
+\begin{blackbox}{More on Set Theoretic Limits}
+    \begin{redbox}{Lemma}
+        Let $\{A_n\}$ be a sequence of events, then 
+        \begin{enumerate}
+            \item If $A_n \subset A_{n+1}$ for any integer $n$, then \\[-2ex]
+            \[\lim A_n = \bigcup_{n=1}^\infty A_n\]
+            \item If $A_{n+1} \subset A_n$ for any integer $n$, then \\[-2ex]
+            \[\lim A_n = \bigcap_{n=1}^\infty A_n\]  
+        \end{enumerate}
+    \end{redbox}\\[-2ex]
+\end{blackbox}
+\begin{blackbox}{Algebras}
+    \textbf{Definition.} An \emph{algebra} (also called a field) $\mathcal{A}$ is a class of subsets of $\Omega$ (called events) that satisfies
+    \begin{itemize}
+        \item $\Omega \subset \mathcal{A}$ 
+        \item If $A \in \mathcal{A}$, then $A^c \in \mathcal{A}$
+        \item If $A,B \in \mathcal{A}$, then $A \cup B \in \mathcal{A}$
+    \end{itemize}
+    \textbf{Definition.} A \emph{$\sigma$-algebra} (also called a \emph{$\sigma$-field}) is an algebra that is closed under countable union.  
+\end{blackbox}
+\begin{blackbox}{Probability Measures}
+    \textbf{Definition.} Let $\Omega$ be a sample space and $\mathcal{F}$ be a $\sigma$-field on $\Omega$. A probability measure $P$ is defined on $\mathcal{F}$ such that 
+    \begin{enumerate}[label=(\roman*)]
+        \item $P(\Omega) = 1$
+        \item If $A_1, A_2, \ldots \in \mathcal{F}$ are pairwise disjoint, then\\[-2ex]
+        \[P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P(A_i)\]
+    \end{enumerate}
+    \begin{bluebox}{Properties of Probability Measures}
+        \begin{enumerate}[label=(\roman*)]
+            \item $P(\Omega) = 1 = P(\Omega \cup \emptyset) = P(\Omega) + P(\emptyset) \implies P(\emptyset) = 0$
+            \item $(A\setminus B) \cup (A \cap B) = A$ and $(A\setminus B) \cap (A \cap B) = \emptyset$, we have\\[-2ex]
+            \[P(A \setminus B) = P(A) - P(A \cap B)\]
+            \item Similarly, $(A \setminus B) \cup B = A \cup B$ and $(A \setminus B) \cap B = \emptyset$, which implies\\[-2ex] 
+            \[P(A \cup B) = P(A) + P(B) - P(A \cap B)\]
+            \item If $A \subset B$ then $A \cup (B \setminus A) = B$. Therefore, \\[-1ex]
+            \[P(A) + P(B \setminus A) = P(B)\]
+            and furthermore,
+            $P(A) \leq P(B)$
+        \end{enumerate}
+    \end{bluebox}\\[-2ex]
+\end{blackbox}
+\begin{blackbox}{Expectations}
+    \textbf{Definition.} Let $X: \Omega \rightarrow \mathbb{R}$, an expecation $E$ is an operator with the following properties, 
+    \begin{enumerate}[label=(\roman*)]
+        \item If $X \geq 0$, then $E(X) \geq 0$
+        \item If $c \in \mathbb{R}$ is a constant, then $E(cX) = cE(X)$
+        \item $E(X_1 + X_2) = E(X_1) + E(X_2)$
+        \item $E(1) = 1$
+        \item If $X_n(\omega)$ is monotonically increasing and $X_n(\omega) \rightarrow X(\omega)$, then 
+        \[\lim_{n\rightarrow\infty} E(X_n) = E(X)\]
+    \end{enumerate}
+    \begin{bluebox}{Finding Probabilities Using Expecations}
+        \textbf{Definition.} For any event $A$, define 
+        \[P(A) = E(I_A(\omega))\]
+        \raggedright
+        For simplicity we write $P(A) = E(I_A)$.
+        \begin{redbox}{Properties}
+            \begin{enumerate}[label=(\roman*)]
+                \item $E\left(\sum\limits_{i=1}^n c_iX_i\right) = \sum\limits_{i=1}^n c_iE(X_i)$
+                \item If $X \leq Y \leq Z$, then $E(X) \leq E(Y) \leq E(Z)$
+                \item If $\{A_i\}$ is a sequence of events, then 
+                \[P\left(\bigcup_{i=1}^\infty A_i\right) \leq \sum_{i=1}^\infty P(A_i)\]
+            \end{enumerate}
+        \end{redbox}
+    \end{bluebox}
+    \begin{brownbox}{Fatou's Lemma}
+        If $\{A_n\}$ is a family of events, then 
+        \raggedright
+        \begin{enumerate}
+            \item $$P(\liminf A_n) \leq \liminf P(A_n) $$
+            \[\leq \limsup P(A_n) \leq P(\limsup A_n)\]
+            \item If $\lim A_n = A$, then $\lim P(A_n) = P(A)$
+        \end{enumerate}
+    \end{brownbox}
+    \begin{pinkbox}{Lemma}
+        If $A_n \subset A_{n+1}$ for any $n$, then $\lim P(A_n) = P(A)$. If $A_{n+1} \subset A_n$ for any $n$, then $\lim P(A_n) = P(A)$ where $\lim A_n = A$. 
+    \end{pinkbox}
+\end{blackbox}
 \end{multicols*}
 \end{document}
