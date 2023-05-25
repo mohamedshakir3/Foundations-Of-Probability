@@ -18,7 +18,7 @@
 \tableofcontents
 
 %\chapter{Review}
-\chapter{Set Theory}
+\chapter{Probability Measures}
 \section{Review of Set Theory}
 Let $\Omega$ be an abstract set representing the sample space of a random experiment. The power set of $\Omega$ by $\powerset(\Omega)$ is defined to be the set of all subsets of $\Omega$. Elements of $\Omega$ are outcomes and its subsets are events. Therefore,
 \[\powerset(\Omega) = \{A: A \subseteq \Omega\}\]
@@ -493,6 +493,135 @@ To summarize, when $A_n$ is increasing, we have
 \[\lim P(A_n) = P\left(\bigcup_{i=1}^\infty A_i\right) = P\left(\lim_{n\rightarrow\infty}A_n\right)\]
 when $A_n$ is decreasing, 
 \[\lim P(A_n) = P\left(\bigcap_{i=1}^\infty A_i\right) = P\left(\lim_{n\rightarrow\infty}A_n\right)\]
+Now we can prove Fatou's Lemma.
+\begin{proof}
+    To prove (1), notice that from the first part of lemma 1.5.2, we can write 
+    \[P(\liminf A_n) = P\left(\lim_{n\rightarrow\infty} \cap_{i=n}^\infty A_i\right) = \lim_{n\rightarrow \infty} P \left(\cap_{i=n}^\infty A_i\right)\leq \liminf P(A_n)\]
+    since $\bigcap\limits_{i=n}^\infty A_i \subset A_n$. Likewise, 
+    \[P(\limsup A_n) = P\left(\lim_{n\rightarrow\infty} \bigcup_{i=n}^\infty A_i\right) = \lim_{n\rightarrow\infty} P\left(\bigcup_{i=1}^\infty A_i\right) \geq \limsup P(A_n)\]
+    since $A_n \subset \bigcup\limits_{i=n}^\infty A_i$. For part (2), notice that if 
+    \[A = \limsup A_n = \liminf A_n\]
+    we have 
+    \[P(A) = P(\liminf A_n) \leq \liminf P(A_n) \leq \limsup P(A_n) \leq  P(\limsup A_n) = P(A)\]
+    Then this implies that 
+    \[\lim_{n\rightarrow\infty} P(A_n) = P(A)\]
+\end{proof}
+
+
+\section{Independence}
+\begin{definition}
+    Let $A$ and $B$ be events. We say that $A$ and $B$ are independent if 
+    \[P(A \cap B) = P(A)P(B)\]
+\end{definition}
+\noindent
+\textbf{Example.} Flip a coin and roll a die, 
+\[\Omega = \{1H, 2H, \ldots, 6H, 1T, 2T, \ldots, 6T\}\]
+Let $A = \{1H, 1T\}$ and $B = \{1H, 2H, 3H,4H, 5H,6H\}$. Are $A,B$ independent? 
+\[A \cap B = \{1H\} \neq \emptyset\]
+\[P(A \cap B) = \frac{1}{12}\]
+\[P(A) = \frac{1}{6}, \ P(B) = \frac{1}{2}\]
+\[P(A)P(B) = \frac{1}{6}\cdot \frac{1}{2} = \frac{1}{12} = P(A\cap B)\]
+Therefore, $A$ and $B$ are independent. 
+\subsection{Properties of Independence}
+\begin{enumerate}
+    \item  If $A$ and $B$ are independent, then $A$ and $B^c$ are independent, $A^c$ and $B$ are independent, and $A^c$ and $B^c$ are independent.
+    \item If $A,B,C$ are indepdent then $A$ and $B \cup C$ are independent. similarly $A$ and $B \cap C$ are independent.
+    \item An event $A$ is independent of itself if and only if $A = \emptyset$ or $A = \Omega$.
+    \item Any event $A$ is independent of $\Omega$.
+\end{enumerate}
+
+\begin{proof}
+    \begin{enumerate}
+        \item To prove that $A^c$ and $B$ are independent, recall that
+        \[P(A^c \cap B) = P(B) - P(A \cap B)\]
+        So, 
+        \begin{align*}
+            P(A^c \cap B) &= P(B) - P(A \cap B)\\
+            &= P(B) - P(A)P(B)\\
+            &= P(B)(1 - P(A))\\
+            &=P(B)P(A^c)
+        \end{align*}
+        The proof for $A$ and $B^c$ follows the same. To prove $A^c$ and $B^c$ are independent, 
+        \begin{align*}
+            P(A^c \cap B^c) &= P((A\cup B)^c)\\
+            &= 1 - P(A\cup B)\\
+            &= 1 - [P(A) + P(B) - P(A\cap B)]\\
+            &= 1 - P(A) - P(B) + P(A)P(B)\\
+            &= 1 - P(A) - P(B)(1 - P(A))\\
+            &= (1-P(A))(1-P(B))\\
+            &= P(A^c)P(B^c)
+        \end{align*}
+        \item Given 3 independent events $A,B,C$, then any operations between the sets is independent. So we can show $A$ and $B \cup C$ is independent since 
+        \begin{align*}
+            P(A \cap (B \cup C)) &= P((A \cap B) \cup (A \cap C)) \\
+            &= P(A \cap B) + P(A \cap C) - P(A \cap B \cap A \cap C)\\
+            &= P(A)P(B) + P(A)P(B) - P(A)P(B)P(C)\\
+            &= P(A)(P(B) + P(C) - P(B)P(C))\\
+            &= P(A)P(B \cup C)
+        \end{align*}
+        Similarly for $A$ and $B \cap C$, 
+        \begin{align*}
+            P(A \cap (B \cap C)) &= P((A \cap B) \cap (A \cap C)) \\
+            &= P(A \cap B \cap A \cap C)\\
+            &= P(A)P(B)P(C)\\
+            &= P(A)P(B \cap C)
+        \end{align*}
+        \item ($\implies$) If $A$ is independent of itself, then 
+        \[P(A \cap A) = P(A)P(A) \implies P(A) = P(A)^2 \implies P(A) =0, 1 \implies A = \emptyset, A = \Omega\]
+        ($\impliedby$) If $A = \emptyset$, then 
+        \[P(A \cap A) = P(A) = 0 = P(\emptyset)P(\emptyset)\]
+        If $A = \Omega$, then
+        \[P(A \cap A) = P(A) = 1 = P(\Omega)P(\Omega)\]
+        \item Every event is independent of $\Omega$ since
+        \[P(A \cap \Omega) = P(A)P(\Omega) = P(A) \cdot 1\]
+    \end{enumerate}
+    
+\end{proof}
+\noindent
+
+\begin{lemma}[Borel Cantelli Lemma]
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space and let $\{E_i\}$ be a sequence of events. Then,
+    \begin{enumerate}[label=(\roman*)]
+        \item If $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $P(\limsup E_n )= 0$
+        \item If $\{E_i\}$ is a sequence of independent events, then $P(\limsup E_n) = 0$ or 1 according to to whether the series $\sum\limits_{i=1}^\infty P(E_i)$ diverges or converges respectively.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Set $E = \limsup E_n$. We have $E = \bigcap\limits_{n=1}^\infty F_n$ where $F_n = \bigcup\limits_{m=n}^\infty E_m$. For every positive integer $n$, 
+    \[0 \leq P(F_n) \leq \sum_{m=n}^\infty P(E_m)\]
+    Since $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $\lim\limits_{n\rightarrow \infty} P(E_n) = 0$. Since $F_n \downarrow E$, from Fatou's lemma we can write 
+    \[0 = \lim_{n\rightarrow \infty} P(F_n) = P \left(\lim_{n\rightarrow\infty} F_n\right) = P(\limsup E_n)\]
+    Thus (i) is proved. For (ii), suppose $E_1, E_2, \ldots$ are independent. From (ii), we know that $P(\limsup E_n) = 0$  if the sum $\sum_{n=1}^\infty E_n$ is finite. It remains to show that if the sum is infinite, then $E_n$ occurs infinitely often. Let $E = \limsup E_n$. Then 
+    \[E^c = \liminf E_n^c\]
+    The sequence of events $\{E_n^c\}$ are also independent, so we have 
+    \[P\left(\bigcap_{m=n}^\infty E_m^c\right) \leq P\left(\bigcap_{m=n}^N E_m^c\right) = \prod_{m=n}^N (1 - P(E_m)) \leq \exp \left(- \sum_{m=n}^N P(E_m)\right)\]
+    This inequality comes from the Talor Series expansion of $e^x$, so
+    \[e^{-x} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + \cdots\] 
+    \[e^{-x} \geq 1 - x\]
+    As $N \rightarrow \infty$, we get $\bigcap\limits_{m=n}^N E_{m}^C \downarrow E^c$. Thus, 
+    \[P\left(\bigcap_{m=n}^N E_m^c\right) \leq \exp\left(-\sum_{m=n}^N P(E_m)\right) \leq \exp \left(-\sum_{m=n}^N P(E_m)\right) \rightarrow 0\]
+    This implies that $P(E^c) = 0$, thus $P(E) = 1$.
+ \end{proof}
+ \begin{corollary}
+    If $\{E_i\}$ is a sequence of independent events then 
+    \[P(\limsup E_n) =  0 \iff \sum_{i=1}^{\infty} P(E_i) < \infty\]
+\end{corollary}
+\begin{proof}
+    ($\impliedby$) We know from the Borel Cantelli lemma that if $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $P(\limsup E_n) = 0$.\\[1ex]
+    ($\implies$) Suppose $P(\limsup E_n) = 0$. Then from part (2), $P(\limsup E_n) = 1$ when $\sum\limits_{i=1}^\infty P(E_i) = \infty$. So it must be that $\sum\limits_{i=1}^\infty P(E_i) < \infty$ as required. 
+\end{proof}
+\noindent
+\textbf{Remark.} Notice that indepdence is required by Corollary 1.6.1. To see this, let $(\Omega = [0,1], B, P)$ be a probability space with 
+\[P(A) = \int_A dx\]
+for a Borel set $A$. It's easy to show that $P$ is a probability measure on $[0,1]$. Now define $E = \left(0, \frac{1}{n}\right)$ and notice that $E_n \downarrow \emptyset$. Therefore, 
+\[P(\limsup E_n) = P(\lim E_n) = 0\]
+Since 
+\[P(E_n) = \int_0^\frac{1}{n} dx = \frac{1}{n}\]
+we have 
+\[\sum_{n=1}^\infty P(E_n) = \sum_{n=1}^\infty \frac{1}{n} = \infty\]
+This does not violate Corollary 1.6.1 since the events $E_n$ are not independent. For example. consider $E_2 = (0,1/2)$, and $E_3 = (0,1/3)$. Then 
+\[P(E_2) = \frac{1}{2}, \ \ P(E_3) = \frac{1}{3}\]
+\[P(E_2 \cap E_3) = P(E_3) = \frac{1}{3} \neq P(E_2)P(E_3) = \frac{1}{6}\]
 
 
 \end{document}
