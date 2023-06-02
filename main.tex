@@ -694,6 +694,7 @@ probability. We start with some definitions and review of probability topics.
     \end{align*}
     All the above ways of calculating $P(0.5 < X < 0.75)$ are equivalent.
 \end{enumerate}
+\section{Important Inequalities}
 \begin{theorem}[Markov's inequality]
     Let $X \geq 0$ be a random variable and $a$ be a positive constant. Then 
     \[P(X \geq a) \leq \frac{E(X)}{a}\]
@@ -814,4 +815,212 @@ Furthermore,
 Where $\rho^2$ is the correlation between $X$ and $Y$. Therefore, when $X$ and $Y$ are linear and the Cauchy-Shwarz inequality becomes an equality, we have 
 \[Y - \mu_Y = \beta(X - \mu_X)\]
 for some constant $\beta$. Then, $\rho^2 = 1$.  
+\section{Moment Generating Functions}
+\begin{definition}
+    Let $X$ be a random variable wtih cdf $F$, then the \emph{moment generating function} (m.g.f) of $X$ is defined as
+    \[M(t) = E(e^{tX}) = \int_{-\infty}^\infty e^{tX}dF(X) < \infty\]
+\end{definition}
+\noindent
+\textbf{Note.} Moment generating functions are unique, so with a (m.g.f) we can uniquely determine $F$ and vice-versa. 
+\subsection{Properties of Moment Generating Functions}
+\begin{enumerate}[label=(\roman*)]
+    \item $M(0) = E(e^{0X}) = E(1) = 1$
+    \item $\frac{d}{dt} M(t) = \int_{-\infty}^\infty xe^{tX}dF(X) = E(Xe^{tX}) \implies M'(0) = E(X)$
+    \item $\frac{d^2}{dt^2} M(t) = \int_{-\infty}^\infty x^2e^{tX}dF(X) = E(X^2e^{tX}) \implies M''(0) = E(X^2)$. $E(X^2)$ is the 2nd moment of $X$.
+    \item In general, 
+    \[\frac{d^k}{dt^k} M(t) = \int_{-\infty}^\infty x^ke^{tx}dF(x)\]
+    \[M^{(k)}(0) = E(X^k)\]
+    \item We can use the Taylor series expansion of the moment generating function to get 
+    \[M^{(k)}(t) = \sum_{k=0}^\infty \frac{M^{(k)}(0)}{k!}t^k = \sum_{k=0}^\infty \frac{E(X^k)}{k!}t^k\]
+    Then if we multiply by $k!$ to get 
+    \[E(X^k) = (\text{Multiple of $t^k$}) \times k! = \frac{M^{(k)}(0)}{k!} \cdot k! = M^{(k)}(0)\]
+\end{enumerate}
+\noindent
+\textbf{Example.} Recall the gamma distribution 
+\[f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}I(x > 0)\]
+With 
+\begin{align*}
+    \Gamma(\alpha) &= \int_0^\infty e^{-x}x^{\alpha-1}dx\\ 
+    &= \left[x^{\alpha -1}e^{-x}\right]_0^{\infty} + \int_0^\infty e^{-x}(\alpha - 1)x^{\alpha -2}dx\\ 
+    &= (\alpha - 1)\int_0^\infty e^{-x}(\alpha - 1)x^{\alpha -2}dx\\
+    &= (\alpha - 1)\Gamma(\alpha - 1)
+\end{align*}
+Then, we have 
+\[\Gamma(1) = \int_0^\infty e^{-x}dx = 1\]
+\[\Gamma(2) = \int_0^\infty xe^{-x}dx = \left[-xe^{-x}\right]_0^\infty + \int_0^\infty e^{-x}dx = 1\]
+So, 
+\[\Gamma(3) = 2\Gamma(2) = 2, \ \Gamma(4) = 3 \Gamma(3) = 6 = 3!, \ \Gamma(5) = 4!, \ \ldots\]
+Therefore,
+\[\alpha \in \nat \implies \Gamma(\alpha) = (\alpha-1)!\]
+If we set $x = \beta u$, we get 
+\[\Gamma(\alpha) = \int_0^\infty e^{-\beta u}\beta^{\alpha -1}u^{\alpha-1}\beta du = \beta^\alpha \int_0^\infty e^{-\beta u}u^{\alpha -1}du\]
+This gives us the equation for the Laplace transform for $u^{\alpha -1}$. 
+\[\frac{\Gamma(\alpha)}{\beta^\alpha} = \int_0^\infty e^{\beta u}u^{\alpha - 1}du = \mathcal{L}(u^{\alpha -1})\]
+This can be useful for calculating integrals, such as 
+\[\int_0^\infty e^{-3x}x^5dx = \frac{5!}{3^6}\]
+If we multiply the Laplace transform by $\frac{\beta^\alpha}{\Gamma(\alpha)}$, 
+\[\frac{\Gamma(\alpha)}{\beta^\alpha} \cdot \frac{\beta^\alpha}{\Gamma(\alpha)} = \int_0^\infty \frac{\beta^{\alpha}}{\Gamma(\alpha)}e^{-\beta u}u^{\alpha -1}du = 1 \]
+Since this function is positive and integrates to 1, it is a p.d.f. 
+\[f(u) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}e^{-\beta u}u^{\alpha -1}\]
+Thus, this is the Gamma distribution. If we take $\alpha = r/2$, $\beta = 1/2$. We get a special case of the Gamma distribution 
+\[f(u) = \frac{1}{\Gamma\left(\frac{r}{2}\right)2^{r/2}}e^{-u/2}u^{\frac{r}{2}-1}\]
+This is the chi-squared distribution with $r$ degrees of freedom. Now we can find the moment generating function for the Gamma distribution 
+\begin{align*}
+    M(t) = E(e^{tx}) &= \int_0^\infty \frac{\beta^\alpha}{\Gamma(\alpha)}e^{-\beta x}x^{\alpha -1}e^{tx}dx\\
+    &= \frac{\beta^\alpha}{\Gamma(\alpha)}\int_0^\infty e^{-(\beta-t) x}x^{\alpha -1}e^{tx}dx\\
+    &= \frac{\beta^\alpha}{\Gamma(\alpha)}\cdot \frac{\Gamma(t)}{(\beta-t)^\alpha}\\
+    &= \beta^\alpha(\beta-t)^{-\alpha} = \left(1 - \frac{t}{\beta}\right)^{-\alpha} 
+\end{align*}
+We can also calculate the expected value and variance
+\[M'(t) = \frac{\alpha}{\beta}\left(1 - \frac{t}{\beta}\right)^{-\alpha - 1} \implies M'(0) = \frac{\alpha}{\beta} = 1\]
+\[M''(t) = \frac{\alpha}{\beta} \cdot -\frac{1}{\beta}(-\alpha -1)\left(1 - \frac{t}{\beta}\right)^{-\alpha -2} \implies M''(0) = \frac{\alpha(\alpha+1)}{\beta^2}\]
+\[\Var(X) = E(X^2)-E(X)^2 = \frac{\alpha(\alpha+1)}{\beta^2} - \frac{\alpha^2}{\beta^2} = \frac{\alpha}{\beta^2}\]
+Similarly, for the chi-squared distribution, we have $\alpha = r/2$ and $\beta = 1/2$,
+\[M(t) = (1-2t)^{-\frac{r}{2}}\]
+\[E(X\sim \chi^2(r)) = \frac{\alpha}{\beta}=\frac{r/2}{1/2} = r\]
+\[\Var(X \sim \chi^2(r)) = \frac{\alpha}{\beta^2} = \frac{r/2}{1/4} = 2r \]
+\subsection{Applications of Moment Generating Functions}
+\begin{enumerate}
+    \item Suppose we have $k$ random variables $X_1 \sim \chi^2(r_1), \ldots, X_k \sim \chi^2(r_k)$.  If they're independent, then we can define $Y = \sum\limits_{i=1}^k X_i$, and calculate the moment generating function 
+    \begin{align*}
+        E(e^{tY}) &= E\left(\exp\left(t\sum_{i=1}^k X_i\right)\right)\\
+        &= E(e^{tX_1} \cdot e^{tX_2} \cdots e^{tX_k})\\
+        &= E(e^{tX_1}) \cdot E(e^{tX_2}) \cdots E(e^{tX_k})\\
+        &= (1-2t)^{-r_1/2} \cdot (1-2t)^{-r_2/2} \cdots (1-2t)^{-r_k/2}\\
+        &= (1-2t)^{-(r_1 + r_2 + \cdots + r_k)/2}
+    \end{align*}
+    Therefore, $Y \sim \chi^2(r_1 + r_2 + \cdots + r_k)$
+    \item Let $Z \sim N(0,1)$ with pdf 
+    \[f(z) = \frac{1}{2\sqrt{\pi}}e^{-z^2/2}\]
+    We know that since $f(z)$ is a p.d.f,
+    \[\int_{-\infty}^\infty \frac{1}{2\sqrt{\pi}}e^{-z^2/2}dz = 1\]
+    We can calculate the m.g.f 
+    \begin{align*}
+        M(t) = E(e^{tZ}) &= \int_{-\infty}^\infty \frac{1}{2\sqrt{\pi}}e^{-z^2/2}e^{tz}dz\\
+        &= \int_{-\infty}^\infty \frac{1}{\sqrt{\pi}}e^{\frac{-(z-t)^2}{2}}e^{t^2/2}dz\\
+        &= e^{t^2/2}\int_{-\infty}^\infty \frac{1}{\sqrt{\pi}}e^{\frac{-(z-t)^2}{2}}dz\\
+        &= e^{t^2/2} \cdot 1
+    \end{align*} 
+    The integral is 1 since it is the integral of the p.d.f of the normal distrubtion with $N(t, 1)$. Recall that the p.d.f for a general normal distribution $N(\mu, \sigma^2)$ is 
+    \[f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/2\sigma^2}\]
+    Using the Taylor expansion for $e^x$ we can rewrite the m.g.f as 
+    \[E(e^{tZ}) = e^{t^2/2} = \sum_{k=0}^\infty \frac{(t^2/2)^k}{k!} = \sum_{k=0}^\infty \frac{t^{2k}}{k!2^k}\]
+    We say earlier that $E(X^k) = \text{Some multiple of $t^k$} \cdot k!$. So this means that $E(X^{2k+1}) = 0$ since $2k+1$ is odd but we have only even multiples of $t^k$. Therefore, all odd moments have 0 expecation. All even moments are 
+    \[E(X^{2k}) = \frac{(2k)!}{k!2^k}\]
+\end{enumerate}
+\noindent
+\textbf{Example.} Let $Z \sim N(0,1)$, find the m.g.f for $Z^2$. \\[2ex]
+\textbf{Solution.}
+\begin{align*}
+    M(t) &= E(e^{tZ^2})\\
+    &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-z^2/2}e^{tz^2}dz\\
+    &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-z^2(-t + 1/2)}dz\\
+    &= (1-2t)^{-1/2} = \frac{1}{\sqrt{1-2t}}
+\end{align*}
+Note that in general if $Z \sim N(0, 2\alpha)$, we have 
+\[\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-\alpha z^2}dz = \frac{1}{\sqrt{2\alpha}}\]
+To summarize,
+\[Z \sim N(0,1) \implies M(t) = e^{t/2}\]
+\[Y = Z_2 \implies M_Y(t) = (1-2t)^{-1/2} \rightarrow \chi^2(1)\]
+\[M_{\chi^2}(t) = (1-2t)^{-r/2}\]
+\[Z \sim N(0,1) \implies Z_2 \sim \chi^2(1)\]
+\noindent
+\textbf{Example.}
+Let $X_1, \ldots, X_n$ be independent random variables with $X_i \sim N(\mu_i, \sigma_i^2)$. What is the distribution for $Y = \sum\limits_{i=1}^n X_i$?\\[2ex]
+\textbf{Solution.} 
+We can calculate the m.g.f for $X_i$ 
+\[M_{X_i}(t) = E(e^{t(\sigma_i z + \mu_i)}) = e^{t\mu_i} E(e^{(t\sigma_i)z}) = e^{t\mu_i + t^2\sigma_i^2/2} \]
+Then, the m.g.f for $Y$ is
+\begin{align*}
+    M_Y(t) &= E(e^{tY})\\
+    &= E \left(\exp\left(t\sum a_iX_i\right)\right)\\
+    &= E(e^{ta_iX_1} \cdot e^{ta_iX_2} \cdots e^{ta_iX_n})\tag{Independence}\\
+    &= \exp\left(ta_1\mu_1 + \frac{t^2a_1^2\sigma_n^2}{2}\right) \cdots \exp\left(ta_n\mu_n + \frac{t^2a_n^2\sigma_n^2}{2}\right)\\
+    &= \exp\left(t(a_1\mu_1 + \cdots + a_n\mu_n) + \frac{t^2}{2}(a_1^2\sigma_1^2 + \cdots + a_n^2\sigma_n^2)\right)
+\end{align*}
+Notice that the m.g.f for the general normal distribution is $M(t) = \exp(t\mu + t^2\sigma^2/2)$. So in this case we have $\mu = a_1\mu_1 + \cdots + a_n\mu_n$, and $\sigma^2 = a_1^2\sigma_1^2 + \cdots + a_n^2\sigma_n^2$. Therefore, 
+\[Y = \sum_{i=1}^n a_iX_i \sim N\left(\sum_{i=1}^n a_i\mu_i, \sum_{i=1}^n a_i^2\sigma_i^2\right)\]
+\subsection*{Binomial Distribution}
+Recall a Bernoulli random variable $X$ is a random variable with $P(X = 1) = p$, and $P(X = 0) = 1 - p = q$, then $X \sim \Bern(p)$, $E(X) = 0q + 1p = p$, $E(X^2) = 0^2q + 1^2p = p$, $\Var(X) = p - p^2 = p(1 - p) = pq$. Let $X_1, \ldots X_n \iid \Bern(p)$, then $Y = \sum\limits_{i=1}^n X_i$ is the number of 1's observed, or in other words the number of successes. Then, we have 
+\[P(Y = k) = {n \choose k}p^k (1-p)^{n-k}\]
+We can prove this by finding the m.g.f for $Y$, 
+\begin{align*}
+    E(e^{tY}) &= E(e^{tX_1})\cdots E(e^{tX_n})\\
+    &= (pe^t + q)^n
+\end{align*}
+\begin{align*}
+    E(e^{tY}) &= \sum_{k=0}^n {n \choose k} p^k(1-p)^{n-k}e^{tk}\\
+    &= \sum_{k=0}^n {n \choose k} (pe^t)^k(1-p)^{n-k} 
+    &= (pe^t + q)^n
+\end{align*}
+Notice that from the binomial expansion we have 
+\[(a+b)^n = \sum_{k=0}^n {n \choose k}a^kb^{n-k}\]
+and replace $a$ with $pe^t$ and $b$ with $q = 1-p$. In conclusion, the sum of Bernoulli random variables $Y = \sum\limits_{i=1}^n X_i$ is a binomial random variable $Y \sim \Bin(n,p)$.\\[2ex]
+\textbf{Example.} Let $X_1 \sim \Bin(m,p)$, $X_2 \sim \Bin(n,p)$ be independent random variables. Then $X_1 + X_2 \sim \Bin(m+n, p)$. We can show this using the moment generating function.
+\[M_{X_1 + X_2}(t) = E(e^{t(X_1 + X_2)}) = E(e^{tX_1})E(e^{tX_2}) = (pe^t+q)^{m+n}\]
+\section{Holder, Lyapunov and Minkowski Inequalities}
+\begin{corollary}
+    If $P(X \geq 0) = 1$ and $E(X) = \mu$, then 
+    \[P(X \geq 2\mu) \leq 0.5\]
+\end{corollary}
+\begin{proof}
+    Using Markov's Inequality, 
+    \[P(X \geq 2\mu) \leq \frac{E(X)}{2\mu} = \frac{1}{2}\]
+\end{proof}
+\begin{lemma}
+    If $\alpha \geq 0$, $\beta \geq 0$, and
+    \[\frac{1}{p} + \frac{1}{p} = 1, \ p>1, \ q > 1\]
+    then 
+    \[0 \leq \alpha \beta \leq \frac{\alpha^p}{p} + \frac{\beta^p}{q}\]
+\end{lemma}
+\begin{proof}
+    If $\alpha\beta=0$, then the inequality holds trivially. Therefore, let $\alpha > 0$, $\beta > 0$. Then, define for $t > 0$
+    \[\phi(t) = \frac{t^p}{p} + \frac{t^{-q}}{q}\]
+    Differenting this function we get 
+    \[\phi'(t) = t^{p-1} - t^{-q-1}\]
+    We can see that $\phi'(1) = 0$, $\psi'(t) < 0$ when $t \in (0,1)$, and $\psi'(t) > 0$ when $t > 1$. Thus, $t$ minimizes $\phi$ on $(0,\infty)$. Set $t = \frac{a^{1/q}}{\beta^{1/p}}$ to get 
+    \[\frac{\alpha^{p/q}}{p\beta} + \frac{\alpha^{-1}}{q\beta^{-q/p}} \geq 1\]
+    Multyipling both sides by $\alpha\beta$ and using 
+    \[p/q + 1 = p \ \text{ and } \ q/p + 1 = q\]
+    we get
+    \[\alpha\beta \leq \frac{\alpha^{p/q+1}}{p} + \frac{\beta}{q\beta^{-q/p}} = \frac{\alpha^p}{p} + \frac{\beta^q}{q}\]
+\end{proof}
+\begin{theorem}[Holder's Inequality]
+    Let $X$ and $Y$ be two random variables and 
+    \[\frac{1}{p} + \frac{1}{q} = 1, \ p > 1, \ q > 1\]
+    We have 
+    \[E(|XY|) \leq (E(|X|^p))^{1/p}(E(|Y|^q))^{1/q}\]
+\end{theorem}
+\begin{proof}
+    In the case that $E(|X|^p)E(|Y|^q) = 0$, the result follows. Otherwise, from Lemma 2.3.1, take 
+    \[\alpha = \frac{|X|}{(E(|X|^p))^{1/p}}, \ \beta = \frac{|Y|}{(E(|Y|^q))^{1/q}}\]
+    Then using 
+    \[\alpha\beta \leq \frac{\alpha^p}{p} + \frac{\beta^q}{q}\]
+    we get
+    \[\frac{|XY|}{(E(|X|^p))^{1/p}(E(|Y|^q))^{1/q}} \leq \frac{|X|^p}{pE(|X|^p)} + \frac{|Y|^q}{qE(|Y|^q)}\]
+    Now taking the expected value, we have
+    \[\frac{E(|X|^p)}{pE(|X|^p)} + \frac{E(|Y|^q)}{qE(|Y|^q)} = \frac{1}{p} + \frac{1}{q} = 1\]
+    Therefore,
+    \[\frac{E(|XY|)}{(E(|X|^p))^{1/p}(E(|Y|^q))^{1/q}} \leq 1 \implies E(|XY|) \leq (E(|X|^p))^{1/p}(E(|Y|^q))^{1/q}\]
+\end{proof}
+\begin{theorem}[Minkowski's Inequality]
+    For $p\geq 1$, we have 
+    \[E(|XY|) \leq (E(|X|^p))^{1/p}(E(|Y|^q))^{1/q}\]
+\end{theorem}
+\begin{proof}
+    Since $|X + Y| \leq |X| + |Y|$, the case that $p=1$ is obvious. Let $p > 1$, choose $q$ such that 
+    \[\frac{1}{p} + \frac{1}{q} = 1\]
+    Then, use Holder's inequality to write
+    \begin{align*}
+        E(|X + Y|^p) &= E(|X+Y||X+Y|^{p-1})\\
+        &\leq E(|X||X+Y|^{p-1}) + E(|Y||X+Y|^{p-1})\\
+        &\leq (E(|X|^p))^{1/p}(E(|X+Y|^{(p-1)q}))^{1/q} + (E(|Y|^p))^{1/p}(E(|X+Y|^{(p-1)q}))^{1/q}\\
+        &= (E(|X|^p))^{1/p}(E(|X+Y|^{p}))^{1/q} + (E(|Y|^p))^{1/p}(E(|X+Y|^{p}))^{1/q}\\
+        &= (E|X+Y|^p)^{1/q}((E(|X|^p))^{1/p} + (E(|Y|^p))^{1/p})
+    \end{align*}
+    Now we can divide both sides by $(E(|X+Y|^p))^{1/q}$ to get
+    \[\frac{E(|X+Y|^p)}{(E|X+Y|^p)^{1/q}} = (E|X+Y|^p)^{1 - 1/q} = (E|X+Y|^p)^{p}\]
+    Thus, 
+    \[ (E|X+Y|^p)^{p} \leq (E(|X|^p))^{1/p} + (E(|Y|^p))^{1/p}\]
+\end{proof}
 \end{document}
