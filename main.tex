@@ -896,9 +896,9 @@ Similarly, for the chi-squared distribution, we have $\alpha = r/2$ and $\beta =
     \[\int_{-\infty}^\infty \frac{1}{2\sqrt{\pi}}e^{-z^2/2}dz = 1\]
     We can calculate the m.g.f 
     \begin{align*}
-        M(t) = E(e^{tZ}) &= \int_{-\infty}^\infty \frac{1}{2\sqrt{\pi}}e^{-z^2/2}e^{tz}dz\\
-        &= \int_{-\infty}^\infty \frac{1}{\sqrt{\pi}}e^{\frac{-(z-t)^2}{2}}e^{t^2/2}dz\\
-        &= e^{t^2/2}\int_{-\infty}^\infty \frac{1}{\sqrt{\pi}}e^{\frac{-(z-t)^2}{2}}dz\\
+        M(t) = E(e^{tZ}) &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-z^2/2}e^{tz}dz\\
+        &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{\frac{-(z-t)^2}{2}}e^{t^2/2}dz\\
+        &= e^{t^2/2}\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{\frac{-(z-t)^2}{2}}dz\\
         &= e^{t^2/2} \cdot 1
     \end{align*} 
     The integral is 1 since it is the integral of the p.d.f of the normal distrubtion with $N(t, 1)$. Recall that the p.d.f for a general normal distribution $N(\mu, \sigma^2)$ is 
@@ -920,10 +920,10 @@ Similarly, for the chi-squared distribution, we have $\alpha = r/2$ and $\beta =
 Note that in general if $Z \sim N(0, 2\alpha)$, we have 
 \[\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}}e^{-\alpha z^2}dz = \frac{1}{\sqrt{2\alpha}}\]
 To summarize,
-\[Z \sim N(0,1) \implies M(t) = e^{t/2}\]
-\[Y = Z_2 \implies M_Y(t) = (1-2t)^{-1/2} \rightarrow \chi^2(1)\]
+\[Z \sim N(0,1) \implies M(t) = e^{t^2/2}\]
+\[Y = Z^2 \implies M_Y(t) = (1-2t)^{-1/2} \rightarrow \chi^2(1)\]
 \[M_{\chi^2}(t) = (1-2t)^{-r/2}\]
-\[Z \sim N(0,1) \implies Z_2 \sim \chi^2(1)\]
+\[Z \sim N(0,1) \implies Z^2 \sim \chi^2(1)\]
 \noindent
 \textbf{Example.}
 Let $X_1, \ldots, X_n$ be independent random variables with $X_i \sim N(\mu_i, \sigma_i^2)$. What is the distribution for $Y = \sum\limits_{i=1}^n X_i$?\\[2ex]
