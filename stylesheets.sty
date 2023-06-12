@@ -27,6 +27,9 @@
 \newcommand{\hlpink}[1]{\colorbox{pink}{#1}}
 
 
+\newcommand{\stepFunction}[2]{((x<#1) * 0) + ((x>=#1) * #2)}
+\newcommand{\stepSum}[4]{\stepFunction{#1}{#2} + \stepFunction{#3}{#4}}
+
 \newcommand{\infseq}[1]{({#1}_n)_{n=1}^\infty}
 \newcommand{\seq}[3]{({#1}_{#2})^{#3}_{#2 = 1}}
 \newcommand{\infser}[1]{\sum\limits_{n=1}^\infty #1_n}

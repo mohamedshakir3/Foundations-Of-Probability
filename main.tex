@@ -473,7 +473,7 @@ Now since $100!$ is incredibly large, it is sufficiently large for this infinite
     \end{enumerate}
 \end{lemma}
 To prove this lemma, we first need to prove the following lemma. 
-\begin{lemma}
+\begin{lemma}\label{lem:1.5.2}
     If $A_n \subset A_{n+1}$ for any $n \in \nat$, then $\lim P(A_n) = P(A)$. Similarly, if $A_{n+1} \subset A_n$ for any $n \in \nat$, then $\lim P(A_n) = P(A)$ where in both cases $\lim A_n = A$.
 \end{lemma} 
 \begin{proof}
@@ -1061,7 +1061,7 @@ The proof for this is simple since if the function is convex, its derivatives ar
     \[E(|X|^r)^{1/r} \geq (E|X|^s)^{1/s}\]
     as required.
 \end{proof}
-\section{Induced Probability Measures}
+\chapter{Induced Probability Measures}
 Recall that a random variable $X$ is a map from the sample space $\Omega$ to the real number line, so $X: \Omega \rightarrow \real$.\\[2ex]
 \textbf{Example.} Consider the flip of a coin with $\Omega = \{H,T\}$. Let $X$ be the number of heads observed, then $X(H) = 1$, and $X(T) = 0$.\\[2ex]
 \textbf{Another Example.} Consider the result of rolling 2 die, so 
@@ -1087,6 +1087,7 @@ So $X: \Omega \rightarrow \{0,1,2\} \subset \real$. We can define the induced pr
 \[P_X(\{1,2\}) = P(X=0 \text{ or } X = 1) = P(\{TH, HT, HH\}) = \frac{3}{4}\]
 \[P_X(\{0,2\}) = P(X=0) + P(X = 2) = P(\{TT, HH\}) = \frac{1}{2}\]
 \[P_X(\{0,1,2\}) = 1\]
+\section{Cumulative Distribution Functions}
 We can know look at a more exact definition of c.d.f's. 
 \begin{definition}[Cumulative Distribution Functions]
     If $X$ is a random variable $X: \Omega: \real$, then the c.d.f of $X$ is
@@ -1102,4 +1103,144 @@ We can know look at a more exact definition of c.d.f's.
         \item $F(-\infty) = 0$ and $F(-\infty)= 1$.
     \end{enumerate}
 \end{theorem}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item  To prove $F$ is non-decreasing, we need to show 
+        \[F(x + h) - F(x) \geq 0, \ \forall h \geq 0\]
+        \[F(x + h) - F(x) = P(x < X \leq x+h) \geq 0\]
+        Since probability measures are positive, therefore $F$ is non-decreasing.
+        \item Consider 
+        \[E_n = (-\infty, x + h_n)\]
+        With $h_n \downarrow 0$, for example $h_n = \frac{1}{n} \downarrow 0$.  Then, $E_n$ is decreasing so the limit is 
+        \[\lim_{n\rightarrow \infty} E_n = \bigcap_{n=1}^\infty E_n = (-\infty, x]\]
+        Thus, from \hyperref[lem:1.5.2]{Lemma 1.5.2}, we have
+        \[\lim_{n\rightarrow \infty} P(E_n) = P\left(\lim_{n\rightarrow\infty} E_n\right) = P\left((-\infty, x]\right) = F(x)\]
+        Therefore we showed that 
+        \[\lim_{n\rightarrow\infty} F(x + h_n) = F(x)\]
+        So $F$ is right continuous.
+        \item We know $F(N) - F(-N) = P(-N < X \leq N) = P((-N,N])$ for any, $N$, so 
+        \[\lim_{N \rightarrow \infty} = (-\infty,\infty) \implies P((-N,N])\uparrow 1\]
+        Therefore,
+        \[\lim_{N\rightarrow \infty} [F(N) - F(-N)] = 1 \]
+        Thus $F(\infty) = 1$ and $F(-\infty) = 0$.
+    \end{enumerate}
+\end{proof}
+\noindent
+\textbf{Remark.} A distrbiution function $F$ is continuous at $x \in \real$ if and only if $P(X = x) = 0$, since 
+\[P(X=x) = F(x) - \lim_{x \rightarrow x^-}F(x) = \text{The size of the jump at $x$}\]
+\begin{definition}
+    A random variable $X$ is of continuous type if $F(x) = P(X \leq x)$ is a continuous function. 
+\end{definition}
+\noindent
+\textbf{Example.} Let 
+\[F(x) = \frac{1}{2}I(x \in [0,1)) + \frac{2x}{3}I\left(x \in [1, 3/2)\right) + I\left(x \in [3/2, \infty)\right)\]
+This c.d.f is not continuous since there is a jump at $x = 0$ and $x = 1$, so we have 
+\[P(X = 0) = F(0) - \lim_{x\rightarrow 0^-} F(x) = \frac{1}{2} - 0\]
+\[P(X = 1) = \frac{3}{2} - \frac{1}{2} = \frac{1}{6}\]
+Recall that a set is called \emph{countable} if we can define a bijection from the natural numbers to the set. For example 
+\[f:\nat \mapsto \{2,4,6,8,\ldots\}  \implies f(n) \coloneqq 2n\]
+We say a set is at most countable if it is finite or countable. 
+\begin{lemma}
+    If $F$ is a c.d.f, then the number of discontinuities of $F$ is at most countable.
+\end{lemma}
+\begin{proof}
+    Define 
+    \[p(x) \coloneqq F(x) - F(x^-) = P(X = x)\]
+    Let $D$ be the set of discontinuities of $F$, so 
+    \[D = \{x: p(x) > 0\}\]
+    We need to show that $D$ is at most countable. Let 
+    \[D_n \coloneqq \left\{x: \frac{1}{n+1} < p(x) \leq \frac{1}{n}\right\}\]
+    Then, 
+    \[\bigcup_{n=1}^\infty D_n = D\]
+    We must prove that $D_n$ is finite. $D_n$ is bounded below by $\frac{1}{n+1}$, so $|D_n|$ is at most $n$, since if we have $n+1$ points, 
+    \[P(D_n) > \frac{n+1}{n+1} = 1\]
+    which is a contradiction. Therefore, $D$ is at most countable.
+\end{proof}
+\begin{lemma}
+    Let $X$ be a random variable with c.d.f $F$ and $p(x) = F(x) - F(x^-) = P(X=x)$. Let $D = \{x_1,x_2, \ldots\} $ be the set of discontinuities of $F$. Define the step function 
+    \[G(x) = \sum_{n=1}^\infty p(x_i)I(x \geq x_i)\]
+    Then $H(x) = F(x) - G(x)$ is non-decreasing and continuous on $\real$.
+\end{lemma}
+\textbf{Note.} We call $G$ a step function since it increases in discrete intervals and is constant in between. \\[2ex]
+\begin{proof}
+    Obviously $H$ is right continuous since $F(x)$ and $G(x)$ are right continuous. We want to show that $H$ is also left continuous. Not that if $x' < x$, then 
+    \[H(x) - H(x') = F(x) - F(x') - G(x) + G(x')\]
+    As $x' \uparrow x$, then $F(x) - F(x')$ converges to the size of jummp of $F$ at $x$, and $G(x) - G(x')$ converges to the size of the jump of $G$ at $x$. The size of jump in both cases is $p(x)$ which shows that $H(x) - H(x') \rightarrow 0$ as $x'\uparrow x$. Therefore $H$ is continuous. Now we want to show that $H$ is non-decreasing. Note that
+    \[\sum_{x' < x_n \leq x} p(x_n)\leq P(x' < X \leq x) = F(x) - F(x')\]
+    We want to show that $H(x) \geq H(x')$.
+    \begin{align*}
+        H(x') &= F(x') - G(x')\\
+        \implies H(x) - H(x') &= F(x) - F(x') - (G(x) - G(x'))\\
+        &= F(x) - F(x') - \sum_{x' < x_n \leq x} p(x_n)\\ 
+    \end{align*}    
+    We know that $\sum\limits_{x' < x_n \leq x} p(x_n) \leq F(x) - F(x')$, therefore $H(x) - H(x') \geq 0$. Thus $H$ is non-decreasing. 
+\end{proof}
+\begin{theorem}
+    Let $F$ be a c.d.f, then there exists two c.d.f's $F_d$, $F_c$ where $F_d$ is a discrete step function and $F_c$ is a continuous function such that
+    \[F = \alpha F_d + (1- \alpha)F_c\]
+    for some $\alpha \in [0,1]$, and 
+    \[F_d = \frac{G(x)}{\alpha}\]
+    \[F_c = \frac{H(x)}{1 - \alpha}\]
+\end{theorem}
+\noindent
+\textbf{Example.} Find $F_c$, $F_d$, and $\alpha$ for the following c.d.f
+\[F(x) = \frac{1}{2}I(0 \leq x < 1) + \frac{2x}{3}I(1 \leq x < 3/2) + I(x \geq 3/2)\]
+\textbf{Solution.} Consider the set of discontinuities of $F$, we have $\{x_1 = 0, x_2 = 1\}$. Then,
+\begin{align*}
+    p(x_1) &= p(0) = \frac{1}{2}\\
+    p(x_2) &= p(1) = \frac{2}{3} - \frac{1}{2} = \frac{1}{6}
+\end{align*}
+Then we can define $G(x)$, 
+\[G(x) = \sum_{x_i \leq x} G(x)\]
+If $x < 0$, then $G(x) = 0$, similarly 
+\[0 \leq x < 1 \implies G(x) = \frac{1}{2}\]
+\[1 \leq x \implies G(x) = \frac{1}{2} + \frac{1}{6} = \frac{2}{3}\]
+So we can define $G(x)$ with indicator functions 
+\[G(x) = \frac{1}{2}I(0 \leq x < 1) + \frac{2}{3}I(1 \leq x)\]
+We can see that $G(x)$ is not a c.d.f since $G(\infty) \neq 1$, then our $\alpha$ is 
+\[\alpha = G(\infty) = \frac{2}{3} \implies 1 - \alpha = \frac{1}{3}\]
+To find $H(x)$, we can write $G(x)$ and $F(x)$ as 
+\[F(x) = \begin{cases}
+    0 & x < 0\\
+    \frac{1}{2} & 0 \leq x < 1\\
+    \frac{2x}{3} & 1 \leq x < \frac{3}{2}\\
+    1 & x \geq \frac{3}{2}
+\end{cases}\]
+\[G(x) = \begin{cases}
+    0 & x < 0\\
+    \frac{1}{2} & 0 \leq x < 1\\
+    \frac{2}{3} & 1 \leq x < \frac{3}{2}\\
+    \frac{2}{3} & x \geq \frac{3}{2}
+\end{cases}\]
+Then, 
+\[H(x) = F(x) - G(x) = \begin{cases}
+    0 & x < 0\\
+    0 & 0 \leq x < 1\\
+    \frac{2x}{3} - \frac{2}{3} = \frac{2}{3}(x-1) & 1 \leq x < \frac{3}{2}\\
+    \frac{1}{3} & x \geq \frac{3}{2}
+\end{cases}\]
+Now we can find $F_d$ and $F_c$, 
+\[F_d(x) = \frac{G(x)}{\alpha} = \frac{3G(x)}{2} = \begin{cases}
+    0 & x < 0\\
+    \frac{3}{4} & 0 \leq x < 1\\
+    1 & x \geq 1
+\end{cases}\]
+\[F_c(x) = \frac{H(x)}{1 - \alpha} =  3H(x) = \begin{cases}
+    0 & x <1\\
+    2(x-1) & 1 \leq x < \frac{3}{2}\\
+    1 & x \geq \frac{3}{2}
+\end{cases}\]
+Notice that the p.d.f
+\[\frac{dF_d(x)}{dx} = \begin{cases}
+    \frac{3}{4} & x = 0\\
+    \frac{1}{4} & x = 1
+\end{cases}
+\]
+This is the p.d.f of a Bernoulli random variable with $p = 1/4$, and 
+\[\frac{dF_c(x)}{dx} = \begin{cases}
+    2 & 1 \leq x < \frac{3}{2}\\
+    0 & \text{otherwise}
+\end{cases}\]
+This is the p.d.f of a uniform random variable on $[1,3/2]$. Therefore, $F$ is a linear combination of a Bernoulli random variable and a uniform random variable. We can calculate the expected value 
+\[E(X) = \int xdF(x) = \alpha \int x dF_d(x) + (1-\alpha)\int x dF_c(x)\]
 \end{document}
