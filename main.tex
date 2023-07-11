@@ -1546,11 +1546,11 @@ However characteristic functions always exist.
     We don't want the joint p.d.f for $U$ and $V$, we want it for $U$ so we can integrate over $V$ 
     \begin{align*}
         g(u) = \int_0^\infty g(u,v)dv &= \int_0^\infty \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-v}(uv)^{\alpha_1 - 1}(v(1-u))^{\alpha_2-1}vdv\\
-        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1}\int_0^\infty e^{-v}v^{\alpha_1 + \alpha_2 + 1}dv
+        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1}\int_0^\infty e^{-v}v^{\alpha_1 + \alpha_2}dv
     \end{align*}
     Notice that the integral is $\Gamma(\alpha_1 + \alpha_2)$ so we get 
     \[g(u) = \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1} \]
-
+\noindent
     \textbf{Example.} Let $X \sim \Unif(0,1)$. Find the p.d.f for 
     \begin{enumerate}[label=(\roman*)]
         \item $Y = a+(b-a)X$ where $a < b$
@@ -1579,18 +1579,70 @@ However characteristic functions always exist.
     Then the p.d.f is 
     \[h(w) = H'(w) = \frac{1}{\pi(1+w^2)}I(w \in \real)\]
     Thus $W$ has a Cauchy distribution.\\[2ex]
-
-    \textbf{Example.} Let $X$ and $Y$ be two independent random variables such that 
-    \[X \sim f(x) = \frac{1}{\Gamma(\alpha)}e^{-x}x^{\alpha - 1}=\]
-    \[Y \sim h(y) = \frac{1}{\Gamma(\beta)} e^{-y}y^{\beta -1}\]
-    Find the p.d.f for the random variable $\frac{X}{X + Y}$.\\[1ex]
-    \textbf{Solution.} The c.d.f is given as 
-    \begin{align*}
-        G(u) = P\left(\frac{X}{X+Y} \leq u\right) &= P\left(X \leq \frac{yu}{1-u}\right)\\
-        &= \frac{1}{\Gamma(\alpha)\Gamma(\beta)}\int_0^\infty\int_0^{\frac{yu}{1-u}} \exp(-x)\exp(-y)x^{\alpha -1}y^{\beta - 1}dxdy\\
-    \end{align*}
-
     \end{enumerate}
-
-
+    \textbf{Example.} Let $W \sim N(0,1)$, $V \sim \chi^2(r)$ and $V$ is independent of $W$. Define 
+    \[T = \frac{W}{\sqrt{V/r}} \sim t(r)\]
+    Find the p.d.f for $t(r)$.\\[2ex]
+    \textbf{Solution.}
+    \begin{align*}
+        G(t) = P(T \leq t) &= P\left(\frac{W}{\sqrt{v/r}} \leq t\right)\\
+        &= P\left(W \leq t\sqrt{v/r}\right)\\
+    \end{align*}
+    $W$ and $V$ are independent, so their joint distribution is 
+    \[f(x,y) = \frac{1}{\sqrt{2\pi}}e^{-w^2/2} \frac{1}{\Gamma(r/2)2^{r/2}}e^{-v/2}v^{r/2 - 1}I(v > 0, w \in \real)\]
+    \textbf{Note.} Recall this very important formula
+    \[\int_0^\infty e^{\beta u} u^{\alpha - 1}du = \frac{\Gamma(\alpha)}{\beta^\alpha}\]
+    Now we can compute $G(t)$ 
+    \begin{align*}
+        G(t) = P(W \leq t\sqrt{v/r}) &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}}\int_0^\infty\int_{-\infty}^{t\sqrt{v/r}} e^{-w^2/2}e^{-v/2}v^{r/2 - 1}dwdv\\
+        G'(t) = g(t) &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}}\int_0^\infty \left(\frac{d}{dt}\int_0^{t\sqrt{v/r}} e^{-w^2/2}dw\right)e^{-v/2}v^{r/2 - 1}dv\\
+        &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}} \int_0^\infty \sqrt{v/r} e^{-t^2v/2r}e^{-v/2}v^{r/2 - 1}dv\\
+        &= \frac{1}{\sqrt{2\pi r}\Gamma(r/2)2^{r/2}}\int_0^\infty e^{-v/2(1 + t^2/r)}v^{r/2 - 1 + 1/2}dv\\
+        &= \frac{1}{\sqrt{2\pi r}\Gamma(r/2)2^{r/2}}\frac{\Gamma\left(\frac{r+1}{2}\right)}{\left(\frac{1}{2}\left(1 + \frac{t^2}{r}\right)\right)^{(r+1)/2}}\\
+        &= \frac{2^{r/2}\Gamma\left(\frac{r+1}{2}\right)}{\Gamma(r/2)\sqrt{\pi r}}\left(\frac{1}{1+\frac{t^2}{r}}\right)^{(r+1)/2}
+    \end{align*}
+    \textbf{Example.} Let $X,Y \iid \Unif[0,1]$. Let $U = X + Y$, $V = X - Y$. Find the joint and marginal p.d.f's for $U$ and $V$\\[2ex]
+    \textbf{Solution.} We start by calculating $X$ and $Y$ in terms of $U$ and $V$, solving the 2 equations we get
+    \[X = \frac{U + V}{2}, Y = \frac{U - V}{2}\]
+    Now we can compute the Jacobian 
+    \[J = \left|\begin{matrix}
+        \frac{1}{2} & \frac{1}{2}\\
+        \frac{1}{2} & -\frac{1}{2}
+    \end{matrix}\right| = -\frac{1}{2}\]
+    Then the joint p.d.f of $U$ and $V$ is 
+    \[g(u,v) = f(x(u,v), y(u,v))|J| = \frac{1}{2}I((0 \leq u \leq 1, |v| \leq u) \text{ or } (1 \leq u \leq v, |v|\leq 2))\]
+    For marginal p.d.f's, 
+    \begin{align*}
+        g(u) &= \int g(u,v)dv = \begin{cases}
+            \displaystyle\int_{-u}^u \dfrac{1}{2} dv = u & 0 \leq u \leq 1\\
+            \displaystyle\int_{-(2-u)}^{2-u}\dfrac{1}{2}dv = 2-u & 1 \leq u \leq 2 
+        \end{cases}\\
+        &= uI(0 \leq u \leq 1) + (2-u)I(1 \leq u \leq 2)
+    \end{align*}
+    Then similarly for $V$, 
+    \[
+        g(v) = \int g(u,v)du = \int_{|v|}^{2-|v|} \frac{1}{2}du = \frac{1-|v|}{2}I(-1 \leq v \leq 1)
+    \]
+    \textbf{Example.} Let $U_1,U_2 \iid \Unif[0,1]$. Then define 
+    \[X_1 = \cos(2\pi U_1)\sqrt{-2\ln U_2} \ X_2 = \cos(2\pi U_1)\sqrt{-2\ln U_2}\]
+    \textbf{Solution.} We start by finding $U_1$, $U_2$ in terms of $X_1$ and $X_2$. We can do that as follows 
+    \begin{align*}
+        X_1^2 + X_2^2 &= \cos^2(2\pi U_1) (-\ln U_2) + \sin^2(2\pi U_1)(-\ln U_2)\\
+        &= (-\ln U_2)(\cos^2(2\pi U_1)  + \sin^2(2\pi U_1))\\
+        &= -\ln U_2 \cdot 1 \implies U_2 = \exp(-(X_1^2 + X_2^2))
+    \end{align*}
+    Then for $U_1$, 
+    \[\frac{X_2}{X_1} = \frac{\sin(2\pi U_1)}{\cos(2\pi U_1)} = \tan(2 \pi U_1) \implies U_1 = \frac{1}{2\pi}\arctan\left(\frac{X_2}{X_1}\right)\]
+    Now we can calculate the Jacobian 
+    \[J = \left|\begin{matrix}
+        \frac{\partial U_1}{\partial x_1} &
+        \frac{\partial U_1}{\partial x_2} \\  
+        \frac{\partial U_2}{\partial x_1} &
+        \frac{\partial U_2}{\partial x_2} \\ 
+    \end{matrix}\right| = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)\]
+    $\Unif[0,1]$ has p.d.f 1, so our joint p.d.f for $X_1,X_2$ is 
+    \[g(x_1,x_2) = f(u_1(x_1,x_2), u_2(x_1,x_2))|J| = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)\]
+    We can split this up as 
+    \[g(x_1,x_2) = \left(\frac{1}{\sqrt{2\pi}}e^{-x_1^2/2}\right)\left(\frac{1}{\sqrt{2\pi}}e^{-x_2^2/2}\right)\]
+    These are 2 standard normal distributions, so this tells us how to simulate normal distribution from $\Unif(0,1)$. 
 \end{document}
