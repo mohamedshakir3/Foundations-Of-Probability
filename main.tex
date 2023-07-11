@@ -1243,4 +1243,354 @@ This is the p.d.f of a Bernoulli random variable with $p = 1/4$, and
 \end{cases}\]
 This is the p.d.f of a uniform random variable on $[1,3/2]$. Therefore, $F$ is a linear combination of a Bernoulli random variable and a uniform random variable. We can calculate the expected value 
 \[E(X) = \int xdF(x) = \alpha \int x dF_d(x) + (1-\alpha)\int x dF_c(x)\]
+\textbf{Example.} Let $X$ be a random variable with continuous c.d.f $F$. Find the distrbiution for 
+\begin{enumerate}[label=(\roman*)]
+    \item $U = F(X)$
+    \item If $U \sim [0,1]$, then $X \eqd F^{-1}(U)$
+    \item Use (i) and (ii) to show that $X = -\ln U$ has an exponentional distrbution. 
+\end{enumerate}\
+\textbf{Note.} If $U \sim \Unif(0,1)$, then 
+\[U \eqd 1 - U\]
+since the c.d.f for $1 - U$ is 
+\[G(t) = P(1 - U \leq t) = P(U \geq 1 - t) = \int_{1-t}^1 du = t\]
+\textbf{Solution.} 
+\begin{enumerate}[label=(\roman*)]
+    \item We have
+    \[G(u) = P(F(X) \leq u) = P(F^{-1}(F(X)) \leq F^{-1}(u)) = F(F^{-1}(u)) = u\]
+    Therefore, $g(u) = G'(u) = 1$ for $u \in [0,1]$.
+    \item Notice that 
+    \begin{align*}
+        P(F^{-1}(U) \leq x) &= P(F(F^{-1}(U)) \leq F(s))\\
+        &= P(U \leq F(x))\\
+        &= \int_0^{F(x)} du = F(x)
+    \end{align*}
+    \item Now using (i), (ii)
+    \begin{align*}
+        F(x) &= P(-\ln U \leq x)\\
+        &= P(U \geq e^{-x})\\
+        &= 1 - P(U \leq e^{-x})\\
+        &= 1 - e^{-x}\\
+        \implies f(x) &= F'(x) = e^{-x}I(x \geq 0)
+    \end{align*}    
+\end{enumerate}
+
+
+
+\section{Conditional Probability Measure}
+\begin{definition}
+    Let $P(X \leq x) = F(x)$ be continuous. If there exists a non-negative function $f$ such that 
+    \[P(X \leq x) = \int_{-\infty}^x f(t)dt\]
+    Then $f$ is called the probability density function (p.d.f). 
+\end{definition}
+
+\begin{definition}
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space and $B \in \mathcal{F}$ with $P(B) > 0$. The conditional probability measure given $B$ as 
+    \[Q_B(A) = P(A|B) = \frac{P(A \cap B)}{P(B)}\]
+\end{definition}
+\begin{theorem}
+    $Q_B$ is a probability measure on $(\Omega, \mathcal{F})$.
+\end{theorem}
+\begin{proof}
+    We can check each property of probability measures
+    \begin{enumerate}[label=(\roman*)]
+        \item $Q_B(\emptyset) = 0$ since 
+        \[Q_B(\emptyset) = \frac{P(\emptyset \cap B)}{P(B)} = \frac{P(\emptyset)}{P(B)}= 0\]
+        \item The sum of disjoint sets is
+        \begin{align*}
+            Q_B\left(\bigcup_{i=1}^\infty A_i\right) &= \frac{P(B \cap (A_1 \cup A_2 \cup \cdots))}{P(B)}\\
+            &= \frac{P((B \cap A_1) \cup (B \cap A_2) \cup \cdots)}{P(B)}\\
+            &= \sum_{i=1}^\infty \frac{P(B \cap A_i)}{P(B)}\\
+            &= \sum_{i=1}^\infty Q_B(A_i)
+        \end{align*}
+        \item $Q_B(\Omega) = 1$ since
+        \[Q_B(\Omega) = \frac{P(\Omega\cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1\]
+        \item $P(A \cap B) \leq P(B)$ since $A \cap B \subset B$, therefore $Q_B(A) \in [0,1]$.
+    \end{enumerate}
+\end{proof}
+\textbf{Remark.} We have 
+\[P(A^c|B) = 1 - P(A|B)\]
+but we this does not apply for $B^c$,
+\[P(A|B^c) \neq 1 - P(A|B)\]
+\begin{theorem}[Law of Total Probability]
+    Let $\{E_i\}$ be a sequence of disjoint events such that 
+    \[\Omega = \bigcup_{i=1}^\infty E_i\]
+    Then 
+    \[P(A) = \sum_{i=1}^\infty P(A | E_i)P(E_i)\]
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        P(A) &= P(A \cap \Omega)\\
+        &= P\left(A \cap \bigcup_{i=1}^\infty E_i\right)\\
+        &= P\left(\bigcup_{i=1}^\infty A \cap E_i\right)\\
+        &= \sum_{i=1}^\infty P(A \cap E_i)\\
+        &= \sum_{i=1}^\infty P(A | E_i)P(E_i)
+    \end{align*}
+\end{proof}
+\begin{theorem}[Bayes' Theorem]
+    Let $\{E_i\}$ be a sequence of disjoint events such that 
+    \[\Omega = \bigcup_{i=1}^\infty E_i\]
+    Then 
+    \[P(E_i | A) = \frac{P(A|E_i)P(E_i)}{P(A)} = \frac{P(A | E_i)P(E_i)}{\sum_{i=1}^\infty P(A | E_i)P(E_i)}\]
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+\textbf{Example.} Roll a die and flip a coin the number of times that appears on the die. Let $X$ denote the random variable of the number of heads observed. What is the distrbiution of $X$? If we observed 3 heads, what is the probability that the die is 4?\\[2ex]
+\textbf{Solution.} Let $Y$ denote the number on the die, then 
+\begin{align*}
+    P(X = k) &= \sum_{i=1}^{6} P(X = k | Y = i)P(Y = i)\\
+    &= \sum_{i=1}{i \choose k} \left(\frac{1}{2}\right)^k \left(\frac{1}{2}\right)^{i-k} \frac{1}{6}\\
+    &= \frac{1}{6}\sum_{i=1}^6 {i \choose k} \left(\frac{1}{2}\right)^i
+\end{align*}
+Then, we want to find $P(Y = 4 | X = 3)$, using Bayes' theorem
+\begin{align*}
+    P(Y = 4 | X = 3) &= \frac{P(X=3|Y=4)P(Y=4)}{P(X=3)}\\
+    &= \frac{{4 \choose 3}\left(\frac{1}{2}\right)^k\frac{1}{2}\frac{1}{6}}{\frac{1}{6}\sum_{i=3}^6{i \choose 3}\left(\frac{1}{2}\right)^i}\\
+    &= \frac{4}{16}
+\end{align*}
+\textbf{Example.} An urn contains $m+n$ chips of which $M$ are white and the rest are black. A chip is drawn at random without observing its color, then another chip is drawn. What is the probability that the second chip is white?\\[2ex]
+\textbf{Solution.}
+Let $E_1$ be the event that the first chip is white and $E_2$ be the event that the first chip is black. Also let $A$ be the event the second chip is black. We have 
+\[P(E_1) = \frac{m}{m+n}\]
+and 
+\[P(A|E_1) = \frac{m-1}{m+n-1}, \ P(A|E_2) = \frac{m}{m+n-1}\]
+Then, from the law of total probability, 
+\begin{align*}
+    P(A) &= P(A|E_1)P(E_1)+ P(A|E_2)P(E_2)\\
+    &= \left(\frac{m-1}{m+n-1}\right)\left(\frac{m}{m+n}\right) + \left(\frac{m}{m+n-1}\right)\left(\frac{n}{m+n}\right) \\
+    &= \frac{m}{m+n}
+\end{align*}
+
+\chapter{Expecation, Moments, Characteristic Functions and Functions of Random Variables.}
+
+Let $X$ be a random variable with c.d.f $F$ such that 
+\[\int_{-\infty}^\infty |U(x)|dF(x) < \infty\]
+Then we can define 
+\[E(U(X)) = \int_{-\infty}^\infty U(x)dF(x)\]
+We denote the mean by $\mu = E(X)$, the $k$th moment by $\mu_k = E(X^k)$, and the variance by 
+\[\sigma^2 = E[(X - E(X)^2)] = E(X^2) - E(X)^2\]  
+with moment generating function
+\[M(t) = E(e^{tX})\]
+
+\begin{definition}[Characteristic Functions]
+    Let $X$ be a random variable. The characteristic function of $X$ is defined by 
+    \[\phi(t) = E(\exp(itX))\]
+    where $i = \sqrt{-1}$. If $X$ is discrete then 
+    \[g(s) = E(s^X) = \sum_k s^k P(X = k)\]
+    is called the generating function.
+\end{definition}
+\noindent
+\textbf{Example.} Show that 
+\begin{enumerate}[label=(\roman*)]
+    \item $f(x) = \frac{1}{\pi(1+x^2)}I(x \in \real)$ is a p.d.f.
+    \item $E(X^k)$ does not exist if $k \geq 1$. 
+\end{enumerate}
+\begin{proof}
+    It's clear that 
+    \[\int_{-\infty}^\infty \frac{1}{\pi(1 + x^2)}dx = \left[\frac{\tan^{-1}(x)}{\pi}\right]^\infty_{-\infty} = 1\]
+    Then, 
+    \begin{align*}
+        E(|X|^k) &= \int_{-\infty}^\infty \frac{|x|^k}{\pi(1+x^2)}dx\\
+        &= \int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx + \int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx\\
+        &= 2\int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx\\
+        &\geq \frac{2}{\pi}\int_{1}^\infty \frac{x^k}{1+x^2}dx\\
+        &\geq \frac{2}{\pi}\int_{1}^\infty \frac{x^k}{x^2}dx\\
+    \end{align*}
+    This integral diverges to infinity when $k > 1$, therefore $E(|X|^k)$ does not exist. 
+\end{proof}
+\textbf{Example.} Let $Z$ be a random variable with p.d.f 
+\[f(z) = \frac{1}{\sqrt{2\pi}}e^{-z^2/2}\]
+Find the c.d.f fpr $X = \sigma Z + \mu$ for $\sigma > 0$ and $\mu \in \real$. \\[2ex]
+\textbf{Solution.} Note that $f(x) \geq 0$. Let 
+\[I = \int_{-\infty}^{\infty} e^{-x^2/2}dx\]
+Then, 
+\[I^2 = \int_{-\infty}^\infty\int_{-\infty}^\infty \exp(-(x^2+y^2)/2)dxdy\]
+Using polar coordinates, set $x = r\cos \theta$, and $y = r \sin \theta$, 
+\[I^2 = \int_{0}^\infty \int_0^{2\pi} \exp(-r^2/2)rdrd\theta = 2\pi\]
+Thus $I = \sqrt{2\pi}$. Now we can calculate 
+\[F(x) = P(\sigma Z + \mu \leq X) = P\left(Z \leq \frac{x - \mu}{\sigma}\right) = \int_{-\infty}^{\frac{x-\mu}{\sigma}}f(z)dz\]
+Then taking the derivative, we have
+\[\frac{dF(x)}{dx} = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(\frac{-(x-\mu)^2}{\sigma^2}\right)\] 
+\subsection{Properties of Characteristic Functions}
+The moment generating functions of a random variable may not exist. For example, it can be shown that the moment generating function for the Cauchy distribution may not exist 
+\[\int_{-\infty}^{\infty}\frac{\exp(\theta x)}{\pi(1+x^2)}dx = \infty\]
+However characteristic functions always exist.
+\begin{theorem}
+    If $X$ is a random variable, then 
+    \begin{enumerate}[label=(\roman*)]
+        \item $\phi(\theta) = E(\exp(i\theta X))$ always exists, with $\phi(0) = 1$ and $|\phi(\theta)| \leq 1$.
+        \item $\overline{\phi(\theta)} = \phi(\theta)$ where $\overline{\phi(\theta)}$ is the complex conjugate.
+        \item If $X$ is symmetric, then $\phi(X) \in \real$.
+        \item $\phi(\theta)$ has linearity, i.e
+        \[\phi_{aX + B}(\theta) = E(\exp(i\theta(aX+b))) = \phi_X(i\theta a)\exp(i\theta b)\]
+        \item The characteristic function for any random variable $X$ is uniformly continuous.
+        \item There is a 1 to 1 correspondence between a c.d.f of a random variable and its characteristic function, (Uniquness Theorem, without proof).
+        \item $X_1$ and $X_2$ are independent if and only if 
+        \[\phi(\theta_1,\theta_2) = E(\exp(i\theta_1X_1 + i\theta_2X_2)) = \phi_{X_1}(\theta_1)\phi_{X_2}(\theta_2)\]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item Set $U = \cos(\theta)$, and $V = \sin(\theta)$, then using 
+        \[e^{i\theta X} = \cos(\theta X) + i\sin(\theta X)\]
+        We have 
+        \[|E(\exp(i\theta X))|^2 = |E(U + iV)|^2 = E(U)^2 + E(V)^2 \leq E(U^2) + E(V^2) = 1\]
+        \item Using the linearity of expecations, 
+        \[\overline{E(\cos(\theta X)) + iE(\sin(\theta X))} = E(\cos(\theta X)) - iE(\sin(\theta X)) = \phi(-\theta)\]
+        \item This follows from $X \eqd -X$.
+        \item This follows from linearity of expecations,
+        \[E(\exp(i\theta(aX + b))) = \exp(i\theta b)E(\exp(i\theta a X))\]
+    \end{enumerate}
+\end{proof}
+
+    \begin{theorem}
+        Let $X$ be a random variable with c.d.f $F$ such that $E(X)$ exists. Then 
+        \[E(X) = \int_0^\infty (1- F(x))dx - \int_0^\infty F(-x)dx\]
+    \end{theorem}
+    \begin{proof}
+        Assume $P(X \geq 0) = 1$, then 
+        \begin{align*}
+            E(X) &= \int_0^\infty xdF(x)\\
+            &= \int_0^\infty\int_0^x dydF(x)\\
+            &= \int_0^\infty\int_y^\infty dF(x)dy\\
+            &= \int_0^\infty (1-F(y))dy\\
+        \end{align*}
+        In general, $X = X^+ - X^-$ where 
+        \[X^+ = \max(0,X) = \frac{X + |X|}{2}\]
+        \[X^- = \max(0,-X) = \frac{-X + |X|}{2}\]
+        Threfore, $E(X) = E(X^+) - E(X^-)$. So we can write 
+        \[E(X) = \int_0^\infty P(\max(0,X) > x)dx - \int_0^\infty P(\max(0,-X) > x)dx\]
+        With 
+        \begin{align*}
+            P(\max(0,X) > x) &= P\left(\frac{X+|X|}{2} > x\right)\\
+            &= P(|X| > 2x - X)\\
+            &= P(X > 2x - X \text{ or } X < -2x + X) = P(X > x)\\
+            P(X^- > x) &= P(|X| > 2x + X)\\
+            &= P(X < -x)\\
+        \end{align*}
+    \end{proof}
+    \noindent
+    \textbf{Example.} Let $r \geq 0$, and $X \geq 0$, then 
+    \begin{align*}
+        E(X^r) &= \int_0^\infty P(X^r > x)dx\\
+        &= \int_0^\infty P(X > x^{1/r})dx\\
+        &= \int_0^\infty P(X > u)ru^{r-1}du\tag{$u = x^{1/r}$}   
+    \end{align*}
+    Therefore 
+    \[E(X^r) = \int_0^\infty P(X^r > u)ru^{r-1}\]
+    \textbf{Example.} 
+    \begin{align*}
+        E(|X|) &= \int_0^\infty P(|X| > x)dx\\
+        &= \int_0^\infty (1 - P(|X| \leq x))dx\\
+        &= \int_0^\infty (1 - P( - x \leq X \leq x))dx\\
+        &= \int_0^\infty 1 - (F(x) - F(-x))dx\\
+    \end{align*}
+    \section{Distribution of Functions of Random Variables}
+    Our goal is to find a c.d.f or p.d.f for a function $Y = U(X)$ for a random variable $X$.\\[2ex]
+    \textbf{Example.} Let $X$ be a random variable with $f(x) = 2xI(0 \leq x \leq 1)$. Let $Y = X^2$. Find the p.d.f for $Y$.\\[2ex]
+    \textbf{Solution.} We can compute the c.d.f directly 
+    \begin{align*}
+        G(y) = P(Y \leq y) &= P(X^2 \leq y)\\
+        &= P(-\sqrt{y} \leq X \leq \sqrt{y})\\
+        &= P(0 \leq X \leq \sqrt{y})\tag{Since $x \in [0,1]$}\\
+        &= \int_0^{\sqrt{y}}2xdx\\
+        &= \left[x^2\right]^{\sqrt{y}}_0 = y
+    \end{align*}
+    Therefore $G(y) = y$, and $g(y) = G'(y) = 1 I(0 \leq y \leq 1)$. This means $X^2 \sim \Unif(0,1)$. \\[2ex]
+    \textbf{Example.} Let $X \sim f(x) = e^{-x}I(x > 0)$. Find the p.d.f for $Y = (\ln X)^2$.\\[2ex]
+    \textbf{Solution.} Similarly to the previous example,
+    \begin{align*}
+        G(y) = P((\ln X)^2 \leq y) &= P(|\ln X| \leq \sqrt{y})\\
+        &= P(-\sqrt{y} \leq \ln X \leq \sqrt{y})\\
+        &= P(e^{-\sqrt{y}} \leq X \leq e^{\sqrt{y}})\\
+        &= P(e^{-\sqrt{y}} < X \leq e^{\sqrt{y}})\\
+        &= \int_{-\sqrt{y}}^{e^{\sqrt{y}}}e^{-x}dx = e^{\sqrt{y}} - e^{-\sqrt{y}}
+    \end{align*} 
+    Then 
+    \[g(y) = G'(y) = \frac{1}{\sqrt{y}}e^{\sqrt{y}}I(0 < y < \infty)\]
+    \textbf{Note.} The following formula will be useful for the next examples 
+    \[\frac{\Gamma(\alpha)}{\beta^\alpha} = \int_0^\infty x^{\alpha - 1}\exp(-\beta x)dx\]
+    \textbf{Example.} Let $X_1, X_2 \iid f(x) = \frac{1}{\Gamma(\alpha_i)}e^{-x}x^{\alpha_i - 1}I(x > 0)$. . Define $U = \frac{X_1}{X_1 + X_2}$. Find p.d.f for $U$. \\[1ex]
+    \textbf{Solution.} Note that $0 \leq U \leq 1$ since $X_1 + X_2 \geq X_1$, so $U: [0,\infty) \times [0,\infty) \mapsto [0,1]$. We start with the c.d.f of $U$. We need to have the joint distribution for $X_1$ and $X_2$, so 
+    \[f(x_1,x_2) = \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-x_1}e^{-x_2}x_1^{\alpha_1-1}x_2^{\alpha_2-1}I(x_1, x_2 > 0)\]
+    Now 
+    \begin{align*}
+        G(u) &= P\left(\frac{X_1}{X_1 + X_2} \leq u\right)\\
+        &= P(X_1 \leq u(X_1 + X_2))\\
+        &= P(X_1 - uX_1 \leq uX_2)\\
+        &= P\left(X_1 \leq \frac{uX^2}{1-u}\right)\\
+        &= \int_0^\infty\int_0^{\frac{x_2u}{1-u}} \frac{e^{-x_1 - x_2}}{\Gamma(\alpha_1)\Gamma(\alpha_2)}x_1^{\alpha_1-1}x_2^{\alpha_2 - 1}dx_1dx_2\\
+    \end{align*}
+    Differentiating this function we get 
+    \begin{align*}
+        g(u) = G'(u) &= \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2 - 1}
+    \end{align*}
+    \textbf{Note.} From the beta distribution with parameters $\alpha_1$, $\alpha_2$ we get the useful formula 
+    \[\int_0^1 \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1-1}(1-u)^{\alpha_2 - 1} du = 1\]
+    \[\implies \int_0^1 u^{\alpha_1-1}(1-u)^{\alpha_2 - 1} du = \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}\]
+    Another way to solve the previous example is to introduce another variable $V = X + Y$. The joint distribution for $X$ and $Y$ 
+    \[f(x,y) = \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-(x+y)}x^{\alpha_1 - 1}y^{\alpha_2-1}\]
+    Then we can solve for $X$ and $Y$ in terms of $U$ and $V$ and we get $X = UV$, $Y = V(1 - U)$. Then the Jacobian for this transformation is 
+    \[J = \left|\begin{matrix}
+        \frac{\partial X}{\partial u} & \frac{\partial X}{\partial v}\\
+        \frac{\partial Y}{\partial u} & \frac{\partial y}{\partial v}\\
+    \end{matrix}\right| \left|\begin{matrix}
+        v & u\\
+        -v & 1 - u
+    \end{matrix}\right| = v\]
+    Now our joint p.d.f for $U,V$ is  
+    \begin{align*}
+        g(u,v) &= f(x(u,v), y(u,v))|J| = f(uv, v(1-u))|J|\\
+        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-v}(uv)^{\alpha_1 - 1}(v(1-u))^{\alpha_2-1}vI(0 < v < 1, u > 0)
+    \end{align*}
+    We don't want the joint p.d.f for $U$ and $V$, we want it for $U$ so we can integrate over $V$ 
+    \begin{align*}
+        g(u) = \int_0^\infty g(u,v)dv &= \int_0^\infty \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-v}(uv)^{\alpha_1 - 1}(v(1-u))^{\alpha_2-1}vdv\\
+        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1}\int_0^\infty e^{-v}v^{\alpha_1 + \alpha_2 + 1}dv
+    \end{align*}
+    Notice that the integral is $\Gamma(\alpha_1 + \alpha_2)$ so we get 
+    \[g(u) = \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1} \]
+
+    \textbf{Example.} Let $X \sim \Unif(0,1)$. Find the p.d.f for 
+    \begin{enumerate}[label=(\roman*)]
+        \item $Y = a+(b-a)X$ where $a < b$
+        \item $W = \tan\left(\frac{\pi(2X-1)}{2}\right)$
+    \end{enumerate}
+    \textbf{Solution.} 
+    \begin{enumerate}[label=(\roman*)]
+        \item Let $G$ denote the c.d.f for $Y$, then 
+        \begin{align*}
+            G(y) = P(Y \leq y) &= P(a + (b-a)X \leq y)\\
+            &= P((b-a)X \leq y - a)\\
+            &= P\left(X \leq \frac{y-a}{b-a}\right)\\
+            &= \frac{y-a}{b-a}   
+        \end{align*}
+        Then the p.d.f is 
+        \[g(y) = G'(y) = \frac{1}{b-a}I(a \leq y \leq b)\]
+        Therefore, $Y \sim \Unif(a,b)$.
+        
+        \item Let $H$ denote the c.d.f for $W$, then 
+        \begin{align*}
+            H(w) = P(W \leq w) &= P\left(\tan\frac{\pi(2X-1)}{2} \leq 2\right)\\
+            &= P\left(\frac{\pi(2X-1)}{2} \leq \arctan(w)\right)\\
+            &= P\left(X \leq \frac{2\arctan(w) + 1}{2\pi}\right)\\
+            &= \frac{2\arctan(w) + 1}{2\pi}
+        \end{align*}
+    Then the p.d.f is 
+    \[h(w) = H'(w) = \frac{1}{\pi(1+w^2)}I(w \in \real)\]
+    Thus $W$ has a Cauchy distribution.\\[2ex]
+
+    \textbf{Example.} Let $X$ and $Y$ be two independent random variables such that 
+    \[X \sim f(x) = \frac{1}{\Gamma(\alpha)}e^{-x}x^{\alpha - 1}=\]
+    \[Y \sim h(y) = \frac{1}{\Gamma(\beta)} e^{-y}y^{\beta -1}\]
+    Find the p.d.f for the random variable $\frac{X}{X + Y}$.\\[1ex]
+    \textbf{Solution.} The c.d.f is given as 
+    \begin{align*}
+        G(u) = P\left(\frac{X}{X+Y} \leq u\right) &= P\left(X \leq \frac{yu}{1-u}\right)\\
+        &= \frac{1}{\Gamma(\alpha)\Gamma(\beta)}\int_0^\infty\int_0^{\frac{yu}{1-u}} \exp(-x)\exp(-y)x^{\alpha -1}y^{\beta - 1}dxdy\\
+    \end{align*}
+
+    \end{enumerate}
+
+
 \end{document}
