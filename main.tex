@@ -1644,5 +1644,127 @@ However characteristic functions always exist.
     \[g(x_1,x_2) = f(u_1(x_1,x_2), u_2(x_1,x_2))|J| = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)\]
     We can split this up as 
     \[g(x_1,x_2) = \left(\frac{1}{\sqrt{2\pi}}e^{-x_1^2/2}\right)\left(\frac{1}{\sqrt{2\pi}}e^{-x_2^2/2}\right)\]
-    These are 2 standard normal distributions, so this tells us how to simulate normal distribution from $\Unif(0,1)$. 
+    These are 2 standard normal distributions, so this tells us how to simulate normal distribution from $\Unif(0,1)$.
+    \section{Ordered Statistics}
+     \begin{definition}
+        Let $X_1,\ldots, X_n \iid f(x)$ be a random sample. Then the ordered statistics for this sample are 
+        \[Y_1 = \min(X_1, \ldots, X_n), Y_2  = \min\left(\{X_1, \ldots X_n\} \setminus Y_1\right), \ldots, Y_n = \max(X_1,\ldots, X_n)\]
+        So 
+        \[Y_1 < Y_2 < \cdots < Y_{n-1} < Y_n\]
+        In otherwords, $Y_1, \ldots, Y_n$ are $X_1, \ldots, X_n$ sorted with $Y_1$ being the minimum and $Y_n$ being the maximum.
+     \end{definition}
+     \noindent
+     \textbf{Example.} Consider the sample 
+     \[X_1 = 3.1, X_2 = 4.5, X_3, 3.4, X_4 = 4.1, X_5 = 2\]
+     Then its order statistics are 
+     \[Y_1 = 2 < Y_2 = 3.1 < Y_3 = 3.4 < Y_4 = 4.1 < Y_5 = 4.5\]
+     It's clear that $Y_3 = 3.4$ is the median. In general the median is given as 
+     \[\begin{cases}
+        Y_{(n+1)/2} & \text{If $n$ is odd}\\
+        \frac{1}{2}\left(Y_{n/2} + Y_{(n/2) + 1}\right) & \text{If $n$ is even}
+     \end{cases}\]
+
+     It is important in many statistical problems to find the p.d.f for functions of ordered statistics, to find the p.d.f for $Y_i$, we can simply write 
+     \[g_i(y) = \frac{n!}{(i-1)!(n-1)!}(F(y ))^{i-1}f(y)(1-F(y))^{n-i}\]
+     Then the joint p.d.f for $Y_i$, $Y_j$ is 
+     \[g_{ij}(u,v) = \frac{n!}{(i-1)!(j-i-1)!(n-j)!}F(u)^{i-1}(F(v)-F(u))^{j-i-1}(1-F(v))^{n-j}f(u)f(v)\]
+     with $-\infty < u < v < \infty$.\\[2ex]
+     \textbf{Example.} Let $X_1,X_2,X_3 \iid f(x)$ for a continuous p.d.f $f$. Let $Y_1 < Y_2 < Y_3$ be the order statistics. Find the joint p.d.f for $Y_1,Y_2,Y_3$.\\[2ex]
+     \textbf{Solution.} Notice that there are 6 possible outcomes in this case, order from smallest to largest we have 
+     \[Y_1 = X_1, Y_2 = X_2, Y_3 = X_3; Y_1 = X_2, Y_2 = X_1, Y_3 = X_3\]
+     \[Y_1 = X_1, Y_2 = X_3, Y_3 = X_2; Y_1 = X_3, Y_2 = X_1, Y_3 = X_2\]
+     \[Y_1 = X_2, Y_2 = X_3, Y_3 = X_1; Y_1 = X_3, Y_2 = X_2, Y_3 = X_1\]
+     Consider the last case where $Y_1 = X_3$, $Y_2 = X_2$, $Y_3 = X_1$, then the Jacobian for this transformation is 
+     \[|J| = \left|\begin{matrix}
+        \frac{\partial X_1}{y_1} & \frac{\partial X_1}{y_2} & \frac{\partial X_1}{y_3}\\
+        \frac{\partial X_2}{y_1} & \frac{\partial X_3}{y_2} & \frac{\partial X_2}{y_3}\\
+        \frac{\partial X_3}{y_1} & \frac{\partial X_3}{y_2} & \frac{\partial X_3}{y_3}\\
+     \end{matrix}\right| = \begin{matrix}
+        0 & 0 & 1\\
+        0 & 1 & 0\\
+        1 & 0 & 0
+     \end{matrix} = 1 \]
+     Notice that for any combination, $J = \pm 1 \implies |J| = 1$. Thus the joint p.d.f is the some of each of these cases 
+     \[g(y_1,y_2, y_3) = f(y_1,y_2,y_3)\cdot 1 + \cdots + f(y_3,y_2,y_1)\cdot 1\]
+     This gives us 
+     \[g(y_1,y_2,y_3) = 3!f(y_1)f(y_2)f(y_3)I(y_1 < y_2 < y_n)\]
+     This holds with our general formula for $n$ order statistics
+     \[g(y_1,\ldots y_n) = n!f(y_1)\cdots f(y_n)I(y_1 < \cdots < y_n)\]
+     \textbf{Example.} Let $X_1,X_2 \iid f(x)$. Then 
+     \[Y_1 = \min(X_1, X_2), Y_2 = \min(X_1, X_2)\]
+     Here again we can break this up into cases where $Y_1 = X_1$, $Y_2 = X_2$, or $Y_1 = X_2$, $Y_2 = X_1$. Then our Jacobians are 
+     \[J_1 = \left|\begin{matrix}
+        1 & 0 \\
+        0 & 1\\
+     \end{matrix}\right| = 1\]
+     
+     \[J_2 = \left|\begin{matrix}
+        0 & 1 \\
+        1 & 0\\
+     \end{matrix}\right| = -1\]
+     So, the joint p.d.f is 
+     \[g(y_1,y_2) = f(x_1,x_2)|J_1| + f(x_2, x_1)|J_2| = 2f(y_1)f(y_2)I(y_1 < y_2)\]
+     \textbf{Example.} Let $X_1, \ldots, \iid f$ with continuous c.d.f $F$. Let $Y_1 < Y_2 < \cdots < Y_i < \cdots Y_n$ be the order statistics. Find the p.d.f for  $Y_i$. \\[2ex]
+     \textbf{Solution.} We want to derive the general equation for the p.d.f of any $Y_i$. Notice that 
+     \[P(y < Y_i < y + dy) = g(y)dy\]
+     Intuitivively, $dy$ is \emph{very} small, so the area of this region below the curve will be the p.d.f of $Y_i$ multiplied by the infinitesimal width $dy$. To the left of $Y_i$, we'll have $i - 1$ ordered statistics, and $n-i$ to the right. For any of the $X$'s, 
+     \[P(X \leq y) = F(y), \ P(X > y) = 1 - F(y)\]
+     In otherwords, the probability that an observation falls below $y$ is $F(y)$ and above $y$ is $1 - F(y)$. Now, we have $n$ total observations, with $i-1$ below $y$, and $n-i$ above, so the total number of ways to arrange these is 
+     \[\frac{n!}{(i-1)!(n-i)!}\]
+     We have $i-1$ (i.i.d) falling below $y$ with probability $F(y)^{i-1}$, one at $y$ with probability $f(y)dy$, and $n-i$ (i.i.d) above $y$ with probability $(1-F(y))^{n-1}$, therefore we have the equation 
+     \[P(y \leq Y_i \leq y + dy) = g(y)dy = \frac{n!}{(i-1)!(n-i)!}(F(y))^{i-1}f(y)dy(1-F(y))^{n-i}\]
+     Dividing by $dy$ on both sides gives us 
+     \[g(y) = \frac{n!}{(i-1)!(n-i)!}(F(y))^{i-1}f(y)(1-F(y))^{n-i}\]
+     \textbf{Example.} Let $X_1, \ldots, X_n \sim f(x) = 2xI(0 \leq x \leq 1)$. Let $Y_1 < Y_2 < Y_3 < Y_4 < Y_5$ be the orderered statistics. 
+     \begin{enumerate}[label=(\roman*)]
+        \item Find the p.d.f for the median $Y_3$. 
+        \item Find the joint p.d.f for $Y_1$,$Y_5$.
+        \item Find the joint p.d.f for $Y_1, Y_3, Y_5$. 
+     \end{enumerate}
+     \noindent
+     \textbf{Solution.} 
+     \begin{enumerate}[label=(\roman*)]
+        \item To use the equation we derived in the previous example, we must first find the c.d.f 
+        \[F(y) = P(X \leq y) = \int_0^y 2xdx = y^2\]
+        Then, let $g_3(y)$ denote the p.d.f for $Y_3$,
+        \begin{align*}
+            g_3(y) &= \frac{5!}{2!2!} (F(y))^2f(y)(1 - F(y))^2I(0 \leq y \leq 1)\\
+            &= 30y^4(2y)(1-y^2)^2I(0 \leq y \leq 1)\\
+            &= 60y^5(1-y^2)^2I(0 \leq y \leq 1)
+        \end{align*}
+        \item We want to find the p.d.f for $Y_1 = \min(X_1, \ldots, X_n)$, $Y_5 = \max(X_1,\ldots, X_n)$. Let $g_{15}(y_1,y_5)$ denote the p.d.f for $Y_1$,$Y_5$. 
+        We the c.d.f 
+        \[P(y_1 \leq X \leq y_5) = \int_{y_1}^{y_5} 2xdx = y_5^2 - y_1^2\]
+        Then, using the forumla we have 
+        \begin{align*}
+            g_{15}(y_1,y_5) &= \frac{5!}{3!} f(y_1)f(y_5)(F_5 - F)(y_1)I(0 < y_1 < y_5 < 1)\\
+            &= 80y_1y_5(y_5^2 - y_1^2)^3I(0 < y_1 < y_5 < 1)  
+        \end{align*}
+        \item Similarly, for the joint p.d.f for $Y_1,Y_3,Y_5$, we have 
+        \begin{align*}
+            g(y_1,y_3,y_5) &= \frac{5!}{1!1!1!1!1!}f(y_1)f(y_3)f(y_5)(F(y_3) - F(y_1))^1(F(y_5) - F(y_1))^1\\
+            &= 120(2y_1)(2y_3)(2y_5)(y_3^2 - y_1^2)(y_5^2 - y_3^2)I(0 < y_1 < y_3 < y_5)
+        \end{align*}
+    \end{enumerate}
+    \textbf{Example.} Let $X_1, \ldots, X_n \iid f(x) = e^{-x}I(x > 0)$. Find the joint distribution for $Y_1, Y_n$. \\[2ex]
+    \textbf{Solution.} First we find the c.d.f 
+    \[F(x) = \int_0^x e^{-t}dt = 1 - e^{-x}I(x \geq 0)\]
+    Then, 
+    \begin{align*}
+        g(y_1, y_n) &= \frac{n!}{(n-2)!}f(y_1)f(y_n)(F(y_n) - F(y_1))^{n-2}I( y_n > y_1 > 0)\\
+        &= n(n-1)e^{-y_1}e^{-y_n}(1-e^{-y_n} - 1 + e^{-y_1})^{n-2}I( y_n > y_1 > 0)\\
+        &= n(n-1)e^{-(y_1+y_n)}(e^{-y_1} - e^{-y_n})^{n-2}I(y_n > y_1 > 0)
+    \end{align*}
+    \textbf{Example.} Let $X_1, \ldots X_{2n+1} \Unif[\theta_1, \theta_2]$. Find the p.d.f for the median $Y_{n+1}$. \\[2ex]
+    \textbf{Solution.} The p.d.f for this distribution is 
+    \[f(x) = \frac{1}{\theta_2-\theta_1}I(\theta_1 \leq x \leq \theta_2)\]
+    and the c.d.f is 
+    \[F(x) = \int_{\theta_1}^x \frac{}{\theta_2 - \theta_1} du = \frac{x - \theta_1}{\theta_2-\theta_1}\]
+    Since $Y_{n+1}$ is the median, we have $n$ observations to the left and $n$ to the right of $Y_{n+1}$, so the p.d.f is 
+    \begin{align*}
+        g(y) &= \frac{(2n+1)}{n!n!}f(y)(F(y))^n(1-F(y))^n\\
+        &=\frac{(2n+1)!}{(n!)^2}\frac{1}{\theta_2-\theta_1}\left(\frac{y-\theta_1}{\theta_2-\theta_1}\right)^n\left(1 - \frac{y - \theta_1}{\theta_2-\theta_1}\right)^nI(y \in [\theta_1, \theta_2])\\
+    \end{align*}    
+
+     
 \end{document}
