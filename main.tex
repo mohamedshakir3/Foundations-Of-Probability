@@ -1841,7 +1841,6 @@ However characteristic functions always exist.
         &= 1080z_1^5(1-z_1^3)z_2^{11}(1-z_2^3)^2I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
         &= u(z_1)v(z_2)
     \end{align*}
-
     \chapter{Convergence of Random Variables}
     \begin{definition}
         Let $\{X_n\}$ be a sequence of random variables. We define convergence as 
@@ -1854,10 +1853,151 @@ However characteristic functions always exist.
             This is denoted by $X_n \conas X$.
             \item We say $X_n$ converges to $X$ in $L^p$ if 
             \[\lim_{n\rightarrow\infty}E(|X_n-X|^p) = 0\]
-            This is denoted by $X_n \conlp X$.
+            This is denoted by $X_n \conlp{p} X$.
             \item We say $X_n$ converges in distribution to $X$ if 
             \[\lim_{n\rightarrow \infty}P(X_n \leq x) = P(X \leq x) = F(x)\]
             For all $x \in C_F$ where $C_F$ is the set of continuity points of $F$. This is denoted by $X_n \cond X$. 
         \end{enumerate}
     \end{definition}
+    \noindent
+    \textbf{Example.} Let $X_i,\ldots, X_n \iid f(x)$ with $E(X_i) = \mu$. Use sample mean $\bar{X}$ to estimate $\mu$. Assume $\Var(X_i) = \sigma^2 < \infty$. Prove $\bar{X} \conlp{p} \mu$ for $p \in [1,2]$.
+    \textbf{Solution.}  
+    We have
+    \[\bar{X} \conlp{2} \mu \iff E[(\bar{X} - \mu)^2] \rightarrow 0\]
+    So we want to show that the variance converges to 0. We have that 
+    \[E(\bar{X}) = \frac{E(X_1)+ \cdots + E(X_n)}{n} = \frac{n\mu}{n} = \mu\]
+    The variance is 
+    \[\Var(\bar{X}) = E[(\bar{X}-\mu)^2] = \Var\left(\frac{X_1 + \cdots + X_n}{n}\right) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}\]
+    Now taking the limit 
+    \[\lim_{n\rightarrow \infty}\frac{\sigma^2}{n} = = 0\]
+    To prove $E[(\bar{X} - \mu)^p] \rightarrow 0$, for $1 \leq p \leq 2$, we'll use Lyapunov's inequality
+    \[(E|u|^p)^{1/p} \leq (E|u|^q)^{1/q}\]
+    for $q \geq p$. If $E(|\bar{X}-\mu|^2) \rightarrow 0$, then 
+    \[(E|\bar{X}-\mu|^p)^{1/p} \leq (E|\bar{X}-\mu|^2)^{1/2}\]
+    Since $E(\bar{X} - \mu)^2 \rightarrow 0$, then $E|X - \mu|^p \rightarrow 0$ for $1 \leq p \leq 2$. Thus $\bar{X} \conlp{2} \mu$. 
+    
+
+    \begin{theorem}\label{theorem:5.0.1}
+        Let $(X_n)_{n\geq 1}$ be a sequence of random variables such that $E(X_n) = \mu$ and $\Var(X_n) \rightarrow 0$ as $n \rightarrow \infty$. Then $X_n \conp \mu$.
+    \end{theorem}
+    \begin{proof}
+        Suppose $E(X_n) = \mu$ and $\Var(X_n) \rightarrow 0$, then we use Markov's inequality,
+        \[0 \leq P(|X_n - \mu| \geq \epsilon) \leq \frac{\Var(X_n)}{\epsilon^2}\]
+        The right side converges to 0 as $n \rightarrow \infty$. Therefore,
+        \[\lim_{n\rightarrow \infty} P(|X_n - \mu| \geq \epsilon) = 0\]
+        Thus $X_n \conp \mu$. 
+    \end{proof}
+    \textbf{Example.} Let $X_n$ be a random variable with p.d.f 
+    \[f_n(x) = \begin{cases}
+        1 & x = 2 + \frac{1}{n}\\
+        0 & x \neq 2 + \frac{1}{n}
+    \end{cases}\]
+    Check to see if there i sa limiting distribution for $X_n$.\\[2ex]
+    \textbf{Solution.} We can see that 
+    \[E(X_n) = 2 + \frac{1}{n} \rightarrow 2\]
+    \[\Var(X_n) = E\left(X_n - 2 - \frac{1}{n}\right)^2 = 0\]
+    So its clear that $X_n \conp 2$ and $X_n \conlp{p} 2$. We want the limiting distribution,
+    \[F_n(x) = P(X_n \leq x) \begin{cases}
+        0 & x < 2+\frac{1}{n}\\
+        1 & x \geq 2 + \frac{1}{n}
+    \end{cases}\] 
+    \[\lim_{n\rightarrow \infty}F_n(x) = F(x) = \begin{cases}
+        0 & x < 2 \\
+        1 & x \geq 2
+    \end{cases}\]
+    So $F_n(x) \rightarrow F(x)$ except for $x = 2$, but there is a jump at 2 so $2 \not\in C_F$ so we don't care about $x=2$. 
+    \begin{theorem}
+        Let $\{X_i\}$ be a sequence of random variables. Let $c \in real$, then 
+        \[X_n \conp c \implies X_n \cond c\]
+    \end{theorem}
+    \begin{proof}
+        Suppose that $X_n \conp c$. Then $\forall \epsilon > 0$,  
+        \[P(|X_n - c| < \epsilon) = 1 - P(|X_n - c| \geq \epsilon) = 0 \implies \lim_{n\rightarrow\infty}P(|X_n - c| < \epsilon) = 1\]
+        \begin{align*}
+            P(|X_n-c| < \epsilon) &= P(- \epsilon < X_n - c < \epsilon)\\
+            &= P(c - \epsilon < X_n < c + \epsilon)\\
+            &= F_n((c + \epsilon)^-) - F_n(c-\epsilon)\\
+        \end{align*}
+        Then 
+        \[1 = \lim_{n \rightarrow\infty}P(|X_n - c| < \epsilon) = \lim_{n\rightarrow \infty} \left(F_n((c+\epsilon)^-)  - F_n(c-\epsilon)\right)\]
+        So we must have that $\lim\limits_{n\rightarrow \infty} F_n((c+\epsilon)^-) = 1$, and $\lim\limits_{n\rightarrow \infty} F_n(c-\epsilon) = 0$. Thus we can conclude
+        \[\lim_{n\rightarrow\infty}F_n(x) = \begin{cases}
+            0 & x < c\\
+            1 & x > c
+        \end{cases} = F(x)\]
+        Therefore $X_n \cond c$. 
+    \end{proof}
+    \textbf{Example.} From our previous example with $\bar{X}$, with $E(X_1) = \mu$ and $\Var(X_i) = \sigma^2 < \infty$, we have $\bar{X} \conlp{p} \mu$, $\bar{X} \conp \mu$. So we also have $\bar{X} \cond \mu$.
+
+    \begin{theorem}
+        Let $X_n$ be a sequence of random variables, then 
+        \[X_n \cond c \implies X_n \conp c\]
+    \end{theorem}
+    \begin{proof}
+        We know that since $X_n \cond c$, 
+        \[\lim_{n\rightarrow \infty}F_n(x) = \begin{cases}
+            0 & x  < c\\
+            1 & x \geq c
+        \end{cases}\]
+        For all $x \neq c$. Now we want to find 
+        \begin{align*}
+            \lim_{n\rightarrow\infty}P(|X_n-c| < \epsilon) &= \lim_{n\rightarrow\infty}F_n((c+\epsilon)^-) - \lim_{n\rightarrow \infty}F_n(c-\epsilon)\\
+            \implies \lim_{n\rightarrow \infty}P(|X_n-c| < \epsilon) &= 1\\
+            \implies \lim_{n\rightarrow \infty}P(|X_n-c| \geq \epsilon) &= 0\\
+        \end{align*}
+        Thus $X_n \conp c$. So we have shown $X_n \conp c \iff X_n \cond c$ for a constant $c \in \real$.
+    \end{proof}
+    \textbf{Example.} Let $X_1, \ldots, X_n \iid \Unif[0, \theta]$ with density 
+    \[f(x) = \frac{1}{\theta}I(0 \leq x \leq \theta)\]
+    Let 
+    \[Y_n = \max(X_1, \ldots, X_n)\]
+    \begin{enumerate}[label=(\roman*)]
+        \item Find c.d.f and p.d.f for $Y_n$.
+        \item Prove $Y_n \conp \theta$.
+        \item Find the limiting distribution for $U_n = n(\theta - Y_n)$.
+    \end{enumerate}
+    \textbf{Solution.}
+    \begin{enumerate}[label=(\roman*)]
+        \item We can compute the c.d.f directly 
+        \begin{align*}
+            G_n(y) = P(Y_n \leq y) &= P(\max(X_1, \ldots, X_n) \leq y)\\
+            &= P(X_1\leq y, X_2 \leq y, \ldots, X_n \leq y)\\
+            &= P(X_1\leq y)^n\\
+        &= \left(\frac{y}{\theta}\right)^nI(0 \leq y \leq \theta) + I(y > \theta)
+    \end{align*}
+    Then the p.d.f is 
+    \[g_n(y) = G'_n(y) = \frac{n}{\theta^n}y^{n-1}I(0 \leq y \leq \theta)\]
+    \item 
+    \begin{proof}
+        From \hyperref[theorem:5.0.1]{Theorem 5.0.1}, it suffices to show $E(Y_n) \rightarrow \theta$, and $\Var(Y_n) \rightarrow 0$ then $Y_n \conp \theta$. 
+        \[E(Y_n) = \int_0^\theta \frac{n}{\theta^n}y^ndy = \frac{\theta^{n+1}}{\theta^n}\frac{n}{n+1} = \frac{n\theta}{n+1}\]
+        So $\lim_{n\rightarrow\infty}E(Y_n) = \theta$.
+        \[E(Y_n^2) = \int_0^\infty \frac{n}{\theta^n}y^{n+1}dy  = \frac{n\theta^2}{n+2} \]
+        Now, the variance is 
+        \[\Var(Y_n) = E(Y_n^2) - E(Y_n)^2 = \frac{n\theta^2}{n+2} - \frac{n^2\theta^2}{(n+1)^2} \rightarrow 0\]
+        Therefore we have $E(Y_n) \rightarrow \theta$, and $\Var(Y_n) \rightarrow 0$, so $Y_n \conp \theta$. 
+    \end{proof}
+    \item Let $G_n$ be the c.d.f for $U_n$, 
+    \begin{align*}
+        G_n(u) = P(n(\theta-Y_n) \leq u) &= P\left(\theta - Y-n \leq \frac{u}{n}\right)\\
+        &= P\left(Y_n \geq \theta - \frac{u}{n}\right)\\
+        &= 1 - P\left(Y_n \leq \theta - \frac{u}{n}\right)\\
+        &= 1 - \left(\frac{\theta - u/n}{\theta}\right)^n\\
+        &= 1 - \left(1 - \frac{u}{n\theta}\right)^n
+    \end{align*}
+    Now we can take the limit, we use logarithms to solve 
+    \begin{align*}
+        \lim_{n\rightarrow\infty} \ln\left(1 - \frac{u}{n\theta}\right)^n &= \lim_{n\rightarrow \infty} n\ln\left(1 - \frac{u}{n\theta}\right) \\
+        &= \lim_{n\rightarrow 0}\frac{\ln\left(1 - \frac{un}{\theta}\right)}{n}\tag{Change $n$ to $1/n$}\\
+        &= \frac{0}{0}\tag{Apply L'hoptial's Rule}\\
+        &= \lim_{n\rightarrow 0}\frac{-u/\theta}{1 - un/\theta}\\
+        &= -\frac{u}{\theta}
+    \end{align*}
+    Therefore, 
+    \[G(u) = 1 -\lim_{n\rightarrow\infty} \left(1 - \frac{u}{n\theta}\right)^n = 1 - e^{-u/\theta}\]
+    Then the p.d.f is 
+    \[g(u) = G'(u) = \frac{1}{\theta}e^{-u/\theta}I(0 < u < \infty) \sim \exp(\theta) \]
+    So we have shown $n(\theta-Y_n)$ converges to an exponential distribution with mean $\theta$.
+\end{enumerate}
+    
 \end{document}
