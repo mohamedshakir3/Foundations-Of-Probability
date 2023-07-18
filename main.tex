@@ -1996,8 +1996,118 @@ However characteristic functions always exist.
     Therefore, 
     \[G(u) = 1 -\lim_{n\rightarrow\infty} \left(1 - \frac{u}{n\theta}\right)^n = 1 - e^{-u/\theta}\]
     Then the p.d.f is 
-    \[g(u) = G'(u) = \frac{1}{\theta}e^{-u/\theta}I(0 < u < \infty) \sim \exp(\theta) \]
+    \[g(u) = G'(u) = \frac{1}{\theta}e^{-u/\theta}I(0 < u < \infty) \sim \exp\left(\theta\right) \]
     So we have shown $n(\theta-Y_n)$ converges to an exponential distribution with mean $\theta$.
 \end{enumerate}
-    
+\textbf{Example.} Let $X_1, \ldots, X_n \iid F$ for some unknown continuous c.d.f $F$ with p.d.f $F' = f$. Let 
+\[Y_n = \max(X_1,\ldots,X_n)\]
+Find the limiting distribution for $n(1 - F(Y_n))$.\\[2ex]
+\textbf{Solution.} Let $Y_1 < Y_2 < \cdots < Y_n$ be the ordered statistics for $X_1, \ldots, X_n$. Since $F$ is a c.d.f, it is increasing so 
+\[F(Y_1) < F(Y_2) < \cdots < F(Y_n)\]
+We proved previously that $F(x) \sim \Unif(0,1)$. Then, we can treat $F(Y_1), \ldots, F(Y_n)$ as ordered statistics from $n$ observations $U_1, \ldots, U_n \iid \Unif(0,1)$. Let $Z_1 = F(Y_1), \ldots Z_n = F(Y_n)$ be the ordered statistics for these uniform observations, then 
+\[g_{Z_N}(z) = ng(z)G(z)^{n-1} = nz^{n-1}\]
+where $G(z)$ is the c.d.f for uniform distribution. Now we can use the previous example where we showed
+\[n(\theta-Y_n)\conp \exp\left(\frac{1}{\theta}\right)\]
+Here in this example we have $\theta = 1$ and $Y_n$ is $Z_n = F(Y_n)$, therefore 
+\[n(1 - F(Y_n)) \conp \exp(1)\]
+Therefore the limiting distribution for $n(1-F(Y)n)$ is exponential with mean 1.
+\[f(x) = e^{-x}I(0 < x < \infty)\]
+\textbf{Example.} Let $X_1, \ldots, X_n \iid f(x) = e^{-(x-\theta)}I(x > \theta)$. Find the assymptotic distrbiution for 
+\[U_n = n(\min(X_1,\ldots, X_n) - \theta)\]
+\textbf{Solution.} First we find the c.d.f 
+\begin{align*}
+    G_n(u) = P(U_n \leq u) &= P(n(\min(X_1,\ldots, X_n) - \theta) \leq u)\\
+    &= P\left(\min(X_1, \ldots, X_n) - \theta \leq \frac{u}{n}\right)\\
+    &= P\left(\min(X_1, \ldots, X_n) \leq \frac{u}{n} + \theta\right)\\
+    &= 1 - P\left(\min(X_1,\ldots, X_n) \geq \frac{u}{n} + \theta\right)\\
+    &= 1 - P\left(X_1 > \frac{u}{n} + \theta\right)^n\\
+    &= 1 - \left(\int_{u/n + \theta}^\infty e^{-(x-\theta)}dx\right)^n\\
+    &= 1 - \left(e^{-u/n}\right)^n = 1-e^{-u}
+\end{align*}
+Notice that $g(u) = e^{-u}I(0 < u < \infty)$ is free of $n$ so we do not need to take the limit. Thus we get 
+\[n(\min(X_1,\ldots,X_n) - \theta) \cond \exp(1)\]
+\textbf{Example.} Let $X_1,\ldots, X_n \iid \Bern(p)$. Prove 
+\[\hat{p} = \frac{1}{n}\sum_{i=1}^nX_i \conp p\]
+\textbf{Solution.} We can calculate the expected value and variance 
+\[E(X_i) = 1 \cdot P(X_i = 1) + 0 \cdot P(X_i=  0) = p \]
+\[\Var(X_i) = 1^2\cdot P(X_i = 1) + 0^2 P(X_i = 0) - p^2 = p(1-p)\]
+Then, 
+\[E(\bar{X}) = E\left(\frac{X_1 + \cdots + X_n}{n}\right) = \frac{np}{n} = p\]
+\[\Var(\bar{X}) = \frac{\sigma^2}{n} = \frac{p(1-p)}{n}\]
+Then, using \hyperref[theorem:5.0.1]{Theorem 5.0.1}, $E(\bar{X}) = p \rightarrow p$, and $\Var(\bar{X}) = p(1-p)/n \rightarrow 0$, so $\bar{X}\conp p$.\\[2ex]
+\textbf{Example.} Define the c.d.f for empirical process 
+\[F_n(x) = \frac{1}{n}\sum_{i=1}^nI(X_i \leq x)\]
+Prove that empirical process is consistent estimator of $F$, in otherwords show $F_n(x) \conp F(x)$.\\[2ex]
+\textbf{Solution.} Again, we use\hyperref[theorem:5.0.1]{Theorem 5.0.1},
+\[E(F_n(x)) = \frac{1}{n}\sum_{i=1}^n E(I(X_i\leq x)) = \frac{nP(X_i\leq x)}{n} = F(x)\]
+So $E(F_n(x)) = F(x) \rightarrow F(x)$. 
+\[\Var(F_n(x)) = \frac{1}{n^2}\sum_{i=1}^n \Var(I(X_i \leq n))\]
+First we find the variance of $X_i$, 
+\begin{align*}
+    \Var(I(X_i \leq x)) &= E(I^2(X_i \leq x)) - E(I(X_i \leq x))^2\\
+    &= E(I(X_i \leq x)) - E(I(X_i \leq x))^2\\
+    &= F(x) - (F(x))^2 = F(x)(1 - F(x)) = \sigma^2
+\end{align*}
+Thus 
+\[\Var(F_n(x)) = n\frac{F(x)(1-F(x))}{n^2} = \frac{F(x)(1-F(x))}{n} \rightarrow 0\]
+Therefore we have $E(F_n(x)) \rightarrow F(x)$, and $\Var(F_n(x)) \rightarrow 0$, therefore by  \hyperref[theorem:5.0.1]{Theorem 5.0.1}, $F_n(x) \conp F(x)$.
+
+\begin{theorem}
+    Let $X_n$ be a sequence of random variables. If $X_n \conas X$, then $X_n \conp X$.
+\end{theorem}
+\begin{proof}
+    Suppose $X_n \conas X$, we know from the definition of a.s convergence that  
+    \[P(|X_n - X| > \epsilon \ i.o) = 0\]
+    We can write this as
+    \[X_n \conas X \iff P\left(\bigcup_{m=n}^\infty |X_m - X| > \epsilon\right) \rightarrow 0\]
+    \[P\left(\bigcup_{m=n}^\infty |X_m - X| > \epsilon\right) \geq P(|X_m - X| > \epsilon) \geq 0\]
+    If we take limits on both sides, we have 
+    \[0 \leq P(|X_m - X| > \epsilon) \leq 0 \implies P(|X_m-X|>\epsilon) \rightarrow 0\]
+    Therefore, $X_n \conas X \implies X_n\conp X$.     
+\end{proof}
+\begin{definition}
+    We say that $X_n$ converges completely to $X$, which is denoted by $X_n \conc X$ if 
+    \[\sum_{n=1}^\infty P(|X_n -X| > \epsilon) < \infty\]
+    In otherwords, the series converges. 
+\end{definition}
+\begin{theorem}
+    Let $X_n$ be a sequence of random variables. If $X_n \conc X$, then $X_n \conas X$. 
+\end{theorem}
+\begin{proof}
+    We need to show that 
+    \[P\left(\bigcup_{m=n}^{\infty} |X_m - X| > \epsilon\right) \rightarrow 0\]
+    Recall Borel's inequality where $P\left(\bigcup A_i\right) \leq \sum P(A_i)$. Then, 
+    \[P\left(\bigcup_{m=n}^\infty |X_m - X| > \epsilon\right) \leq \sum_{m=n}^{\infty} P\left(|X_m - X| > \epsilon\right)\]
+    Then, 
+    \[\lim_{n\rightarrow \infty}\sum_{m=n}^{\infty} P\left(|X_m - X| > \epsilon\right) = 0\]
+    Thus as $n$ approaches infinity, 
+    \[0 \leq P\left(\bigcup_{m=n}^{\infty} |X_m - X| > \epsilon\right)\leq 0 \implies P\left(\bigcup_{m=n}^{\infty} |X_m - X| > \epsilon\right) \rightarrow 0\]
+\end{proof}
+\textbf{Remark.} If $X_n \conas X$ and $g$ is a continuous function, then $g(X_n) \conas g(x)$. 
+\begin{theorem}
+    Let $X_n$ be a sequence of random variables. If $X_n \conp X$, then $X_n \cond X$. 
+\end{theorem}
+\begin{proof}
+    Let $F$ be the c.d.f for $X$.  We are only interested in values for $x \in C_F$. Take $x' \in \real$. Then using the fact that $P(A) = P(A \cap B) + P(A \cap B^c)$,
+    \[P(X \leq x') = P(X\leq x', X_n \leq x) + P(X \leq x', X_n > x)\]
+    Then since $P(A \cap B) \leq P(B)$,
+    \[P(X \leq x') \leq P(X_n \leq x) + P(X \leq x', X_n > x)\]
+    If $x' < x$, then 
+    \begin{align*}
+        P(X \leq x') &\leq P(X_n \leq x) + P(X_n - X \geq x - x')\\
+        &\leq P(X_n \leq x) + P(|X_n - X| \geq x - x') 
+    \end{align*}
+    Then taking the limit on both sides, 
+    \[F(x') \leq \liminf_{n\rightarrow\infty} P(X_n \leq x)\]
+    Now if we have $x'' > x$, repeating what we had before
+    \[F_n(x) = P(X_n \leq x) \leq F(x'') + P(|X_n - X| \geq x'' -x)\]
+    Then taking the limit again 
+    \[\limsup_{n\rightarrow\infty} F_n(x) \leq F(x'')\]
+    Then this tells us 
+    \[F(x') \leq \liminf_{n\rightarrow\infty}F_n(x) \leq \limsup_{n\rightarrow\infty} F_n(x) \leq F(x'')\]
+    We have $x' < x \leq x''$ if we take the limit as $x'' \rightarrow x'$, then since $F(x)$ is a c.d.f and is right continuous, 
+    \[F(x) \leq \liminf_{n\rightarrow\infty} F_n(x) \leq \limsup_{n\rightarrow\infty} F_n(x) \leq F(x)\]
+\end{proof}
+This theorem gives us a sort of ordering for the strength of convergence, 
+\[X_n \conc X \implies X_n \conas X \implies X_n \conp X \implies X_n \cond X\]
 \end{document}
