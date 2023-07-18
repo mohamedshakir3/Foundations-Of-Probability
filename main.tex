@@ -1759,12 +1759,105 @@ However characteristic functions always exist.
     \textbf{Solution.} The p.d.f for this distribution is 
     \[f(x) = \frac{1}{\theta_2-\theta_1}I(\theta_1 \leq x \leq \theta_2)\]
     and the c.d.f is 
-    \[F(x) = \int_{\theta_1}^x \frac{}{\theta_2 - \theta_1} du = \frac{x - \theta_1}{\theta_2-\theta_1}\]
+    \[F(x) = \int_{\theta_1}^x \frac{1}{\theta_2 - \theta_1} du = \frac{x - \theta_1}{\theta_2-\theta_1}\]
     Since $Y_{n+1}$ is the median, we have $n$ observations to the left and $n$ to the right of $Y_{n+1}$, so the p.d.f is 
     \begin{align*}
         g(y) &= \frac{(2n+1)}{n!n!}f(y)(F(y))^n(1-F(y))^n\\
         &=\frac{(2n+1)!}{(n!)^2}\frac{1}{\theta_2-\theta_1}\left(\frac{y-\theta_1}{\theta_2-\theta_1}\right)^n\left(1 - \frac{y - \theta_1}{\theta_2-\theta_1}\right)^nI(y \in [\theta_1, \theta_2])\\
     \end{align*}    
+    \textbf{Example.} Let $Y_1, Y_2, Y_3$ be the order statistics of a random sample from $\Unif(0,1)$. We would liek to find the p.d.f for the range 
+    \[Z = Y_3 - Y_1\]
+    \textbf{Solution.} Since these are samples for uniform distribution, $f(x) = 1$ and $F(x) = x$. Then the joint p.d.f for $Y_1,Y_3$ is 
+    \[g(y_1,y_3) = 3!f(y_1)f(y_3)(F(y_3)-F(y_1))^1 = 6(y_3 - y_1)I(0 \leq y_1 < y_3 \leq 1)\]
+    Then, we can define another random variable $Z_2 = Y_3$. So
+    \[Z_1 = Y_3 - Y_1, Z_3 = Y_3 \implies Y_1 = Z_1 - Z_2\]
+    Now we can compute the joint distribution for these random variables. It's easy to see that $|J| = 1$, therefore 
+    \[g(z_1,z_2) = f(y_1,y_2)|J| = 6(z_2 - z_2 + z_1 ) = 6z_1I(0 \leq z_1 < z_2 \leq 1)\]
+    Then we want the distribution for $Z_2$, so we can integrate over $Z_2$, 
+    \[g(z_1) = \int_{z_1}^16z_1dz_2 = 6z_1(1-z_1)I(0 < z_1 < 1)\]
+    \section{Independence of Random Variables}
+    Recall that if $(X,Y) \sim f(x,y)$, with mariginal p.d.f's $f_1(x)$ and $f_2(y)$, we define the conditional p.d.f for $Y|X = x$ and $X|Y = y$ as 
+    \[f(y|x) = \frac{f(x,y)}{f_1(x)}, f(x|y) = \frac{f(x,y)}{f_2(y)}\]
+    If $X$ and $Y$ are independent, then 
+    \[f(x|y) = f_1(x), f(y|x) = f_2(y) \implies f(x,y) = f_1(x)f_2(x)\]
+    To check for Independence, finding the marginal distributions may not be necessary. In general, if 
+    \[f(x,y) = u(x)v(y)\]
+    Where $u$ and $v$ are two functions, not necessarily the marginals of $X$ and $Y$,then we can still say $X$ and $Y$ are independent. To see this, notice that for independence we need to check that 
+    \[f(x,y) = f_1(x)f_2(y)\]
+    Suppose $f(x,y) = u(x)v(y)$, then we can calculate 
+    \[f_1(x) = \int_{-\infty}^{\infty} u(x)v(y)dy = u(x)\int_{-\infty}^{\infty}v(y)dy = c_1u(x)\]
+    Where $c_1$ is the constant obtained from evaluating the integral of $v(y)$. Then similarly,
+    \[f_1(x) = \int_{-\infty}^{\infty} u(x)v(y)dx = v(y)\int_{-\infty}^{\infty}u(x)dx = c_2v(y)\]
+    Then, $f(x,y)$ is a p.d.f so its integral is 0, thus 
+    \[\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}u(x)v(y)dxdy = c_1c_2 = 1\]
+    Therefore,
+    \[f(x,y) = u(x)v(y) = c_1c_2u(x)v(y) = f_1(x)f_2(y)\]
+    and $X$ is independent of $Y$. 
+    \begin{definition}
+        If $(X,Y)$ is a random vector with p.d.f $f(x,y)$, then the conditional expecation is defined as 
+        \[E(Y|X = x) = \int_{-\infty}^{\infty} yf(y|x)dy, E(X|Y = y) = \int_{-\infty}^{\infty} xf(x|y)dx\]
+        Similarly the variance is defined as 
+        \[\Var(Y|X = x) = E(Y^2|X = x) - E(Y|X = x)^2\]
+        \[\Var(X|Y = y) = E(X^2|Y = y) - E(X|Y = y)^2\]
+    \end{definition}
+    We usually call $E(Y|X=x)$ the regression of $Y$ on $X = x$.\\[2ex]
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the ordered statistics of a random sample of size $n=5$ from an exponentional distribution with mean 1. Show that $Z_1 = Y_2$ and $Z_2 = Y_4 - Y_2$ are independent random variables. \\[2ex]
+    \textbf{Solution.} $Y_1,\ldots, Y_5$ are samples from exponential with mean 1, so 
+    \[f(x) = e^{-x}I(x \geq 0), F(x) = 1 - e^{-x}\]
+    We want to find the joint p.d.f of $Z_1 = Y_2$, and $Z_2 = Y_4-Y_2$ and show that it can be written as a product of 2 functions $u(z_1)$,$v(z_2)$. First, we find the joint p.d.f for $Y_2,Y_4$. 
+    \begin{align*}
+        g_{24}(y_2,y_4) &= 5!f(y_2)f(y_4)F(y_2)(1-F(y_4))(F(y_4) - F(y_2))I(y_4 > y_2 > 0)  \\
+        &= 120e^{-y_2}e^{-y_4}(1-e^{-y_2})(e^{-y_4})(1 - e^{-y_4}- 1 + e^{-y_2})I(y_4 > y_2 > 0)\\
+        &=120e^{-y_2}e^{-y_4}(1-e^{-y_2})(e^{-y_4})(e^{-y_2} -e^{-y_4})I(y_4 > y_2 > 0)
+    \end{align*}
+    Now we want to find the joint p.d.f for $Z_1 = Y_2$, and $Z_2 = Y_4 - Y_2$. We rearrange these to find $Y_2$ and $Y_4$ in terms of $Z_1,Z_2$ to get 
+    \[Y_2 = Z_1, Y_4 = Z_2 + Z_1\]
+    It's easy to calculate the Jacobian $J = 1$, so 
+    \begin{align*}
+        h(z_1,z_2) &= 120e^{-z_1}e^{-z_2 - z_1}(1-e^{-z_1})(e^{-z_2 - z_1})(e^{-z_1} - e^{-z_2 - z_1})\\
+        &=120e^{-z_1}e^{-z_2}e^{-z_1}(1-e^{-z_1})(e^{-z_2}e^{-z_1})(e^{-z_1}-e^{-z_1}e^{-z_2})\\
+        &=120e^{-z_1}e^{-z_2}e^{-z_1}(1-e^{-z_1})(e^{-z_2}e^{-z_1})e^{-z_1}(1-e^{-z_2})\\
+        &= 120e^{-4z_1}(1-e^{-z_1})e^{-2z_2}(1-e^{-z_2})I(z_1 > 0)I(z_2 > 0)
+    \end{align*}
+    Now we can set $u(z_1) = 120e^{-4z_1}(1-e^{-z_1})$, and $v(z_2) = e^{-2z_2}(1-e^{-z_2})$, and we have $h(z_1, z_2) = u(z_1)v(z_2)$.\\[2ex]
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the ordered statistics of a random sample of size 5 coming from the distribution 
+    \[f(x) = 3x^2I(0 < x < 1)\]
+    Show that $Z_1 = Y_2 / Y_4$ is independent from $Z_2 = Y_4$.\\[2ex]
+    \textbf{Solution.} First we need the c.d.f,
+    \[F(x) = \int_0^x 3t^2dt = x^3\]
+    Now we can find the joint distribution for $Y_2, Y_4$, 
+    \begin{align*}
+        g(y_2,y_4) &= 5!f(y_2)f(y_4)F(y_2)(1-F(y_4))(F(y_4) - F(y_2))I(0 < y_2 < y_4 < 1)\\
+        &= 120(3y_2^2)(3y_4^2)(y_2^3)(1 - y_4^3)(y_4^3 - y_2^3)I(0 < y_2 < y_4 < 1)\\
+        &= 1080y_2^5y_4^2(1-y_4^3)(y_4^3-y_2^3)
+    \end{align*}
+    Then we write $Y_2$ and $Y_4$ in terms of $Z_1, Z_2$, 
+    \[Z_1 = \frac{Y_2}{Y_4}, Z_2 = Y_4 \implies Y_2 = Z_1Z_2\]
+    The Jacobian is easy to calculate $|J| = z_2$. Now the joint p.d.f for $Z_1,Z_2$ is 
+    \begin{align*}
+        h(z_1,z_2) &= g(y_2,y_4)|J|\\
+        &= 1080(z_1z_2)^5z_2^2(1-z_2^3)(z_2^3 - z_1^3z_2^3)z_2I(0 \leq z_1)I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= 1080z_1^5z_2^7(1-z_2^3)z_2^3(1 - z_1^3)z_2I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= 1080z_1^5(1-z_1^3)z_2^{11}(1-z_2^3)^2I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= u(z_1)v(z_2)
+    \end{align*}
 
-     
+    \chapter{Convergence of Random Variables}
+    \begin{definition}
+        Let $\{X_n\}$ be a sequence of random variables. We define convergence as 
+        \begin{enumerate}[label=(\roman*)]
+            \item We say $X_n$ converges to $X$ in probability if 
+            \[\lim_{n\rightarrow\infty}P(|X_n-X| > \epsilon) = 0\]
+            We denote this by $X_n \conp X$. 
+            \item We say that $X_n$ converges to $X$ almost surely if 
+            \[P(|X_n - X| > \epsilon \ i.o) = 0\]
+            This is denoted by $X_n \conas X$.
+            \item We say $X_n$ converges to $X$ in $L^p$ if 
+            \[\lim_{n\rightarrow\infty}E(|X_n-X|^p) = 0\]
+            This is denoted by $X_n \conlp X$.
+            \item We say $X_n$ converges in distribution to $X$ if 
+            \[\lim_{n\rightarrow \infty}P(X_n \leq x) = P(X \leq x) = F(x)\]
+            For all $x \in C_F$ where $C_F$ is the set of continuity points of $F$. This is denoted by $X_n \cond X$. 
+        \end{enumerate}
+    \end{definition}
 \end{document}
