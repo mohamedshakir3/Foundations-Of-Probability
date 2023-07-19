@@ -2110,4 +2110,279 @@ Therefore we have $E(F_n(x)) \rightarrow F(x)$, and $\Var(F_n(x)) \rightarrow 0$
 \end{proof}
 This theorem gives us a sort of ordering for the strength of convergence, 
 \[X_n \conc X \implies X_n \conas X \implies X_n \conp X \implies X_n \cond X\]
+\begin{theorem}
+    Let $X_n$ and $Y_n$ be sequences of random variables with $X_n \conp X$, and $Y_n \conp Y$, then 
+    \begin{enumerate}[label=(\roman*)]
+        \item $X_n + Y_n \conp X+Y$
+        \item $X_nY \conp XY$
+        \item $X_nY_n \conp XY$
+    \end{enumerate}
+\end{theorem}
+\textbf{Note.} We \emph{cannot} conclude from this that $X_nY_n \cond XY$.
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item We want to show that 
+        \[P(|X_n + Y_n - X - Y| \geq \epsilon) \rightarrow 0\]
+        For any $\epsilon > 0$, we have 
+        \[P(|X_n - X| > \epsilon/2) + P(|Y_n - Y| > \epsilon/2) \geq P(|X_n + Y_n - X - Y| > \epsilon)\]
+        Since if $|X_n + Y_n - X - Y| > \epsilon$, we must have that $|X_n - X| > \epsilon/2$, or $|Y_n - Y| > \epsilon/2$.  As $n$ goes to infinity, $P(|X_n - X| > \epsilon/2) \rightarrow 0$ since $X_n \conp X$, simiarly for $Y_n$, therefore 
+        \[\lim_{n\rightarrow\infty}P(|X_n+Y_n- X - Y| > \epsilon) \rightarrow 0\]
+        \item Let $k$ be a constant such that $P(|Y| > k) < \delta$ for some arbitrary $\delta > 0$, then we have
+        \[P(|X_nY - XY| > \epsilon) = P(|Y||X_n - X| > \epsilon)\]
+        Now we have 2 cases where $|Y| > k$, or $|Y| \leq k$, so
+        \begin{align*}
+            P(|Y||X_n - X| > \epsilon) &= P(|Y||X_n-X| > \epsilon, |Y| > k)\\
+            &+ P(|Y||X_n-X| > \epsilon, |Y| \leq k)\\
+            &\leq P(|Y| > k) +  P(|Y||X_n-X| > \epsilon, 1/|Y| > 1/k)\\
+            &\leq \delta + P\left(|Y||X_n-X|\cdot \frac{1}{|Y|} \geq \frac{\epsilon}{k}\right)\\
+            &= \delta + P(|X_n-X| \geq \epsilon/k)
+        \end{align*}
+        Remember we can find a $k$ for any delta to make this statement hold, if we take the limit of this right side $P(|X_n-X| \geq \epsilon/k) \rightarrow 0$ as $n\rightarrow \infty$ since $X_n \conp X$, therefore 
+        \[P(|X_nY - XY| > \epsilon) < \delta \forall \delta > 0\]
+        As $\delta \downarrow 0^+$, we have 
+        \[P(|X_nY - XY| > \epsilon) \rightarrow 0\]
+        Note that we could invert $|Y|$ since if $Y = 0$, this case is trivial because $X_nY = 0$ and $XY = 0$ so of course $X_nY \rightarrow XY$.
+        \item It suffices to show that if $X_n \conp 0$, and $Y_n \conp 0$, then $X_nY_n \conp 0$, because then we have from the previous proofs
+        \[(X_n-X)(Y_n-Y) = X_nY_n - XY_n - YX_n + XY \]
+        Notice that $XY_n \conp XY$, and $YX_n \conp XY$ from the previous results, so we have
+        \[X_nY_n - XY_n - YX_n + XY \conp 0 \implies X_nY_n - XY \conp 0\]
+        So we must show that $X_nY_N \conp 0$. Using a similar strategy as the previous proof, we have that $\forall \delta > 0$, $\exists k$ such that $P(|X_n| \geq k) \leq \delta$, then 
+        \begin{align*}
+            P(|X_nY_n > \epsilon) &= P(|X_nY_n| > \epsilon, |X_n| \geq k) + P(|X_nY_n| > \epsilon, |X_n| < k)\\
+            &\leq P(|X_n| \geq k) + P(|X_nY_n| > \epsilon, 1/|X_n| > 1/k)\\
+            &\leq \delta + P\left(|Y_n| > \frac{\epsilon}{k}\right)\\
+        \end{align*}
+        $P(|Y_n| > \epsilon/k) \rightarrow 0$, so 
+        \[0 \leq \lim_{n\rightarrow \infty} P(|X_nY_n| > \epsilon) \leq \delta\]
+        Then as $\delta \downarrow 0^+$, we have $P(|X_nY_n| > \epsilon) \rightarrow 0$ as required.
+    \end{enumerate}
+\end{proof}
+\noindent
+\textbf{Example.} Find what 
+\[\frac{1}{n}\sum_{i=1}^n (X_i-\bar{X})^n\]
+converges to in probability.\\[2ex]
+\textbf{Solution.} We can rewrite this as
+\[\frac{1}{n}\sum_{i=1}^n (X_i^3 - 3Xi^2\bar{X} + 3\bar{X}^2X_i - \bar{X}^3)\]
+Then, using weak law of large numbers, we have that these terms converge to 
+\[\frac{1}{n}\sum_{i=1}^n (X_i -\bar{X})^n \conp E[(X-\mu)^3]\]
+This is known as skewness in probability.
+\begin{theorem}
+    Let $X_n$ and $Y_n$ be sequences of random variables, then if $X_n \conp X$, and $X_n \conp Y$ for random variables $X$ and $Y$. Then $P(X = Y) = 1$.
+\end{theorem}
+\begin{proof}
+    We want to show that for any $\epsilon >0$, $P(|X-Y| > \epsilon) = 0$.
+    \begin{align*}
+        P(|X-Y| > \epsilon) &= P(|X_n - X - X_n +Y| > \epsilon)\\
+        &= P(|X_n - X| > \epsilon/2) + P(|X_n - Y| > \epsilon/2)
+    \end{align*}    
+    Now we know $X_n \conp X$ and $X_n \conp Y$, so the right side converges to 0, therefore
+    \[P(|X-Y| > \epsilon) \rightarrow 0\]
+\end{proof}
+\begin{theorem}[Continuity Theorem]
+    Let $X_n$ be a sequence of random variables with c.d.f $F_n$ and characteristic function $\phi_n(\theta)$. Then 
+    \[X_n \cond X \iff \phi_n(\theta) \rightarrow \phi(\theta)\]
+    Where $\phi(\theta) = E(e^{i\theta X})$. 
+\end{theorem}
+\begin{theorem}[Centeral Limit Theorem]
+    Let $X_1, \ldots, X_n \iid F$, with 
+    \[\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i\]
+    Let $E(X_i) = 0$, $\Var(X_i) = 1$, then 
+    \[\sqrt{n}\frac{\bar{X} - \mu}{\sigma} = \sqrt{n}\bar{X} \cond N(0,1)\]
+\end{theorem}
+\begin{proof}
+    We want to prove $\sqrt(n)\bar{X} \cond N(0,1)$, we'll do this using moment generating functions. 
+    \begin{align*}
+        M_n(t) &= E(\exp(t\sqrt{n}\bar{X}))\\
+        &= E\left(\exp\left(t \frac{X_1 + \cdots + X_n}{\sqrt{n}}\right)\right)\\
+        &= E(\exp(tX_1/\sqrt{n}))E(\exp(tX_2/\sqrt{n}))\cdots E(\exp(tX_n/\sqrt{n}))\\
+        &= M\left(\frac{t}{\sqrt{n}}\right)^n
+    \end{align*}
+    where $M(t)$ is the m.g.f of $X_i$. Now we want to evaluate the limit of this using logarithms again
+    \begin{align*}
+        \lim_{n\rightarrow\infty} \ln (M(t/\sqrt{n}))^n &= \lim_{n\rightarrow\infty} n\ln M(t/\sqrt{n})\\
+        &= \lim_{n\rightarrow 0}\frac{\ln M(t\sqrt{n})}{n}\tag{Replace $n$ with $1/n$}\\
+        &= \frac{\ln M(0)}{0} = \frac{0}{0}\tag{Use L'Hoptial's Rule}\\
+        &= \lim_{n\rightarrow 0} \frac{tM'(t\sqrt{n})}{2\sqrt{n}}\\
+        &= \frac{0}{0}\tag{$M'(0) = \mu = 0$}\\
+        &= \lim_{n\rightarrow 0} \frac{t^2}{2}M''(t\sqrt{n})\\
+        &= \frac{t^2}{2}E(X^2) =\frac{t^2}{2}
+    \end{align*}
+    Therefore,
+    \[\ln M_n(t) \rightarrow \frac{t^2}{2} \implies M_n(t) \rightarrow e^{t^2/2}\]
+    This is the m.g.f for standard normal distribution, therefore 
+    \[\sqrt{n}\bar{X} \cond N(0,1)\]
+\end{proof}
+Note that if $\mu \neq 0$ and $\sigma^2 \neq 0$, then we can standardize the samples with 
+\[Y_i = \frac{X_i - \mu}{\sigma}\] 
+Then $E(Y_i) = 0$, $\Var(Y_i) = 1$, then 
+\begin{align*}
+    \sqrt{n}\bar{Y} \cond N(0,1) &\implies \sqrt{n}\frac{1}{n\sigma}\sum_{i=1}^n(X_i-\mu) \cond N(0,1)\\
+    &\implies \frac{\sum_{i=1}^n X_i - n\mu}{\sigma/\sqrt{n}}\cond N(0,1)\\
+    &\implies \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \cond N(0,1)
+\end{align*}
+\textbf{Example.} Let $X_i \sim \chi^2(1)$, and if $X_n \sim \chi^2(n)$, then 
+\[\frac{X_n - n}{\sqrt{2n}} \cond N(0,1)\]
+From CLT, 
+\[\chi^2(n) = \chi^2(1) + \cdots + \chi^2(1) \implies \frac{\sum X_i - n}{\sqrt{2n}} \cond N(0,1)\]
+\textbf{Example.} Let $X_1, \ldots, X_n \sim \Bern(p)$. Recall that 
+\[\sum_{i=1}^n X_i \sim \Bin(n,p)\]
+Then 
+\[\frac{\sum X_i - np }{\sqrt{np(1-p)}} \cond N(0,1)\]
+If $X_1, \ldots, X_n \iid \Pois(\mu)$, then 
+\[\frac{\sum X_i - n\mu}{\sqrt{n\mu}} \cond N(0,1)\]
+\begin{theorem}
+    If $E(|X|^m) < \infty$ for a given $m \in \nat$, then the characteristic function can be written as
+    \[\phi(\theta) = \sum_{j=0}^m \frac{(i\theta)^j}{j!} E(X^j) + o(\theta^m)\] 
+\end{theorem}
+We say a function $g(h)$ is small $o(h)$ if $g(h)/h \rightarrow 0$ as $h\rightarrow 0$. We say $g(h)$ is $O(h)$ if $|g(h)| \leq M$ for some constant $M$. 
+\begin{theorem}[Weak Law of Large Numbers]
+    Let $\{X_i\}$ be a sequence of i.i.d random variable such that $E(X_i) = \mu$, then 
+    \[\bar{X} \conp \mu\]
+\end{theorem}
+\begin{theorem}
+    Let $\{X_n, Y_n\}$ be two sequences of random variables such that $|X_n - Y_n| \conp 0$, and $Y_n \cond Y$. Then $X_n \cond Y$.
+\end{theorem}
+\begin{proof}
+    Let $x \in C_F$ and $\epsilon > 0$ be given. Then 
+    \begin{align*}
+        P(X_n \leq x) &= P(Y_n \leq x + Y_n - X_n)\\
+        &= P(Y_n \leq x + Y_n - X_n, Y_n - X_n \leq \epsilon)\\
+        &+ P(Y_n \leq x + Y_n - X_n, Y_n - X_n > \epsilon)\\
+        &\leq P(Y_n \leq x + \epsilon) + P(|Y_n - X_n| \geq \epsilon)\\
+    \end{align*}
+\end{proof}
+Then taking limits we get 
+\[\limsup_{n\rightarrow\infty} P(X_n \leq x) \leq \liminf_{n\rightarrow\infty}P(Y_n \leq x + \epsilon)\]
+Similarly 
+\begin{align*}
+    P(Y_n \leq x- \epsilon) &= P(X_n \leq x + X_n - Y_n - \epsilon)\\
+    &= P(X_n \leq x + X_n - Y_n - \epsilon, X_n - Y_n \leq \epsilon)\\
+    &+ P(X_n \leq x + X_n - Y_n - \epsilon, X_n - Y_n > \epsilon)\\
+    &\leq P(X_n \leq x + X_n - Y_n - \epsilon, X_n - Y_n \leq \epsilon) + P(|X_n - Y_n > \epsilon)\\
+    &\leq P(X_n\leq x) + P(X_n \leq x) + P(|X_n - Y_n| > \epsilon)
+\end{align*}
+Then taking limits we get
+\[\limsup_{n\rightarrow\infty} P(Y_n \leq x- \epsilon) \leq \liminf_{n\rightarrow \infty} P(X_n \leq x)\]
+Since $\epsilon > 0$ is arbitrary and $x \in C_F$, the result follows when $n\rightarrow \infty$. \\[2ex]
+\textbf{Remark.} If $X_n \cond X$, $Y_n \conp c$ for a constant $c$, then $X_n + Y_n \cond X + c$. 
+\begin{proof}
+    \[(X_n+Y_n)-(X_n + C) = Y_n - c \cond 0\]
+    Therefore the limiting distribution for $X_n + Y_n$ and $X_n + c$ is the same since $X_n \cond X$. Then $X_n + c \cond X + c$, therefore 
+    \[X_n + Y_n \cond X + c\]
+\end{proof}
+\textbf{Remark.} If $X_n \cond X$, and $Y_n \conp c$ for a constant $c$, then $X_nY_n \cond cX$. 
+\begin{proof}
+    Let's consider the case where $c = 0$, we want to show $X_nY_n \conp 0$.
+    \begin{align*} 
+        P(|X_nY_n| > \epsilon) &= P(|X_nY_n| > \epsilon, |Y_n| < \epsilon/k) + P(|X_nY_n| > \epsilon, |Y_n| \geq \epsilon/k)\\
+        &\leq P(|Y_n > \epsilon/k) + P(|X_nY_n| > \epsilon, |Y_n| < \epsilon \epsilon/k)\\
+        &\leq P(|Y_n| >  \epsilon/k) + P(|X_n| > k)
+    \end{align*}
+    Notice that if $|X_nY_n| > \epsilon$, and $|Y_n| < \epsilon/k$, then $|X_n| > k$. To see this, consider if $|X_n| \leq k$, and $|Y_n| < \epsilon/k$, then $|X_nY_n| < \epsilon$ if we multiply the inequalites. So it must be that $|X_n| \leq k$. Then as $n\rightarrow \infty$, $P(|Y_n| > \epsilon/k) \rightarrow \infty$, and 
+    \[0 \leq \limsup_{n\rightarrow\infty} P(|X_nY_n| > \epsilon) \leq \limsup_{n\rightarrow\infty} P(|X_n| \geq k)\]
+    As we mentioned earlier, $k$ can be any value, so if we take $k \rightarrow \infty$, then 
+    \[0 \leq \lim_{k\rightarrow\infty} P(|X_nY_n| > \epsilon) \leq 0\]
+    If $c \neq 0$, then 
+    \[X_nY_n - cX_n = X_n(Y_n - c)\]
+    Then $Y_n - c \conp 0$, so $X_n(Y_n-c) \rightarrow 0$, and thus the difference between $X_nY_n$ and $cX_n$ goes to 0, therefore 
+    \[X_nY_n - cX_n \cond 0 \implies X_nY_n \cond cX\]
+\end{proof} 
+To summarize, we proved the two results 
+\[X_n \cond X, Y_n \conp c \implies \begin{cases}
+    X_n + Y_n \cond X + c\\
+    X_nY_n \cond cX
+\end{cases} \]
+\section*{Applications}
+\textbf{Example.} Let $X_1, \ldots, X_n \iid f(x)$ for some unknown distribution with $E(X_i^2) < \infty$. From the central limit theorem, 
+\[\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} \cond N(0,1)\]
+Then 
+\[\frac{1}{n}\sum_{i}^n (X_i-\bar{X})^2 = \frac{1}{n}\sum_{i=1}^nX_i^2 - \left(\frac{1}{n}\sum_{i=1}^n X_i\right)^2 \]
+From weak law of large numbers 
+\[ \frac{1}{n}\sum_{i=1}^nX_i^2 \conp E(X_1^2)\]
+\[\left(\frac{1}{n}\sum_{i=1}^n X_i\right) \conp \mu\]
+So 
+\[\frac{1}{n}\sum_{i=1}^nX_i^2 - \left(\frac{1}{n}\sum_{i=1}^n X_i\right)^2  \conp E(X_1^2) - \mu^2 = \sigma^2\]
+Then the sample variance 
+\[\frac{n}{n-1}\sum_{i=1}^n (X_i - \bar{X}) \conp \sigma^2\]
+since $\frac{n}{n-1} \rightarrow 1$. Using the previous results, we've shown, we also have 
+\[S \conp \sigma \implies \frac{S_n}{\sigma} \rightarrow 1\]
+This gives us the result that 
+\[\frac{\sqrt{n}(\bar{X} - \mu)}{S} \cond N(0,1)\]
+\textbf{Example.} Let $X_1, \ldots X_n \iid \Bern(p)$. Then from c.l.t
+\[\frac{\sum_{i=1}^n X_i - n=}{\sqrt{np(1-p)}} \cond Z \sim N(0,1)\]
+On the otherhand, 
+\[\hat{p} = \frac{1}{n}\sum_{i=1}^n X_i= E(X_1) = p \implies \hat{p} \conp p\]
+Similarly from the previous results, 
+\[\hat{p}(1-\hat{p}) \conp p(1-p)\]
+Therefore, 
+\[\frac{\hat{p} - p}{\sqrt{\hat{p}(1-\hat{p})/n}} \cond Z \]
+\begin{theorem}[Skorohod Representation]
+    Let $X_n$ be a sequence of random variables with probability space $(\Omega, \mathcal{F}, P)$ and $X_n \cond X$. Then there exists a probability space $([0,1], \mathcal{[0,1]}, P^*)$ and a sequence of random variables in this space $X_n^*$ with a random variable $X^*$ such that 
+    \[X_n^* \eqd X_n, \ X^* \eqd X \]
+    Then
+    \[X_n^* \conas X^*\]
+\end{theorem}
+The proof for this theorem is omitted but we will cover applications of it. 
+\begin{theorem}[Continuous Mapping Theorem]
+    Let $X_n$ be a sequence of random variables with $X_n \cond X$ for a random variable $X$. Let $g: \real \mapsto \real$ be a continuous function, then 
+    \[g(X_n)\cond g(X)\] 
+\end{theorem}
+
+\begin{proof}
+    Using Skorohod Representation, $X_d \cond X$ so there exists a probability space $([0,1], \mathcal{B}([0,1]), P^*)$ and random variables $X_n^* \cond X_n$, $X^*\cond X$ with $X_n^* \conas X^*$. Since $X_n^* \conas X^*$ and $g$ is continuous, so 
+    \[g(X_n^*) \conas g(X^*)\]
+    Then 
+    \[g(X_n^*) \eqd g(X_n), g(X^*) \eqd g(X) \implies g(X_n) \cond g(x)\]
+\end{proof}
+
+\section{Delta Method}
+\begin{theorem}
+    Let $X_n$ be a sequence of random variables such that 
+    \[a_n(X_n - \theta) \cond X\]
+    Let $g$ be a differential function, then 
+    \[a_n(g(X_n) - g(\theta)) \cond g'(\theta)X\]        
+\end{theorem}
+\begin{proof}
+    Using Skorohod Representation, we have a probability space with $X_n^*$, $X^*$ such that 
+    \[a_n(X_n^* - \theta)\conas X^*\]
+    Then 
+    \[a_n(g(X_n^*) - g(\theta)) = \frac{g(X_n^*) - g(\theta)}{X_n^* - \theta}a_n(X_n^*-\theta)\]
+    Then as $n\rightarrow \infty$,  
+    \[\frac{g(X_n^*) - g(\theta)}{X_n^* - \theta} \rightarrow g'(\theta)\]
+    Therefore 
+    \[a_n(g(X_n^*) - g(\theta)) \rightarrow g'(\theta)X\]
+\end{proof}
+What happens if $g'(0) = 0$? Look at the taylor expansion 
+\[g(X_n) = g(\theta) + g'(\theta)(X_n - \theta) + \frac{g''(\theta)}{2}(X-n - \theta)^2 \cdots\]
+Then 
+\[a_n(g(X_n) - g(\theta)) \cond \frac{g''(\theta)}{2}X\]
+\textbf{Example.} Let $X_1, \ldots, X_n$ be i.i.d random variables. Find the limiting distribution $a_n$,$b_n$ and $\sigma^2$ such that 
+\[a_n(\bar{X}^2 - b_n) \cond X \sim N(0, \sigma^2)\] 
+\textbf{Solution.} Using delta method, define 
+\[g(x) = x^2\]
+Then we have 
+\[\sqrt{n}(\bar{X} - \mu) \cond N(0, \sigma_0^2)\]
+and 
+\[\sqrt{n}(\bar{X}^2 - \mu^2) \cond 2\mu X \sim N(0, 4\mu^2\sigma_0^2)\]
+Thus we have $a_n = \sqrt{n}$, $b_n = \mu^2$, and $\sigma^2 = 4\mu^2\sigma_0^2$\\[2ex]
+\textbf{Example.} Let $X_1, \ldots, X_n$ be i.i.d random variables. With $e(X_1) = 0$, $\Var(X_1) = \sigma_0^2$. Find $a_n$, $b_n$, and $\sigma^2$ such that 
+\[a_n(\cos \bar{X} - 1) \cond N(0, \sigma^2)\]
+\textbf{Solution.} Define $g(x) = \cos x$, $g(0) = 1$, $g'(x) = -\sin x$, and $g'(0) = 0$, so we must use $g''(0) = -1$. Then 
+\[\sqrt{n}(g(\bar{X}) - g(0)) = \cond \frac{g''(0)}{2}X = -\frac{X}{2} \sim N\left(0,\frac{1}{4}\sigma_0^2\right)\]
+Therefore 
+\[\sqrt{n}(\cos \bar{X} - 1) \cond N\left(0,\frac{1}{4}\sigma_0^2\right)\]
+\textbf{Example.} Let $X_1, \ldots, X_n \iid \Bern(p)$. We know that 
+\[\sqrt{n}(\hat{p} - p) \cond N(0, p(1-p))\]
+Then we can also find 
+\[\sqrt{n(\hat{p}^2 - p^2)} \cond 2pN(0, p(1-p)) = N(0, 4p^3(1-p))\]
+\textbf{Solution.} Let $X_1, \ldots, X_n$ be i.i.d random variables with $E(X_i) = 0$, $\Var(X_i) = \sigma_0^2$, find the limiting distribution for 
+\[\frac{\bar{X}}{ 1 + \bar{X}}\]
+\textbf{Solution.} Define 
+\[g(u) = \frac{u}{1+u}\]
+we know that from the central limit theorem 
+\[\sqrt{n}(\bar{X} - 0) \cond N(0, \sigma_0^2)\]
+Then 
+\[\sqrt{n}(g(\bar{X}) - g(0)) \cond g'(0)N(0, \sigma_0^2) = N(0, \sigma_0^2) \]
+Therefore 
+\[\frac{\bar{X}}{1+\bar{X}} \cond N(0,\sigma_0^2)\]
 \end{document}
