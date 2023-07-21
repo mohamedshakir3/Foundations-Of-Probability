@@ -1645,9 +1645,9 @@ However characteristic functions always exist.
     We can split this up as 
     \[g(x_1,x_2) = \left(\frac{1}{\sqrt{2\pi}}e^{-x_1^2/2}\right)\left(\frac{1}{\sqrt{2\pi}}e^{-x_2^2/2}\right)\]
     These are 2 standard normal distributions, so this tells us how to simulate normal distribution from $\Unif(0,1)$.
-    \section{Ordered Statistics}
+    \section{Order Statistics}
      \begin{definition}
-        Let $X_1,\ldots, X_n \iid f(x)$ be a random sample. Then the ordered statistics for this sample are 
+        Let $X_1,\ldots, X_n \iid f(x)$ be a random sample. Then the order statistics for this sample are 
         \[Y_1 = \min(X_1, \ldots, X_n), Y_2  = \min\left(\{X_1, \ldots X_n\} \setminus Y_1\right), \ldots, Y_n = \max(X_1,\ldots, X_n)\]
         So 
         \[Y_1 < Y_2 < \cdots < Y_{n-1} < Y_n\]
@@ -1664,7 +1664,7 @@ However characteristic functions always exist.
         \frac{1}{2}\left(Y_{n/2} + Y_{(n/2) + 1}\right) & \text{If $n$ is even}
      \end{cases}\]
 
-     It is important in many statistical problems to find the p.d.f for functions of ordered statistics, to find the p.d.f for $Y_i$, we can simply write 
+     It is important in many statistical problems to find the p.d.f for functions of order statistics, to find the p.d.f for $Y_i$, we can simply write 
      \[g_i(y) = \frac{n!}{(i-1)!(n-1)!}(F(y ))^{i-1}f(y)(1-F(y))^{n-i}\]
      Then the joint p.d.f for $Y_i$, $Y_j$ is 
      \[g_{ij}(u,v) = \frac{n!}{(i-1)!(j-i-1)!(n-j)!}F(u)^{i-1}(F(v)-F(u))^{j-i-1}(1-F(v))^{n-j}f(u)f(v)\]
@@ -1707,7 +1707,7 @@ However characteristic functions always exist.
      \textbf{Example.} Let $X_1, \ldots, \iid f$ with continuous c.d.f $F$. Let $Y_1 < Y_2 < \cdots < Y_i < \cdots Y_n$ be the order statistics. Find the p.d.f for  $Y_i$. \\[2ex]
      \textbf{Solution.} We want to derive the general equation for the p.d.f of any $Y_i$. Notice that 
      \[P(y < Y_i < y + dy) = g(y)dy\]
-     Intuitivively, $dy$ is \emph{very} small, so the area of this region below the curve will be the p.d.f of $Y_i$ multiplied by the infinitesimal width $dy$. To the left of $Y_i$, we'll have $i - 1$ ordered statistics, and $n-i$ to the right. For any of the $X$'s, 
+     Intuitivively, $dy$ is \emph{very} small, so the area of this region below the curve will be the p.d.f of $Y_i$ multiplied by the infinitesimal width $dy$. To the left of $Y_i$, we'll have $i - 1$ order statistics, and $n-i$ to the right. For any of the $X$'s, 
      \[P(X \leq y) = F(y), \ P(X > y) = 1 - F(y)\]
      In otherwords, the probability that an observation falls below $y$ is $F(y)$ and above $y$ is $1 - F(y)$. Now, we have $n$ total observations, with $i-1$ below $y$, and $n-i$ above, so the total number of ways to arrange these is 
      \[\frac{n!}{(i-1)!(n-i)!}\]
@@ -1801,7 +1801,7 @@ However characteristic functions always exist.
         \[\Var(X|Y = y) = E(X^2|Y = y) - E(X|Y = y)^2\]
     \end{definition}
     We usually call $E(Y|X=x)$ the regression of $Y$ on $X = x$.\\[2ex]
-    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the ordered statistics of a random sample of size $n=5$ from an exponentional distribution with mean 1. Show that $Z_1 = Y_2$ and $Z_2 = Y_4 - Y_2$ are independent random variables. \\[2ex]
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the order statistics of a random sample of size $n=5$ from an exponentional distribution with mean 1. Show that $Z_1 = Y_2$ and $Z_2 = Y_4 - Y_2$ are independent random variables. \\[2ex]
     \textbf{Solution.} $Y_1,\ldots, Y_5$ are samples from exponential with mean 1, so 
     \[f(x) = e^{-x}I(x \geq 0), F(x) = 1 - e^{-x}\]
     We want to find the joint p.d.f of $Z_1 = Y_2$, and $Z_2 = Y_4-Y_2$ and show that it can be written as a product of 2 functions $u(z_1)$,$v(z_2)$. First, we find the joint p.d.f for $Y_2,Y_4$. 
@@ -1820,7 +1820,7 @@ However characteristic functions always exist.
         &= 120e^{-4z_1}(1-e^{-z_1})e^{-2z_2}(1-e^{-z_2})I(z_1 > 0)I(z_2 > 0)
     \end{align*}
     Now we can set $u(z_1) = 120e^{-4z_1}(1-e^{-z_1})$, and $v(z_2) = e^{-2z_2}(1-e^{-z_2})$, and we have $h(z_1, z_2) = u(z_1)v(z_2)$.\\[2ex]
-    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the ordered statistics of a random sample of size 5 coming from the distribution 
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the order statistics of a random sample of size 5 coming from the distribution 
     \[f(x) = 3x^2I(0 < x < 1)\]
     Show that $Z_1 = Y_2 / Y_4$ is independent from $Z_2 = Y_4$.\\[2ex]
     \textbf{Solution.} First we need the c.d.f,
@@ -2002,9 +2002,9 @@ However characteristic functions always exist.
 \textbf{Example.} Let $X_1, \ldots, X_n \iid F$ for some unknown continuous c.d.f $F$ with p.d.f $F' = f$. Let 
 \[Y_n = \max(X_1,\ldots,X_n)\]
 Find the limiting distribution for $n(1 - F(Y_n))$.\\[2ex]
-\textbf{Solution.} Let $Y_1 < Y_2 < \cdots < Y_n$ be the ordered statistics for $X_1, \ldots, X_n$. Since $F$ is a c.d.f, it is increasing so 
+\textbf{Solution.} Let $Y_1 < Y_2 < \cdots < Y_n$ be the order statistics for $X_1, \ldots, X_n$. Since $F$ is a c.d.f, it is increasing so 
 \[F(Y_1) < F(Y_2) < \cdots < F(Y_n)\]
-We proved previously that $F(x) \sim \Unif(0,1)$. Then, we can treat $F(Y_1), \ldots, F(Y_n)$ as ordered statistics from $n$ observations $U_1, \ldots, U_n \iid \Unif(0,1)$. Let $Z_1 = F(Y_1), \ldots Z_n = F(Y_n)$ be the ordered statistics for these uniform observations, then 
+We proved previously that $F(x) \sim \Unif(0,1)$. Then, we can treat $F(Y_1), \ldots, F(Y_n)$ as order statistics from $n$ observations $U_1, \ldots, U_n \iid \Unif(0,1)$. Let $Z_1 = F(Y_1), \ldots Z_n = F(Y_n)$ be the order statistics for these uniform observations, then 
 \[g_{Z_N}(z) = ng(z)G(z)^{n-1} = nz^{n-1}\]
 where $G(z)$ is the c.d.f for uniform distribution. Now we can use the previous example where we showed
 \[n(\theta-Y_n)\conp \exp\left(\frac{1}{\theta}\right)\]
