@@ -1,0 +1,480 @@
+\chapter{Expecations, Moments, Characteristic Functions and Functions of Random Variables.}
+
+Let $X$ be a random variable with c.d.f $F$ such that 
+\[\int_{-\infty}^\infty |U(x)|dF(x) < \infty\]
+Then we can define 
+\[E(U(X)) = \int_{-\infty}^\infty U(x)dF(x)\]
+We denote the mean by $\mu = E(X)$, the $k$th moment by $\mu_k = E(X^k)$, and the variance by 
+\[\sigma^2 = E[(X - E(X)^2)] = E(X^2) - E(X)^2\]  
+with moment generating function
+\[M(t) = E(e^{tX})\]
+
+\begin{definition}[Characteristic Functions]
+    Let $X$ be a random variable. The characteristic function of $X$ is defined by 
+    \[\phi(t) = E(\exp(itX))\]
+    where $i = \sqrt{-1}$. If $X$ is discrete then 
+    \[g(s) = E(s^X) = \sum_k s^k P(X = k)\]
+    is called the generating function.
+\end{definition}
+\noindent
+\textbf{Example.} Show that 
+\begin{enumerate}[label=(\roman*)]
+    \item $f(x) = \frac{1}{\pi(1+x^2)}I(x \in \real)$ is a p.d.f.
+    \item $E(X^k)$ does not exist if $k \geq 1$. 
+\end{enumerate}
+\begin{proof}
+    It's clear that 
+    \[\int_{-\infty}^\infty \frac{1}{\pi(1 + x^2)}dx = \left[\frac{\tan^{-1}(x)}{\pi}\right]^\infty_{-\infty} = 1\]
+    Then, 
+    \begin{align*}
+        E(|X|^k) &= \int_{-\infty}^\infty \frac{|x|^k}{\pi(1+x^2)}dx\\
+        &= \int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx + \int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx\\
+        &= 2\int_{0}^\infty \frac{x^k}{\pi(1+x^2)}dx\\
+        &\geq \frac{2}{\pi}\int_{1}^\infty \frac{x^k}{1+x^2}dx\\
+        &\geq \frac{2}{\pi}\int_{1}^\infty \frac{x^k}{x^2}dx\\
+    \end{align*}
+    This integral diverges to infinity when $k > 1$, therefore $E(|X|^k)$ does not exist. 
+\end{proof}
+\textbf{Example.} Let $Z$ be a random variable with p.d.f 
+\[f(z) = \frac{1}{\sqrt{2\pi}}e^{-z^2/2}\]
+Find the c.d.f fpr $X = \sigma Z + \mu$ for $\sigma > 0$ and $\mu \in \real$. \\[2ex]
+\textbf{Solution.} Note that $f(x) \geq 0$. Let 
+\[I = \int_{-\infty}^{\infty} e^{-x^2/2}dx\]
+Then, 
+\[I^2 = \int_{-\infty}^\infty\int_{-\infty}^\infty \exp(-(x^2+y^2)/2)dxdy\]
+Using polar coordinates, set $x = r\cos \theta$, and $y = r \sin \theta$, 
+\[I^2 = \int_{0}^\infty \int_0^{2\pi} \exp(-r^2/2)rdrd\theta = 2\pi\]
+Thus $I = \sqrt{2\pi}$. Now we can calculate 
+\[F(x) = P(\sigma Z + \mu \leq X) = P\left(Z \leq \frac{x - \mu}{\sigma}\right) = \int_{-\infty}^{\frac{x-\mu}{\sigma}}f(z)dz\]
+Then taking the derivative, we have
+\[\frac{dF(x)}{dx} = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(\frac{-(x-\mu)^2}{\sigma^2}\right)\] 
+\subsection{Properties of Characteristic Functions}
+The moment generating functions of a random variable may not exist. For example, it can be shown that the moment generating function for the Cauchy distribution may not exist 
+\[\int_{-\infty}^{\infty}\frac{\exp(\theta x)}{\pi(1+x^2)}dx = \infty\]
+However characteristic functions always exist.
+\begin{theorem}
+    If $X$ is a random variable, then 
+    \begin{enumerate}[label=(\roman*)]
+        \item $\phi(\theta) = E(\exp(i\theta X))$ always exists, with $\phi(0) = 1$ and $|\phi(\theta)| \leq 1$.
+        \item $\overline{\phi(\theta)} = \phi(\theta)$ where $\overline{\phi(\theta)}$ is the complex conjugate.
+        \item If $X$ is symmetric, then $\phi(X) \in \real$.
+        \item $\phi(\theta)$ has linearity, i.e
+        \[\phi_{aX + B}(\theta) = E(\exp(i\theta(aX+b))) = \phi_X(i\theta a)\exp(i\theta b)\]
+        \item The characteristic function for any random variable $X$ is uniformly continuous.
+        \item There is a 1 to 1 correspondence between a c.d.f of a random variable and its characteristic function, (Uniquness Theorem, without proof).
+        \item $X_1$ and $X_2$ are independent if and only if 
+        \[\phi(\theta_1,\theta_2) = E(\exp(i\theta_1X_1 + i\theta_2X_2)) = \phi_{X_1}(\theta_1)\phi_{X_2}(\theta_2)\]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item Set $U = \cos(\theta)$, and $V = \sin(\theta)$, then using 
+        \[e^{i\theta X} = \cos(\theta X) + i\sin(\theta X)\]
+        We have 
+        \[|E(\exp(i\theta X))|^2 = |E(U + iV)|^2 = E(U)^2 + E(V)^2 \leq E(U^2) + E(V^2) = 1\]
+        \item Using the linearity of expecations, 
+        \[\overline{E(\cos(\theta X)) + iE(\sin(\theta X))} = E(\cos(\theta X)) - iE(\sin(\theta X)) = \phi(-\theta)\]
+        \item This follows from $X \eqd -X$.
+        \item This follows from linearity of expecations,
+        \[E(\exp(i\theta(aX + b))) = \exp(i\theta b)E(\exp(i\theta a X))\]
+    \end{enumerate}
+\end{proof}
+
+    \begin{theorem}
+        Let $X$ be a random variable with c.d.f $F$ such that $E(X)$ exists. Then 
+        \[E(X) = \int_0^\infty (1- F(x))dx - \int_0^\infty F(-x)dx\]
+    \end{theorem}
+    \begin{proof}
+        Assume $P(X \geq 0) = 1$, then 
+        \begin{align*}
+            E(X) &= \int_0^\infty xdF(x)\\
+            &= \int_0^\infty\int_0^x dydF(x)\\
+            &= \int_0^\infty\int_y^\infty dF(x)dy\\
+            &= \int_0^\infty (1-F(y))dy\\
+        \end{align*}
+        In general, $X = X^+ - X^-$ where 
+        \[X^+ = \max(0,X) = \frac{X + |X|}{2}\]
+        \[X^- = \max(0,-X) = \frac{-X + |X|}{2}\]
+        Threfore, $E(X) = E(X^+) - E(X^-)$. So we can write 
+        \[E(X) = \int_0^\infty P(\max(0,X) > x)dx - \int_0^\infty P(\max(0,-X) > x)dx\]
+        With 
+        \begin{align*}
+            P(\max(0,X) > x) &= P\left(\frac{X+|X|}{2} > x\right)\\
+            &= P(|X| > 2x - X)\\
+            &= P(X > 2x - X \text{ or } X < -2x + X) = P(X > x)\\
+            P(X^- > x) &= P(|X| > 2x + X)\\
+            &= P(X < -x)\\
+        \end{align*}
+    \end{proof}
+    \noindent
+    \textbf{Example.} Let $r \geq 0$, and $X \geq 0$, then 
+    \begin{align*}
+        E(X^r) &= \int_0^\infty P(X^r > x)dx\\
+        &= \int_0^\infty P(X > x^{1/r})dx\\
+        &= \int_0^\infty P(X > u)ru^{r-1}du\tag{$u = x^{1/r}$}   
+    \end{align*}
+    Therefore 
+    \[E(X^r) = \int_0^\infty P(X^r > u)ru^{r-1}\]
+    \textbf{Example.} 
+    \begin{align*}
+        E(|X|) &= \int_0^\infty P(|X| > x)dx\\
+        &= \int_0^\infty (1 - P(|X| \leq x))dx\\
+        &= \int_0^\infty (1 - P( - x \leq X \leq x))dx\\
+        &= \int_0^\infty 1 - (F(x) - F(-x))dx\\
+    \end{align*}
+    \section{Distribution of Functions of Random Variables}
+    Our goal is to find a c.d.f or p.d.f for a function $Y = U(X)$ for a random variable $X$.\\[2ex]
+    \textbf{Example.} Let $X$ be a random variable with $f(x) = 2xI(0 \leq x \leq 1)$. Let $Y = X^2$. Find the p.d.f for $Y$.\\[2ex]
+    \textbf{Solution.} We can compute the c.d.f directly 
+    \begin{align*}
+        G(y) = P(Y \leq y) &= P(X^2 \leq y)\\
+        &= P(-\sqrt{y} \leq X \leq \sqrt{y})\\
+        &= P(0 \leq X \leq \sqrt{y})\tag{Since $x \in [0,1]$}\\
+        &= \int_0^{\sqrt{y}}2xdx\\
+        &= \left[x^2\right]^{\sqrt{y}}_0 = y
+    \end{align*}
+    Therefore $G(y) = y$, and $g(y) = G'(y) = 1 I(0 \leq y \leq 1)$. This means $X^2 \sim \Unif(0,1)$. \\[2ex]
+    \textbf{Example.} Let $X \sim f(x) = e^{-x}I(x > 0)$. Find the p.d.f for $Y = (\ln X)^2$.\\[2ex]
+    \textbf{Solution.} Similarly to the previous example,
+    \begin{align*}
+        G(y) = P((\ln X)^2 \leq y) &= P(|\ln X| \leq \sqrt{y})\\
+        &= P(-\sqrt{y} \leq \ln X \leq \sqrt{y})\\
+        &= P(e^{-\sqrt{y}} \leq X \leq e^{\sqrt{y}})\\
+        &= P(e^{-\sqrt{y}} < X \leq e^{\sqrt{y}})\\
+        &= \int_{-\sqrt{y}}^{e^{\sqrt{y}}}e^{-x}dx = e^{\sqrt{y}} - e^{-\sqrt{y}}
+    \end{align*} 
+    Then 
+    \[g(y) = G'(y) = \frac{1}{\sqrt{y}}e^{\sqrt{y}}I(0 < y < \infty)\]
+    \textbf{Note.} The following formula will be useful for the next examples 
+    \[\frac{\Gamma(\alpha)}{\beta^\alpha} = \int_0^\infty x^{\alpha - 1}\exp(-\beta x)dx\]
+    \textbf{Example.} Let $X_1, X_2 \iid f(x) = \frac{1}{\Gamma(\alpha_i)}e^{-x}x^{\alpha_i - 1}I(x > 0)$. . Define $U = \frac{X_1}{X_1 + X_2}$. Find p.d.f for $U$. \\[1ex]
+    \textbf{Solution.} Note that $0 \leq U \leq 1$ since $X_1 + X_2 \geq X_1$, so $U: [0,\infty) \times [0,\infty) \mapsto [0,1]$. We start with the c.d.f of $U$. We need to have the joint distribution for $X_1$ and $X_2$, so 
+    \[f(x_1,x_2) = \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-x_1}e^{-x_2}x_1^{\alpha_1-1}x_2^{\alpha_2-1}I(x_1, x_2 > 0)\]
+    Now 
+    \begin{align*}
+        G(u) &= P\left(\frac{X_1}{X_1 + X_2} \leq u\right)\\
+        &= P(X_1 \leq u(X_1 + X_2))\\
+        &= P(X_1 - uX_1 \leq uX_2)\\
+        &= P\left(X_1 \leq \frac{uX^2}{1-u}\right)\\
+        &= \int_0^\infty\int_0^{\frac{x_2u}{1-u}} \frac{e^{-x_1 - x_2}}{\Gamma(\alpha_1)\Gamma(\alpha_2)}x_1^{\alpha_1-1}x_2^{\alpha_2 - 1}dx_1dx_2\\
+    \end{align*}
+    Differentiating this function we get 
+    \begin{align*}
+        g(u) = G'(u) &= \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2 - 1}
+    \end{align*}
+    \textbf{Note.} From the beta distribution with parameters $\alpha_1$, $\alpha_2$ we get the useful formula 
+    \[\int_0^1 \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1-1}(1-u)^{\alpha_2 - 1} du = 1\]
+    \[\implies \int_0^1 u^{\alpha_1-1}(1-u)^{\alpha_2 - 1} du = \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}\]
+    Another way to solve the previous example is to introduce another variable $V = X + Y$. The joint distribution for $X$ and $Y$ 
+    \[f(x,y) = \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-(x+y)}x^{\alpha_1 - 1}y^{\alpha_2-1}\]
+    Then we can solve for $X$ and $Y$ in terms of $U$ and $V$ and we get $X = UV$, $Y = V(1 - U)$. Then the Jacobian for this transformation is 
+    \[J = \left|\begin{matrix}
+        \frac{\partial X}{\partial u} & \frac{\partial X}{\partial v}\\
+        \frac{\partial Y}{\partial u} & \frac{\partial y}{\partial v}\\
+    \end{matrix}\right| \left|\begin{matrix}
+        v & u\\
+        -v & 1 - u
+    \end{matrix}\right| = v\]
+    Now our joint p.d.f for $U,V$ is  
+    \begin{align*}
+        g(u,v) &= f(x(u,v), y(u,v))|J| = f(uv, v(1-u))|J|\\
+        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-v}(uv)^{\alpha_1 - 1}(v(1-u))^{\alpha_2-1}vI(0 < v < 1, u > 0)
+    \end{align*}
+    We don't want the joint p.d.f for $U$ and $V$, we want it for $U$ so we can integrate over $V$ 
+    \begin{align*}
+        g(u) = \int_0^\infty g(u,v)dv &= \int_0^\infty \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}e^{-v}(uv)^{\alpha_1 - 1}(v(1-u))^{\alpha_2-1}vdv\\
+        &= \frac{1}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1}\int_0^\infty e^{-v}v^{\alpha_1 + \alpha_2}dv
+    \end{align*}
+    Notice that the integral is $\Gamma(\alpha_1 + \alpha_2)$ so we get 
+    \[g(u) = \frac{\Gamma(\alpha_1 + \alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}u^{\alpha_1 - 1}(1-u)^{\alpha_2-1} \]
+\noindent
+    \textbf{Example.} Let $X \sim \Unif(0,1)$. Find the p.d.f for 
+    \begin{enumerate}[label=(\roman*)]
+        \item $Y = a+(b-a)X$ where $a < b$
+        \item $W = \tan\left(\frac{\pi(2X-1)}{2}\right)$
+    \end{enumerate}
+    \textbf{Solution.} 
+    \begin{enumerate}[label=(\roman*)]
+        \item Let $G$ denote the c.d.f for $Y$, then 
+        \begin{align*}
+            G(y) = P(Y \leq y) &= P(a + (b-a)X \leq y)\\
+            &= P((b-a)X \leq y - a)\\
+            &= P\left(X \leq \frac{y-a}{b-a}\right)\\
+            &= \frac{y-a}{b-a}   
+        \end{align*}
+        Then the p.d.f is 
+        \[g(y) = G'(y) = \frac{1}{b-a}I(a \leq y \leq b)\]
+        Therefore, $Y \sim \Unif(a,b)$.
+        
+        \item Let $H$ denote the c.d.f for $W$, then 
+        \begin{align*}
+            H(w) = P(W \leq w) &= P\left(\tan\frac{\pi(2X-1)}{2} \leq 2\right)\\
+            &= P\left(\frac{\pi(2X-1)}{2} \leq \arctan(w)\right)\\
+            &= P\left(X \leq \frac{2\arctan(w) + 1}{2\pi}\right)\\
+            &= \frac{2\arctan(w) + 1}{2\pi}
+        \end{align*}
+    Then the p.d.f is 
+    \[h(w) = H'(w) = \frac{1}{\pi(1+w^2)}I(w \in \real)\]
+    Thus $W$ has a Cauchy distribution.\\[2ex]
+    \end{enumerate}
+    \textbf{Example.} Let $W \sim N(0,1)$, $V \sim \chi^2(r)$ and $V$ is independent of $W$. Define 
+    \[T = \frac{W}{\sqrt{V/r}} \sim t(r)\]
+    Find the p.d.f for $t(r)$.\\[2ex]
+    \textbf{Solution.}
+    \begin{align*}
+        G(t) = P(T \leq t) &= P\left(\frac{W}{\sqrt{v/r}} \leq t\right)\\
+        &= P\left(W \leq t\sqrt{v/r}\right)\\
+    \end{align*}
+    $W$ and $V$ are independent, so their joint distribution is 
+    \[f(x,y) = \frac{1}{\sqrt{2\pi}}e^{-w^2/2} \frac{1}{\Gamma(r/2)2^{r/2}}e^{-v/2}v^{r/2 - 1}I(v > 0, w \in \real)\]
+    \textbf{Note.} Recall this very important formula
+    \[\int_0^\infty e^{\beta u} u^{\alpha - 1}du = \frac{\Gamma(\alpha)}{\beta^\alpha}\]
+    Now we can compute $G(t)$ 
+    \begin{align*}
+        G(t) = P(W \leq t\sqrt{v/r}) &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}}\int_0^\infty\int_{-\infty}^{t\sqrt{v/r}} e^{-w^2/2}e^{-v/2}v^{r/2 - 1}dwdv\\
+        G'(t) = g(t) &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}}\int_0^\infty \left(\frac{d}{dt}\int_0^{t\sqrt{v/r}} e^{-w^2/2}dw\right)e^{-v/2}v^{r/2 - 1}dv\\
+        &= \frac{1}{\sqrt{2\pi}\Gamma(r/2)2^{r/2}} \int_0^\infty \sqrt{v/r} e^{-t^2v/2r}e^{-v/2}v^{r/2 - 1}dv\\
+        &= \frac{1}{\sqrt{2\pi r}\Gamma(r/2)2^{r/2}}\int_0^\infty e^{-v/2(1 + t^2/r)}v^{r/2 - 1 + 1/2}dv\\
+        &= \frac{1}{\sqrt{2\pi r}\Gamma(r/2)2^{r/2}}\frac{\Gamma\left(\frac{r+1}{2}\right)}{\left(\frac{1}{2}\left(1 + \frac{t^2}{r}\right)\right)^{(r+1)/2}}\\
+        &= \frac{2^{r/2}\Gamma\left(\frac{r+1}{2}\right)}{\Gamma(r/2)\sqrt{\pi r}}\left(\frac{1}{1+\frac{t^2}{r}}\right)^{(r+1)/2}
+    \end{align*}
+    \textbf{Example.} Let $X,Y \iid \Unif[0,1]$. Let $U = X + Y$, $V = X - Y$. Find the joint and marginal p.d.f's for $U$ and $V$\\[2ex]
+    \textbf{Solution.} We start by calculating $X$ and $Y$ in terms of $U$ and $V$, solving the 2 equations we get
+    \[X = \frac{U + V}{2}, Y = \frac{U - V}{2}\]
+    Now we can compute the Jacobian 
+    \[J = \left|\begin{matrix}
+        \frac{1}{2} & \frac{1}{2}\\
+        \frac{1}{2} & -\frac{1}{2}
+    \end{matrix}\right| = -\frac{1}{2}\]
+    Then the joint p.d.f of $U$ and $V$ is 
+    \[g(u,v) = f(x(u,v), y(u,v))|J| = \frac{1}{2}I((0 \leq u \leq 1, |v| \leq u) \text{ or } (1 \leq u \leq v, |v|\leq 2))\]
+    For marginal p.d.f's, 
+    \begin{align*}
+        g(u) &= \int g(u,v)dv = \begin{cases}
+            \displaystyle\int_{-u}^u \dfrac{1}{2} dv = u & 0 \leq u \leq 1\\
+            \displaystyle\int_{-(2-u)}^{2-u}\dfrac{1}{2}dv = 2-u & 1 \leq u \leq 2 
+        \end{cases}\\
+        &= uI(0 \leq u \leq 1) + (2-u)I(1 \leq u \leq 2)
+    \end{align*}
+    Then similarly for $V$, 
+    \[
+        g(v) = \int g(u,v)du = \int_{|v|}^{2-|v|} \frac{1}{2}du = \frac{1-|v|}{2}I(-1 \leq v \leq 1)
+    \]
+    \textbf{Example.} Let $U_1,U_2 \iid \Unif[0,1]$. Then define 
+    \[X_1 = \cos(2\pi U_1)\sqrt{-2\ln U_2} \ X_2 = \cos(2\pi U_1)\sqrt{-2\ln U_2}\]
+    \textbf{Solution.} We start by finding $U_1$, $U_2$ in terms of $X_1$ and $X_2$. We can do that as follows 
+    \begin{align*}
+        X_1^2 + X_2^2 &= \cos^2(2\pi U_1) (-\ln U_2) + \sin^2(2\pi U_1)(-\ln U_2)\\
+        &= (-\ln U_2)(\cos^2(2\pi U_1)  + \sin^2(2\pi U_1))\\
+        &= -\ln U_2 \cdot 1 \implies U_2 = \exp(-(X_1^2 + X_2^2))
+    \end{align*}
+    Then for $U_1$, 
+    \[\frac{X_2}{X_1} = \frac{\sin(2\pi U_1)}{\cos(2\pi U_1)} = \tan(2 \pi U_1) \implies U_1 = \frac{1}{2\pi}\arctan\left(\frac{X_2}{X_1}\right)\]
+    Now we can calculate the Jacobian 
+    \[J = \left|\begin{matrix}
+        \frac{\partial U_1}{\partial x_1} &
+        \frac{\partial U_1}{\partial x_2} \\  
+        \frac{\partial U_2}{\partial x_1} &
+        \frac{\partial U_2}{\partial x_2} \\ 
+    \end{matrix}\right| = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)\]
+    $\Unif[0,1]$ has p.d.f 1, so our joint p.d.f for $X_1,X_2$ is 
+    \[g(x_1,x_2) = f(u_1(x_1,x_2), u_2(x_1,x_2))|J| = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)\]
+    We can split this up as 
+    \[g(x_1,x_2) = \left(\frac{1}{\sqrt{2\pi}}e^{-x_1^2/2}\right)\left(\frac{1}{\sqrt{2\pi}}e^{-x_2^2/2}\right)\]
+    These are 2 standard normal distributions, so this tells us how to simulate normal distribution from $\Unif(0,1)$.
+    \section{Order Statistics}
+     \begin{definition}
+        Let $X_1,\ldots, X_n \iid f(x)$ be a random sample. Then the order statistics for this sample are 
+        \[Y_1 = \min(X_1, \ldots, X_n), Y_2  = \min\left(\{X_1, \ldots X_n\} \setminus Y_1\right), \ldots, Y_n = \max(X_1,\ldots, X_n)\]
+        So 
+        \[Y_1 < Y_2 < \cdots < Y_{n-1} < Y_n\]
+        In otherwords, $Y_1, \ldots, Y_n$ are $X_1, \ldots, X_n$ sorted with $Y_1$ being the minimum and $Y_n$ being the maximum.
+     \end{definition}
+     \noindent
+     \textbf{Example.} Consider the sample 
+     \[X_1 = 3.1, X_2 = 4.5, X_3, 3.4, X_4 = 4.1, X_5 = 2\]
+     Then its order statistics are 
+     \[Y_1 = 2 < Y_2 = 3.1 < Y_3 = 3.4 < Y_4 = 4.1 < Y_5 = 4.5\]
+     It's clear that $Y_3 = 3.4$ is the median. In general the median is given as 
+     \[\begin{cases}
+        Y_{(n+1)/2} & \text{If $n$ is odd}\\
+        \frac{1}{2}\left(Y_{n/2} + Y_{(n/2) + 1}\right) & \text{If $n$ is even}
+     \end{cases}\]
+
+     It is important in many statistical problems to find the p.d.f for functions of order statistics, to find the p.d.f for $Y_i$, we can simply write 
+     \[g_i(y) = \frac{n!}{(i-1)!(n-1)!}(F(y ))^{i-1}f(y)(1-F(y))^{n-i}\]
+     Then the joint p.d.f for $Y_i$, $Y_j$ is 
+     \[g_{ij}(u,v) = \frac{n!}{(i-1)!(j-i-1)!(n-j)!}F(u)^{i-1}(F(v)-F(u))^{j-i-1}(1-F(v))^{n-j}f(u)f(v)\]
+     with $-\infty < u < v < \infty$.\\[2ex]
+     \textbf{Example.} Let $X_1,X_2,X_3 \iid f(x)$ for a continuous p.d.f $f$. Let $Y_1 < Y_2 < Y_3$ be the order statistics. Find the joint p.d.f for $Y_1,Y_2,Y_3$.\\[2ex]
+     \textbf{Solution.} Notice that there are 6 possible outcomes in this case, order from smallest to largest we have 
+     \[Y_1 = X_1, Y_2 = X_2, Y_3 = X_3; Y_1 = X_2, Y_2 = X_1, Y_3 = X_3\]
+     \[Y_1 = X_1, Y_2 = X_3, Y_3 = X_2; Y_1 = X_3, Y_2 = X_1, Y_3 = X_2\]
+     \[Y_1 = X_2, Y_2 = X_3, Y_3 = X_1; Y_1 = X_3, Y_2 = X_2, Y_3 = X_1\]
+     Consider the last case where $Y_1 = X_3$, $Y_2 = X_2$, $Y_3 = X_1$, then the Jacobian for this transformation is 
+     \[|J| = \left|\begin{matrix}
+        \frac{\partial X_1}{y_1} & \frac{\partial X_1}{y_2} & \frac{\partial X_1}{y_3}\\
+        \frac{\partial X_2}{y_1} & \frac{\partial X_3}{y_2} & \frac{\partial X_2}{y_3}\\
+        \frac{\partial X_3}{y_1} & \frac{\partial X_3}{y_2} & \frac{\partial X_3}{y_3}\\
+     \end{matrix}\right| = \begin{matrix}
+        0 & 0 & 1\\
+        0 & 1 & 0\\
+        1 & 0 & 0
+     \end{matrix} = 1 \]
+     Notice that for any combination, $J = \pm 1 \implies |J| = 1$. Thus the joint p.d.f is the some of each of these cases 
+     \[g(y_1,y_2, y_3) = f(y_1,y_2,y_3)\cdot 1 + \cdots + f(y_3,y_2,y_1)\cdot 1\]
+     This gives us 
+     \[g(y_1,y_2,y_3) = 3!f(y_1)f(y_2)f(y_3)I(y_1 < y_2 < y_n)\]
+     This holds with our general formula for $n$ order statistics
+     \[g(y_1,\ldots y_n) = n!f(y_1)\cdots f(y_n)I(y_1 < \cdots < y_n)\]
+     \textbf{Example.} Let $X_1,X_2 \iid f(x)$. Then 
+     \[Y_1 = \min(X_1, X_2), Y_2 = \min(X_1, X_2)\]
+     Here again we can break this up into cases where $Y_1 = X_1$, $Y_2 = X_2$, or $Y_1 = X_2$, $Y_2 = X_1$. Then our Jacobians are 
+     \[J_1 = \left|\begin{matrix}
+        1 & 0 \\
+        0 & 1\\
+     \end{matrix}\right| = 1\]
+     
+     \[J_2 = \left|\begin{matrix}
+        0 & 1 \\
+        1 & 0\\
+     \end{matrix}\right| = -1\]
+     So, the joint p.d.f is 
+     \[g(y_1,y_2) = f(x_1,x_2)|J_1| + f(x_2, x_1)|J_2| = 2f(y_1)f(y_2)I(y_1 < y_2)\]
+     \textbf{Example.} Let $X_1, \ldots, \iid f$ with continuous c.d.f $F$. Let $Y_1 < Y_2 < \cdots < Y_i < \cdots Y_n$ be the order statistics. Find the p.d.f for  $Y_i$. \\[2ex]
+     \textbf{Solution.} We want to derive the general equation for the p.d.f of any $Y_i$. Notice that 
+     \[P(y < Y_i < y + dy) = g(y)dy\]
+     Intuitivively, $dy$ is \emph{very} small, so the area of this region below the curve will be the p.d.f of $Y_i$ multiplied by the infinitesimal width $dy$. To the left of $Y_i$, we'll have $i - 1$ order statistics, and $n-i$ to the right. For any of the $X$'s, 
+     \[P(X \leq y) = F(y), \ P(X > y) = 1 - F(y)\]
+     In otherwords, the probability that an observation falls below $y$ is $F(y)$ and above $y$ is $1 - F(y)$. Now, we have $n$ total observations, with $i-1$ below $y$, and $n-i$ above, so the total number of ways to arrange these is 
+     \[\frac{n!}{(i-1)!(n-i)!}\]
+     We have $i-1$ (i.i.d) falling below $y$ with probability $F(y)^{i-1}$, one at $y$ with probability $f(y)dy$, and $n-i$ (i.i.d) above $y$ with probability $(1-F(y))^{n-1}$, therefore we have the equation 
+     \[P(y \leq Y_i \leq y + dy) = g(y)dy = \frac{n!}{(i-1)!(n-i)!}(F(y))^{i-1}f(y)dy(1-F(y))^{n-i}\]
+     Dividing by $dy$ on both sides gives us 
+     \[g(y) = \frac{n!}{(i-1)!(n-i)!}(F(y))^{i-1}f(y)(1-F(y))^{n-i}\]
+     \textbf{Example.} Let $X_1, \ldots, X_n \sim f(x) = 2xI(0 \leq x \leq 1)$. Let $Y_1 < Y_2 < Y_3 < Y_4 < Y_5$ be the orderered statistics. 
+     \begin{enumerate}[label=(\roman*)]
+        \item Find the p.d.f for the median $Y_3$. 
+        \item Find the joint p.d.f for $Y_1$,$Y_5$.
+        \item Find the joint p.d.f for $Y_1, Y_3, Y_5$. 
+     \end{enumerate}
+     \noindent
+     \textbf{Solution.} 
+     \begin{enumerate}[label=(\roman*)]
+        \item To use the equation we derived in the previous example, we must first find the c.d.f 
+        \[F(y) = P(X \leq y) = \int_0^y 2xdx = y^2\]
+        Then, let $g_3(y)$ denote the p.d.f for $Y_3$,
+        \begin{align*}
+            g_3(y) &= \frac{5!}{2!2!} (F(y))^2f(y)(1 - F(y))^2I(0 \leq y \leq 1)\\
+            &= 30y^4(2y)(1-y^2)^2I(0 \leq y \leq 1)\\
+            &= 60y^5(1-y^2)^2I(0 \leq y \leq 1)
+        \end{align*}
+        \item We want to find the p.d.f for $Y_1 = \min(X_1, \ldots, X_n)$, $Y_5 = \max(X_1,\ldots, X_n)$. Let $g_{15}(y_1,y_5)$ denote the p.d.f for $Y_1$,$Y_5$. 
+        We the c.d.f 
+        \[P(y_1 \leq X \leq y_5) = \int_{y_1}^{y_5} 2xdx = y_5^2 - y_1^2\]
+        Then, using the forumla we have 
+        \begin{align*}
+            g_{15}(y_1,y_5) &= \frac{5!}{3!} f(y_1)f(y_5)(F_5 - F)(y_1)I(0 < y_1 < y_5 < 1)\\
+            &= 80y_1y_5(y_5^2 - y_1^2)^3I(0 < y_1 < y_5 < 1)  
+        \end{align*}
+        \item Similarly, for the joint p.d.f for $Y_1,Y_3,Y_5$, we have 
+        \begin{align*}
+            g(y_1,y_3,y_5) &= \frac{5!}{1!1!1!1!1!}f(y_1)f(y_3)f(y_5)(F(y_3) - F(y_1))^1(F(y_5) - F(y_1))^1\\
+            &= 120(2y_1)(2y_3)(2y_5)(y_3^2 - y_1^2)(y_5^2 - y_3^2)I(0 < y_1 < y_3 < y_5)
+        \end{align*}
+    \end{enumerate}
+    \textbf{Example.} Let $X_1, \ldots, X_n \iid f(x) = e^{-x}I(x > 0)$. Find the joint distribution for $Y_1, Y_n$. \\[2ex]
+    \textbf{Solution.} First we find the c.d.f 
+    \[F(x) = \int_0^x e^{-t}dt = 1 - e^{-x}I(x \geq 0)\]
+    Then, 
+    \begin{align*}
+        g(y_1, y_n) &= \frac{n!}{(n-2)!}f(y_1)f(y_n)(F(y_n) - F(y_1))^{n-2}I( y_n > y_1 > 0)\\
+        &= n(n-1)e^{-y_1}e^{-y_n}(1-e^{-y_n} - 1 + e^{-y_1})^{n-2}I( y_n > y_1 > 0)\\
+        &= n(n-1)e^{-(y_1+y_n)}(e^{-y_1} - e^{-y_n})^{n-2}I(y_n > y_1 > 0)
+    \end{align*}
+    \textbf{Example.} Let $X_1, \ldots X_{2n+1} \Unif[\theta_1, \theta_2]$. Find the p.d.f for the median $Y_{n+1}$. \\[2ex]
+    \textbf{Solution.} The p.d.f for this distribution is 
+    \[f(x) = \frac{1}{\theta_2-\theta_1}I(\theta_1 \leq x \leq \theta_2)\]
+    and the c.d.f is 
+    \[F(x) = \int_{\theta_1}^x \frac{1}{\theta_2 - \theta_1} du = \frac{x - \theta_1}{\theta_2-\theta_1}\]
+    Since $Y_{n+1}$ is the median, we have $n$ observations to the left and $n$ to the right of $Y_{n+1}$, so the p.d.f is 
+    \begin{align*}
+        g(y) &= \frac{(2n+1)}{n!n!}f(y)(F(y))^n(1-F(y))^n\\
+        &=\frac{(2n+1)!}{(n!)^2}\frac{1}{\theta_2-\theta_1}\left(\frac{y-\theta_1}{\theta_2-\theta_1}\right)^n\left(1 - \frac{y - \theta_1}{\theta_2-\theta_1}\right)^nI(y \in [\theta_1, \theta_2])\\
+    \end{align*}    
+    \textbf{Example.} Let $Y_1, Y_2, Y_3$ be the order statistics of a random sample from $\Unif(0,1)$. We would liek to find the p.d.f for the range 
+    \[Z = Y_3 - Y_1\]
+    \textbf{Solution.} Since these are samples for uniform distribution, $f(x) = 1$ and $F(x) = x$. Then the joint p.d.f for $Y_1,Y_3$ is 
+    \[g(y_1,y_3) = 3!f(y_1)f(y_3)(F(y_3)-F(y_1))^1 = 6(y_3 - y_1)I(0 \leq y_1 < y_3 \leq 1)\]
+    Then, we can define another random variable $Z_2 = Y_3$. So
+    \[Z_1 = Y_3 - Y_1, Z_3 = Y_3 \implies Y_1 = Z_1 - Z_2\]
+    Now we can compute the joint distribution for these random variables. It's easy to see that $|J| = 1$, therefore 
+    \[g(z_1,z_2) = f(y_1,y_2)|J| = 6(z_2 - z_2 + z_1 ) = 6z_1I(0 \leq z_1 < z_2 \leq 1)\]
+    Then we want the distribution for $Z_2$, so we can integrate over $Z_2$, 
+    \[g(z_1) = \int_{z_1}^16z_1dz_2 = 6z_1(1-z_1)I(0 < z_1 < 1)\]
+    \section{Independence of Random Variables}
+    Recall that if $(X,Y) \sim f(x,y)$, with mariginal p.d.f's $f_1(x)$ and $f_2(y)$, we define the conditional p.d.f for $Y|X = x$ and $X|Y = y$ as 
+    \[f(y|x) = \frac{f(x,y)}{f_1(x)}, f(x|y) = \frac{f(x,y)}{f_2(y)}\]
+    If $X$ and $Y$ are independent, then 
+    \[f(x|y) = f_1(x), f(y|x) = f_2(y) \implies f(x,y) = f_1(x)f_2(x)\]
+    To check for Independence, finding the marginal distributions may not be necessary. In general, if 
+    \[f(x,y) = u(x)v(y)\]
+    Where $u$ and $v$ are two functions, not necessarily the marginals of $X$ and $Y$,then we can still say $X$ and $Y$ are independent. To see this, notice that for independence we need to check that 
+    \[f(x,y) = f_1(x)f_2(y)\]
+    Suppose $f(x,y) = u(x)v(y)$, then we can calculate 
+    \[f_1(x) = \int_{-\infty}^{\infty} u(x)v(y)dy = u(x)\int_{-\infty}^{\infty}v(y)dy = c_1u(x)\]
+    Where $c_1$ is the constant obtained from evaluating the integral of $v(y)$. Then similarly,
+    \[f_1(x) = \int_{-\infty}^{\infty} u(x)v(y)dx = v(y)\int_{-\infty}^{\infty}u(x)dx = c_2v(y)\]
+    Then, $f(x,y)$ is a p.d.f so its integral is 1, thus 
+    \[\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}u(x)v(y)dxdy = c_1c_2 = 1\]
+    Therefore,
+    \[f(x,y) = u(x)v(y) = c_1c_2u(x)v(y) = f_1(x)f_2(y)\]
+    and $X$ is independent of $Y$. 
+    \begin{definition}
+        If $(X,Y)$ is a random vector with p.d.f $f(x,y)$, then the conditional expecation is defined as 
+        \[E(Y|X = x) = \int_{-\infty}^{\infty} yf(y|x)dy, E(X|Y = y) = \int_{-\infty}^{\infty} xf(x|y)dx\]
+        Similarly the variance is defined as 
+        \[\Var(Y|X = x) = E(Y^2|X = x) - E(Y|X = x)^2\]
+        \[\Var(X|Y = y) = E(X^2|Y = y) - E(X|Y = y)^2\]
+    \end{definition}
+    We usually call $E(Y|X=x)$ the regression of $Y$ on $X = x$.\\[2ex]
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the order statistics of a random sample of size $n=5$ from an exponentional distribution with mean 1. Show that $Z_1 = Y_2$ and $Z_2 = Y_4 - Y_2$ are independent random variables. \\[2ex]
+    \textbf{Solution.} $Y_1,\ldots, Y_5$ are samples from exponential with mean 1, so 
+    \[f(x) = e^{-x}I(x \geq 0), F(x) = 1 - e^{-x}\]
+    We want to find the joint p.d.f of $Z_1 = Y_2$, and $Z_2 = Y_4-Y_2$ and show that it can be written as a product of 2 functions $u(z_1)$,$v(z_2)$. First, we find the joint p.d.f for $Y_2,Y_4$. 
+    \begin{align*}
+        g_{24}(y_2,y_4) &= 5!f(y_2)f(y_4)F(y_2)(1-F(y_4))(F(y_4) - F(y_2))I(y_4 > y_2 > 0)  \\
+        &= 120e^{-y_2}e^{-y_4}(1-e^{-y_2})(e^{-y_4})(1 - e^{-y_4}- 1 + e^{-y_2})I(y_4 > y_2 > 0)\\
+        &=120e^{-y_2}e^{-y_4}(1-e^{-y_2})(e^{-y_4})(e^{-y_2} -e^{-y_4})I(y_4 > y_2 > 0)
+    \end{align*}
+    Now we want to find the joint p.d.f for $Z_1 = Y_2$, and $Z_2 = Y_4 - Y_2$. We rearrange these to find $Y_2$ and $Y_4$ in terms of $Z_1,Z_2$ to get 
+    \[Y_2 = Z_1, Y_4 = Z_2 + Z_1\]
+    It's easy to calculate the Jacobian $J = 1$, so 
+    \begin{align*}
+        h(z_1,z_2) &= 120e^{-z_1}e^{-z_2 - z_1}(1-e^{-z_1})(e^{-z_2 - z_1})(e^{-z_1} - e^{-z_2 - z_1})\\
+        &=120e^{-z_1}e^{-z_2}e^{-z_1}(1-e^{-z_1})(e^{-z_2}e^{-z_1})(e^{-z_1}-e^{-z_1}e^{-z_2})\\
+        &=120e^{-z_1}e^{-z_2}e^{-z_1}(1-e^{-z_1})(e^{-z_2}e^{-z_1})e^{-z_1}(1-e^{-z_2})\\
+        &= 120e^{-4z_1}(1-e^{-z_1})e^{-2z_2}(1-e^{-z_2})I(z_1 > 0)I(z_2 > 0)
+    \end{align*}
+    Now we can set $u(z_1) = 120e^{-4z_1}(1-e^{-z_1})$, and $v(z_2) = e^{-2z_2}(1-e^{-z_2})$, and we have $h(z_1, z_2) = u(z_1)v(z_2)$.\\[2ex]
+    \textbf{Example.} Let $Y_1 < \cdots Y_5$ be the order statistics of a random sample of size 5 coming from the distribution 
+    \[f(x) = 3x^2I(0 < x < 1)\]
+    Show that $Z_1 = Y_2 / Y_4$ is independent from $Z_2 = Y_4$.\\[2ex]
+    \textbf{Solution.} First we need the c.d.f,
+    \[F(x) = \int_0^x 3t^2dt = x^3\]
+    Now we can find the joint distribution for $Y_2, Y_4$, 
+    \begin{align*}
+        g(y_2,y_4) &= 5!f(y_2)f(y_4)F(y_2)(1-F(y_4))(F(y_4) - F(y_2))I(0 < y_2 < y_4 < 1)\\
+        &= 120(3y_2^2)(3y_4^2)(y_2^3)(1 - y_4^3)(y_4^3 - y_2^3)I(0 < y_2 < y_4 < 1)\\
+        &= 1080y_2^5y_4^2(1-y_4^3)(y_4^3-y_2^3)
+    \end{align*}
+    Then we write $Y_2$ and $Y_4$ in terms of $Z_1, Z_2$, 
+    \[Z_1 = \frac{Y_2}{Y_4}, Z_2 = Y_4 \implies Y_2 = Z_1Z_2\]
+    The Jacobian is easy to calculate $|J| = z_2$. Now the joint p.d.f for $Z_1,Z_2$ is 
+    \begin{align*}
+        h(z_1,z_2) &= g(y_2,y_4)|J|\\
+        &= 1080(z_1z_2)^5z_2^2(1-z_2^3)(z_2^3 - z_1^3z_2^3)z_2I(0 \leq z_1)I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= 1080z_1^5z_2^7(1-z_2^3)z_2^3(1 - z_1^3)z_2I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= 1080z_1^5(1-z_1^3)z_2^{11}(1-z_2^3)^2I(0 \leq z_1 \leq 1, 0 \leq z_2 \leq 1)\\
+        &= u(z_1)v(z_2)
+    \end{align*}

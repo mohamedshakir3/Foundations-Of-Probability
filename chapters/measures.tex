@@ -1,0 +1,611 @@
+\chapter{Probability Measures}
+\section{Review of Set Theory}
+Let $\Omega$ be an abstract set representing the sample space of a random experiment. The power set of $\Omega$ by $\powerset(\Omega)$ is defined to be the set of all subsets of $\Omega$. Elements of $\Omega$ are outcomes and its subsets are events. Therefore,
+\[\powerset(\Omega) = \{A: A \subseteq \Omega\}\]
+For $A,B \in \powerset(\Omega)$, we define
+\[A \cup B = \{x: x \in A \text{ or } x \in B\}\]
+\[A \cap B = \{x: x \in A \text { and } x \in B\}\]
+\[\bar{A} = A^c = \{x: x \not\in A\}\]
+\[A \Delta B = (A \cup B) \setminus (A \cap B)\]
+In terms of events $A \cup B$ occurs if and only if at least one of the two events $A$ and $B$ occurs. Also, $A \cap B$ occurs if both $A$ and $B$ occurs. The empty set is denoted by $\emptyset$.\\[3ex]
+\textbf{Examples of Sample Spaces:} When flipping a coin, we have two outcomes, so 
+\[\Omega = \{H,T\}\]
+If we flip a coin and role a dice, 
+\[\Omega = \{1H, 2H, \ldots, 6H, 1T, \ldots 6T\}\]
+If we flip a coin until we observe a head, 
+\[\Omega = \{H, TH, TTH, TTTH, \ldots\}\]
+Here, there are infinite outcomes so the sample space is infinite, but it is countable since we can list all the possibilities.\\[2ex]
+If we pick a choose are sample space to be the points with distance one from the origin, we have the points in the unit circle,
+\[
+    \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-2, xmax=2,
+            ymin=-2, ymax=2,
+            axis equal,
+            axis lines=middle,
+            xlabel={$x$},
+            ylabel={$y$},
+            samples=100 
+        ]
+        \addplot+[domain=0:360, no marks, thick] ({cos(x)}, {sin(x)});
+        \end{axis}
+    \end{tikzpicture}    
+\]
+The sample space is defined by 
+\[\Omega = \{(x,y): d((x,y),(0,0)) \leq 1\} = \{(x,y): x^2 + y^2 \leq 1\} \]
+In this example, the sample space omega is infinite as well, but it is uncountable.\\[2ex]
+\textbf{Examples of Events:} An event is a subset of the sample space. For example, in the case of rolling a dice and flipping a coin, we have 
+\[\Omega = \{1H, 2H, \ldots, 6H, 1T, \ldots 6T\}\]
+And we can define an event $E$ as 
+\[E = \{\text{Coin is heads and the dice is even}\} = \{2H, 4H, 6H\} \subset \Omega\]
+If we flip a coin until the first head appears, 
+\[\Omega = \{H, TH, TTH, \ldots\}\]
+And we can define an event $E$ as
+\[E = \{\text{First head appears before the 5th trial}\} = \{H, TH, TTH, TTTH, TTTTH\} \subset \Omega\]
+\textbf{Examples of Power Sets:} Consider the sample space obtained by rolling a dice,
+\[\Omega = \{1,2,3,4,5,6\}\]
+And let $E = \{2,4,6\}$ be the event we roll an even number. Then, the power set of $E$ is 
+\[\powerset(E) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2,3\}, \{1,2,3\}\}\]
+The cardinality of the power set is 
+\[|\powerset(E)| = 2^{|E|} = 8\]
+\noindent
+\textbf{Examples of Set Operations:}
+\[\Omega = \{1,2,\ldots, 6\}\]
+\[A = \{1,2,3\} \ B = \{1,2, 3\}\]
+\[A \cup B = \{1,2,3,4,6\}\]
+\[A \cap B = \{2\}\]
+\[A^c = \{1,3,5\}\]
+\[A \setminus B = \{x: x \in A, x \not\in B\} = \{4,6\}\]
+\[A \Delta B = (A \cup B) \setminus (A \cap B)\]
+\textbf{Example of Empty Set:}
+Is $\{\{\}\} = \{\}$? \textbf{No}. $\{\{\}\}$ is a set with one element, which is the empty set, so $\{\{\}\} = \{\emptyset\}$.\\
+\subsection{Properties of Sets}
+\begin{itemize}
+    \item $A \subset A$, $\emptyset \subset A$
+    \item $A \subset B$ and $B \subset A$ implies $A = B$
+    \item $A \subset C$ and $B \subset C$ implies $A \cup B \subset C$ and $A \cap B \subset C$. 
+    \item $A \subset B$ if and only if $B^c \subset A^c$
+    \item $(A^c)^c = A$, $\empty^c = \Omega$, $\Omega^c = \emptyset$
+    \item $A \cup B = B \cup A$, $A \cap B = B \cap A$
+    \item $A \cup A = A$, $A \cap \Omega = A$, $A \cup A^c = \Omega$, $A \cap A^c = \emptyset$. 
+    \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C) \cup (A \cap C)$
+    \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+    \item $(A \cup B)^c = A^c \cap B^c$, $(A \cap B)^c = A^c \cup B^c$
+\end{itemize}
+\textbf{Example.} We have 
+\[\bigcup_{n=1}^\infty \left[0, \frac{n}{n+1}\right) = [0,1)\]
+To show that these sets are equal, consider the limit of the sequence $\left(\frac{n}{n+1}\right)_{n=1}^\infty$. As $n$ becomes large, the limit approaches 1. So, the union of all these sets will contain elements that become arbitrarly close to 1 but do not reach 1, so we have $[0,1)$.
+\[\bigcap_{n=1}^\infty \left(0, \frac{1}{n}\right) = \emptyset\]
+To show that these sets are equal, consider the sequence $\left(\frac{1}{n}\right)_{n=1}^\infty$, As this sequence approaches 0, the intersection of all these sets will contain elements that become arbitrarly close to 0 but do not reach 0, so we have the set $(0, 0)$ which is empty. Therefore, when taking the intersection of all these sents with $\left(0, \frac{1}{n}\right)$ which become arbitrarly small, we have the empty set.\\[2ex]
+\noindent
+\textbf{Example.} Prove that $A \Delta B = A^c \Delta B^c$.
+\begin{proof}
+    Note that $A \setminus B = A \cap B^c$. 
+    \begin{align*}
+        A^c \Delta B^c &= (A^c \cup B^c) \setminus (A^c \cap B^c)\\
+        &= (A \cap B)^c \cap ((A \cup B)^c)^c\\ 
+        &= (A \cap B)^c \cap (A \cup B) = (A \cup B) \setminus (A \cap B) \\
+        &= A \Delta B  
+    \end{align*}
+\end{proof}
+\section{Indicator Function}
+Let $A \subset \Omega$. The indicator function of $A$ is defined as
+\[I(x \in A) = I_A(x) = \begin{cases}
+    1 & x \in A\\
+    0 & x \not\in A
+\end{cases}\]
+\textbf{Example.} $A = [1,3]$
+\[I_A(x) = I_{[1,3]} (x)\]
+\[
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin=0, xmax=4,
+        ymin=-0.2, ymax=1.2,
+        axis lines=middle,
+        xticklabels={1,2,3},
+        yticklabels={0,1},
+        xlabel={$x$},
+        ylabel={$I_A(x)$},
+        samples=2 
+        ]
+    \addplot+[thick, jump mark left, mark=none, color=blue] coordinates {
+        (0,0)
+        (0.99,0)
+        (1,1)
+        (3,1)
+        (3.01,0)
+        (4,0)
+    };
+    \end{axis}
+    \end{tikzpicture}
+\]
+\subsection{Properties of Indicator Functions:}
+\begin{itemize}
+    \item $I_{A \cup B} = \max(I_A, I_B)$
+    \item $I_{A \cap B} = I_A \cdot I_B$
+    \item $I_{A \Delta B} = I_A + I_B \pmod{2}$
+    \item $A \subset B$ if and only if $I_A \leq I_B$
+    \item $I_{\cup_i A_i} \leq \sum_i I_{A_i}$
+\end{itemize}
+
+\section{Set Theoretic Limits}
+\textbf{Exercise:} Prove that
+\[I_{\cup_{i=1}^\infty A_i} = 1 - \prod_{i=1}^\infty(1 - I_{A_i})\]
+and 
+\[I_{A \Delta B}= (I_A - I_B)^2\]
+\begin{definition}
+    Let $\{A_n\}$ be a sequence of events. Then 
+    \[\liminf A_n = \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m\]
+    and
+    \[\limsup A_n = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m\]
+\end{definition}
+\noindent
+\textbf{Example.} Suppose we have a sequence of events $A_1, A_2, A_3, \ldots$, we can define 
+\[B_n = \bigcap_{m=n}^\infty A_m\]
+So its sequence members are 
+\[B_n = A_n \cap A_{n+1} \cap \cdots\]
+\[B_{n+1} = A_{n+1} \cap A_{n+2} \cap \cdots\]
+\[B_{n+2} = A_{n+2} \cap A_{n+3} \cap \cdots\]
+These sets are getting smaller because surely the intersection of more sets will be smaller since $|A \cap B| \leq \min(|A|, |B|)$. So as we take more intersections, the sets become smaller and smaller. Now we can look at the union of these sets, 
+\[\bigcup_{n=1}^\infty B_n = \liminf A_n\]
+If instead we take $B_n$ to be the union of all the sets, 
+\[B_n = \bigcup_{m=n}^\infty A_m\]
+So the sequence members are 
+\[B_n = A_n \cup A_{n+1} \cup \cdots\]
+\[B_{n+1} = A_{n+1} \cup A_{n+2} \cup \cdots\]
+\[B_{n+2} = A_{n+2} \cup A_{n+3} \cup \cdots\]
+These sets are getting larger since we are taking the union of more sets, then we can look at the intersection of these sets,
+\[\bigcap_{m=n}^\infty = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_n = \limsup A_n\]
+\begin{lemma}
+    We have 
+    \[\limsup A_n = \left\{\omega: \sum_{i=1}^\infty I_{A_i}(\omega) = \infty \right\}\]
+    and 
+    \[\liminf A_n = \left\{\omega: \sum_{i=1}^\infty I_{A_i^c}(\omega) < \infty \right\}\]
+    We can also express this as 
+    \[\limsup_{n\rightarrow\infty} A_n = \left\{x \in X : \limsup_{n\rightarrow \infty} I_{A_n}(x) = 1\right\}\]
+    and 
+    \[\liminf_{n\rightarrow\infty} A_n = \left\{x \in X : \liminf_{n\rightarrow \infty} I_{A_n}(x) = 1\right\}\]
+\end{lemma}
+
+\begin{proof}
+    If $\omega \in \limsup A_n$, then $\omega \in \bigcup\limits_{m=n}^\infty A_m$ for all integers $n$. Therefore, for any integer $n$ there exists an integer $k_n$ such that $\omega \in A_{k_n}$, since 
+    \[\sum_{i=1}^\infty A_{A_i} (\omega) \geq \sum_{i=1}^\infty I_{A_{k_i}}(\omega) = \infty\]
+    Conversely, for any integer $n$, by definition of the limit superior, 
+    \[\sum_{i=n}^\infty I_{A_i}(\omega) = \infty\]
+    This implies that $\omega \in \bigcup\limits_{j=n}^\infty A_j$ for all integers $n$. Therefore, 
+    \[\omega \in \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m = \limsup A_n\]
+    Then, we can notice that 
+    \[\omega \in \liminf A_n = \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m \]
+    implies that there exists an integer $n_0$ such that 
+    \[\omega \in \bigcap_{k=n_0}^\infty A_k\]
+    Therefore, 
+    \[\sum_{n=1}^\infty I_{A_n^c} (\omega) = \sum_{n=1}^{n_0-1} I_{A_n^c} (\omega) \leq n_0 < \infty\]
+
+\end{proof}
+\textbf{Note:} For this reason, sometimes we write $\limsup A_n = A_n$ infinitely often. If $\liminf A_n = \limsup A_n$, then 
+\[\lim A_n = \liminf A_n = \limsup A_n\]
+\textbf{Remark:} The proof of the lemma above can be simplified by noticing the fact that 
+\[(\limsup A_n)^c = \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m^c = \liminf A_n^c\]
+\[(\liminf A_n)^c = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m^c = \limsup A_n^c\]
+To summarize, with the limit superior we have infinitely many cases where $I_{A_i}(\omega) = 1$. So what it means for $\omega \in \limsup A_n$ is that $\omega$ is in infinitely many of the $A_i$'s. For the limit inferior, it means that $\omega$ is in all but finitely many of the $A_i$'s.\\[2ex]
+\noindent
+\textbf{Example.}
+Consider $\omega \in A_i$ when $i$ is odd, so 
+\[\omega \in A_1, \omega \not\in A_2, \omega \in A_3, \omega \not\in A_4, \omega \in A_5, \ldots\]
+$\omega$ is in infinitely many (but countable) number of the $A_i$'s. So $\omega \in \limsup A_n$. Now consider $\omega \in A_i$ when $i \geq 10$, so 
+\[\omega \not\in A_1, \omega \not\in A_2, \omega \not\in A_3, \ldots, \omega \not\in A_9, \omega \in A_{10}, \omega \in A_{11}, \omega \in A_{12}, \ldots\]
+So, $\omega$ is not in finitely many of the $A_i$'s, therefore $\omega \in \liminf A_n$.\\[2ex]
+\noindent
+\textbf{Example.} Consider sample space of flipping a coin and infinite number of times, and the event $E = \{HTTHT\}$, so the event that we get $HTTHT$ in that order. Because this outcome is possible, it will occur an infinite number of times in the sequence of events, so $E$ is in the limit superior, and the probability that $E$ occurs infinitely often is 1.
+\begin{lemma}
+    Let $\{A_n\}$ be a sequence of events, then 
+    \begin{enumerate}
+        \item If $A_n \subset A_{n+1}$ for any integer $n$, then 
+        \[\lim A_n = \bigcup_{n=1}^\infty A_n\]
+        \item If $A_{n+1} \subset A_n$ for any integer $n$, then
+        \[\lim A_n = \bigcap_{n=1}^\infty A_n\]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    We can prove (1) and (2) similarly as follows, not that in this case, 
+    \[\bigcap_{m=n}^\infty A_m = \bigcap_{m=1}^\infty A_m\]
+    for all integers n. If $A_n \subset A_{n+1}$ for any integer $n$, then we have that 
+    \[A_1 \subset A_2 \subset A_3 \subset \cdots \]
+    So the set is getting bigger, now consider the limit superior 
+    \[\limsup_{n\rightarrow\infty} A_n = \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m= \left(\bigcup_{m=1}^\infty A_m\right) \cap \left(\bigcup_{m=2}^\infty A_m\right) \cap \left(\bigcup_{m=3}^\infty A_m\right) \cap \cdots\]
+    These sets are equal in size since if $A_1 \subset A_2$, then $A_1 \cup A_2 = A_2$. Therefore, we get that the intersection of these sets is $\bigcup\limits_{m=1}^\infty A_m$, and thus 
+    \[\limsup_{n\rightarrow \infty} A_n = \bigcap_{n=1}^\infty\bigcup_{m=n}^\infty A_m = \bigcup_{n=1}^\infty A_n\]
+    Furthermore, 
+    \begin{align*}
+        \liminf_{n\rightarrow\infty} A_n &= \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m\\
+        &= \left(\bigcap_{m=1}^\infty A_m\right) \cup \left(\bigcap_{m=2}^\infty A_m\right) \cup \left(\bigcap_{m=3}^\infty A_m\right) \cup \cdots \\
+        &=  A_1 \cup A_2 \cup A_3 \cup \cdots \\
+        &= \bigcup_{n=1}^\infty A_n
+    \end{align*}
+    Therefore 
+    \[\limsup A_n = \liminf A_n \implies \limsup A_n = \liminf A_n = \lim A_n\]
+    The proof for (2) follows the same. 
+\end{proof}
+\noindent
+\textbf{Example.} 
+\[\lim_{n\rightarrow\infty} \left[0, 1 - \frac{1}{n}\right] = \lim_{n\rightarrow\infty} \left[0, 1 - \frac{1}{n}\right) = [0,1)\]
+To see this, we have that 
+\[A_1 = \{0\}, A_2 = \left[0,\frac{1}{2}\right], A_3 = \left[0,\frac{2}{3}\right],A_4 = \left[0,\frac{3}{4}\right], \ldots \]
+So the set $A_n$ is increasing, therefore 
+\[\limsup A_n = \liminf A_n = \lim A_n = \bigcup_{n=1}^\infty A_n = [0,1)\]
+\textbf{Example.}
+\[\lim_{n\rightarrow\infty} \left[0, 1 + \frac{1}{n}\right] = \lim_{n\rightarrow\infty} \left[0, 1 + \frac{1}{n}\right) = [0,1]\]
+Similarly,
+\[A_1 = [0,2], A_2 = \left[0,1 + \frac{1}{2}\right], A_3 = \left[0,1 + \frac{1}{3}\right],A_4 = \left[0,1 + \frac{1}{4}\right], \ldots \]
+The set $A_n$ is decreasing, therefore
+\[\limsup A_n = \liminf A_n =\bigcap_{n=1}^\infty A_n = \bigcap_{n=1}^\infty \left[0, 1 + \frac{1}{n}\right] = [0,1]\]
+\noindent
+\textbf{Example.} Let $B, C \subset \Omega$ and define the sequence 
+\[A_n = \begin{cases}
+    B & \text{if } n \text{ is odd}\\
+    C & \text{if } n \text{ is even}
+\end{cases}\]
+Then we have 
+\[\bigcup_{m=n}^\infty = B \cup C \implies \bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m = B \cup C = \limsup A_n\]
+Similarly for the limit inferior, 
+\[\bigcap_{m=n}^\infty A_m = B \cap C \implies \bigcup_{n=1}^\infty \bigcup_{m=n}^\infty A_m = B \cup C = \liminf A_n\]
+Therefore, we have 
+\[\bigcap_{n=1}^\infty \bigcup_{m=n}^\infty A_m = B \cup C \text{ and } \bigcup_{n=1}^\infty \bigcap_{m=n}^\infty A_m = B \cap C\]
+If $B \cap C \neq B \cup C$, then $B \cap C = \liminf A_n \neq \limsup A_n = B \cup C$. 
+\section{Fields and Algebras}
+\begin{definition}[Fields (Algebras)]
+    A \emph{field} (or \emph{algebra}) is a class of subsets of $\Omega$ (called events) that contain $\Omega$ and are closed under finite union, finite intersection, and complementation. In otherwords, a family of subsets of $\Omega$ (say $\mathcal{A}$) is a field if 
+    \begin{itemize}
+        \item $\Omega \in \mathcal{A}$
+        \item If $A \in \mathcal{A}$, then $A^c \in \mathcal{A}$
+        \item If $A,B \in \mathcal{A}$, then $A \cup B \in \mathcal{A}$
+    \end{itemize}
+\end{definition}
+\noindent
+\textbf{Remarks.} If $A,B \in \mathcal{A}$ then $A \cap B \in \mathcal{A}$. This is true because 
+\[(A^c \cup B^c)^c = A \cap B\]
+\begin{definition}[$\sigma$-field]
+    A $\sigma$-field (or $\sigma$-algebra) is a field that is closed under countable union (which implies that it is closed under countable intersection).
+\end{definition}
+\noindent
+\textbf{Example.} Let $\Omega$ be a set and $A,B \subset \Omega$. Then, 
+\[\mathcal{A} = \{\Omega, \emptyset, A, A^c, B, B^c, A\cup B, A \cap B, A \cap B^c, A^c \cap B, A^c \cup B^c, A^c \cap B^c\}\]
+\textbf{Examples of $\sigma$-fields.}
+\begin{itemize}
+    \item The power set $\mathcal{P}(\Omega)$
+    \item $\mathcal{F} = \{\Omega, \emptyset\}$
+    \item The family of subsets or $\real$ which are either countable or their complements are countable. 
+    \item Let $\mathcal{B}$ be the smallest $\sigma$-field containing all open sets. Then $\mathcal{B}$ is called the Borel $\sigma$-field.
+\end{itemize}
+
+
+\begin{definition}[Probability Measure]
+    Let $\Omega$ be a sample space and $\mathcal{F}$ be a $\sigma$-field on $\Omega$. A probability measure $P$ is defined on $\mathcal{F}$ such that 
+    \begin{enumerate}[label=(\roman*)]
+        \item $P(\Omega) = 1$
+        \item If $A_1, A_2, \ldots \in \mathcal{F}$ are disjoint, then 
+        \[P\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty P(A_i)\]
+    \end{enumerate}
+\end{definition}
+\subsection{Properties of Probability Measures}
+\begin{enumerate}[label=(\roman*)]
+    \item Since $P(\Omega) = 1 = P(\Omega \cup \emptyset) = P(\Omega) + P(\emptyset)$, we have $P(\emptyset) = 0$
+    \item Since $(A\setminus B) \cup (A \cap B) = A$ and $(A\setminus B) \cap (A \cap B) = \emptyset$, we have
+    \[P(A \setminus B) = P(A) - P(A \cap B)\]
+    \item Similarly, $(A \setminus B) \cup B = A \cup B$ and $(A \setminus B) \cap B = \emptyset$, which implies 
+    \[P(A \cup B) = P(A) + P(B) - P(A \cap B)\]
+    \item If $A \subset B$ then $A \cup (B \setminus A) = B$. Therefore, 
+    \[P(A) + P(B \setminus A) = P(B)\]
+    and furthermore,
+    $P(A) \leq P(B)$
+\end{enumerate}
+\subsection{Expectations}
+\begin{definition}
+    
+    Let $X: \Omega \to \real$, an expecation $E$ be an operator with the following properties, 
+    \begin{enumerate}[label=(\roman*)]
+        \item If $X \geq 0$ then $E(X) \geq 0$
+        \item If $c \in \real$ is a constant, then $E(cX) = cE(X)$
+        \item $E(X_1 + X_2) = E(X_1) + E(X_2)$
+        \item $E(1) = 1$
+        \item If $X_n(\omega)$ is monotonically increasing and $X_n(\omega) \rightarrow X(\omega)$, then 
+        \[\lim_{n\rightarrow \infty} E(X_n) = E(X)\]
+    \end{enumerate}
+\end{definition}
+\noindent
+\textbf{Example.} Flip 2 coins, 
+\[\Omega = \{HH, HT, TH, TT\}\]
+Define $X: \Omega \rightarrow \real$, with 
+\[X(HH) = 2, X(HT) = X(TH) = 1, X(TT) = 0\]
+So $X$ is a random variable which represents the number of heads.\\[2ex]
+\textbf{Example.} Flip a coin until a head appears, 
+\[\Omega = \{H, TH, TTH, TTTH, \ldots\}\]
+With 
+\[X(H) = 1, X(TH) = 2, X(TTH) = 3, X(TTTH) = 4, \ldots\]
+So $X$ is a random variable which represents the number of trials until a head appears.\\[2ex]
+\textbf{Example.} Define 
+\[\Omega = \{(x,y): x^2 + y^2 \leq 1\}\]
+and 
+\[X(x,y) = \sqrt{x^2 + y^2} = \text{ Distance of $(x,y)$ from $(0,0)$}\]
+\textbf{Example.} Let $X$ be a random variable, and
+\[E(X) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D X(\omega)d\omega}{2D}\]
+Check if $E$ satisfies the definition for an expectation. \\[2ex]
+\textbf{Solution.} We have to check the 5 axioms, 
+\begin{enumerate}
+    \item Its clear that if $X \geq 0$ then $E(X) \geq 0$ since the integral of a non-negative function is non-negative.
+    \item 
+    \[E(cX) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D cX(\omega) d\omega}{2D} = c\lim_{D \rightarrow \infty}\frac{\int_{-D}^DX(\omega)d\omega}{2D} =  cE(x)\]
+    \item 
+    \begin{align*}
+        E(X_1 + X_2) &= \lim_{D \rightarrow \infty} \frac{\int_{-D}^D (X_1(\omega) + X_2(\omega)) d\omega}{2D}\\
+        &=\lim_{D \rightarrow \infty} \left(\frac{\int_{-D}^D X_1(\omega) d\omega}{2D} + \frac{\int_{-D}^D X_2(\omega) d\omega}{2D}\right)\\
+        &=\lim_{D \rightarrow \infty} \frac{\int_{-D}^D X_1(\omega) d\omega}{2D} + \lim_{D \rightarrow \infty}\frac{\int_{-D}^D X_2(\omega) d\omega}{2D}\\
+        &= E(X_1) + E(X_2)
+    \end{align*}
+    \item 
+    \[E(1) = \lim_{D \rightarrow \infty} \frac{\int_{-D}^D 1 d \omega}{2D} = \lim_{D\rightarrow \infty} \frac{2D}{2D} = 1\]
+    \item 
+    The 5th axiom fails however. Take $\Omega = \mathbb{R}$ and $X_n (\omega) = I_{[-n,-n]}(\omega)$, then 
+    \[\lim_{D \rightarrow \infty} \frac{\int_{-D}^D X(\omega)d\omega}{2D} = 0\]
+    But, $x_n(\omega) \rightarrow 1$. So the operator in this example is not a proper form of expectation. 
+\end{enumerate}
+\section{Finding Probabilities Using Expectations}
+\begin{definition}
+    For any event $A$, define 
+    \[P(A) = E(I_A(\omega))\]
+    For simplicity, we somtimes drop $\omega$ and write 
+    \[P(A) = E(I_A)\]
+\end{definition}
+\subsection{Properties}
+\begin{enumerate}
+    \item $E\left(\sum\limits_{i=1}^n c_iX_i\right) = \sum\limits_{i=1}^n c_iE(X_i)$
+    \item If $X \leq Y \leq Z$, then $E(X) \leq E(Y) \leq E(Z)$
+    \item If $\{A_i\}$ is a sequence of events, then 
+    \[P\left(\bigcup_{i=1}^\infty A_i\right) \leq \sum_{i=1}^\infty P(A_i)\]
+   
+\end{enumerate}
+The third property (known as Borel's inequality) is an important result and can be proved as follows. 
+\begin{proof}
+    Using the fact that 
+    \[I_{\cup A_i} \leq \sum_{i=1}^\infty I_{A_i}\]
+    and the second property where if $X \leq Y$, then $E(X) \leq E(Y)$, then 
+    \[E\left(I_{\cup A_i}\right) \leq \sum_{i=1}^\infty E(I_{A_i})\]
+    Then this is exactly 
+    \[P\left(\bigcup_{i=1}^\infty A_i\right) \leq \sum_{i=1}^\infty P(A_i)\]
+\end{proof}
+\noindent
+We can use these properties to prove the axioms of probability measures. 
+\begin{enumerate}
+    \item $P(\Omega) = E(I_\Omega)$, we have $I_\Omega(\omega) = 1$ $\forall \omega \in \Omega$, so $P(\Omega) = E(I_\Omega) = 1$
+    \item We want to show that the probability of disjoint events is the sum of their probablities, so we have that 
+    \[P\left(\bigcup_{i=1}^\infty A_i\right) = E\left(I_{\cup A_i}\right)\]
+    We know from indicator functions that 
+    \[I_{\cup A_i} = \sum_{i=1}^\infty I_{A_i}\]
+    Therefore,
+    \[E\left(I_{\cup A_i}\right) = E\left(\sum_{i=1}^\infty I_{A_i}\right) = \sum_{i=1}^\infty E(I_{A_i}) = \sum_{i=1}^\infty P(A_i)\]
+    as required. 
+\end{enumerate}
+Another useful result we can prove is that 
+\[P(A \cup B) = P(A) + P(B) - P(A \cap B)\]
+ and furthermore 
+ \[P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\]
+\begin{proof}
+    We know that 
+    \[I_{A \cup B \cup C} = 1 - (1 - I_A)(1 - I_B)(1 - I_C)\]
+    This can be easily shown by considering the cases when we have $\omega \in A \cup B \cup C$, then at least one of the terms $(1 - I_A)$, $(1 - I_B)$, or $(1 - I_c)$ will be zero, then
+    \[1 - (1 - I_A)(1 - I_B)(1 - I_C) = 1 - 0 = 1 = I_{A \cup B \cup C}\]
+    And if $\omega \not\in A \cup B \cup C$, then $\omega \not\in A$ and $\omega \not\in B$ and $\omega \not\in C$, so all their indicator functions will be zero, then we get 
+    \[1 - (1 - 0)(1 - 0)(1-0) = 0 = I_{A \cup B \cup C}\]
+    So, we have the result that 
+    \[I_{\cup A_i} = 1 - \prod_{i=1}^\infty (1 - A_i)\]
+    Now if we expand the equality, we get 
+    \begin{align*}
+        I_{A \cup B \cup C} &= 1 - (1 - I_A)(1 - I_B)(1 - I_C) \\
+        &= 1 - (1 - I_A - I_B + I_A I_B)(1 - I_C)\\
+        &= 1 - 1 + I_A + I_B + I_C - I_A I_B - I_A I_C - I_B I_C + I_A I_B I_C\\ 
+        &= I_A + I_B + I_C - I_A I_B - I_A I_C - I_B I_C + I_A I_B I_C
+    \end{align*}
+    Then, we can take the expected value of both sides, 
+    \begin{align*}
+        E(I_{A \cup B \cup C}) &= E(I_A + I_B + I_C - I_A I_B - I_A I_C - I_B I_C + I_A I_B I_C)\\
+        &= E(I_A) + E(I_B) + E(I_C) - E(I_A I_B) - E(I_A I_C) - E(I_B I_C) + E(I_A I_B I_C)\\
+        &= P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\\
+        &= P(A \cup B \cup C)
+    \end{align*}
+    Therefore, 
+    \[P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\]
+    Showing that $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ follows the same.
+\end{proof}
+Then we get that the general case for the union of $n$ events as 
+\[P\left(\bigcup_{i=1}^n A_i\right) = \sum_{i=1}^n P(A_i) -\sum_{1 \leq i < j \leq n}P(A_i \cap A_j) + \sum_{i \leq i < j < k \leq n} P(A_i \cap A_j \cap A_k) + (-1)^{n+1}P(A_1 \cap A_2 \cap \cdots \cap A_n)\]
+And this is again proved using the fact that 
+\[I_{\cup_{i=1}^n A_i} = 1 - \prod_{i=1}^n (1- A_i)\]
+\textbf{Example.} (Confused Secretary Problem) Suppose we have 100 distinct letters to be sent to 100 different people. The Secretary confuses the addresses, and sends 100 letters at random to these 100 people. What is the probability that at least one letter is sent to the correct address?\\[2ex]
+\textbf{Solution.} Let $A_i$ denote the event that the $i$th letter goes to the right person. We want to find the probability that one of these events occurs, so $P\left(\bigcup\limits_{i=1}^{100} A_i\right)$. From the formulas previously discussed, 
+\begin{align*}
+    P\left(\bigcup_{i=1}^{100} A_i\right) &= P(A_1) + \cdots P(A_100) - P(A_1 \cap A_2) - \cdots - P(A_{99} \cap A_{100})\\
+    &+ P(A_1 \cap A_2 \cap A_3) + \cdots + P(A_{98} \cap A_{99} \cap A_{100})\\
+    &+ P(A_1 \cap A_2 \cap A_3 \cap A_4) - \cdots - P(A_{97} \cap A_{98} \cap A_{99} \cap A_{100})\\
+    &+ \cdots - P(A_1 \cap A_2 \cap \cdots \cap A_{100})
+\end{align*}
+Then we can evaluate each probability, 
+\[P(A_1) = \frac{1}{100}, \ P(A_2) = \frac{1}{100}, \ldots, P(A_{100}) = \frac{1}{100}\]
+\[P(A_1 \cap A_2) = \frac{1}{100} \cdot \frac{1}{99} = \cdots = P(A_{99} \cap A_{100})\]
+\[P(A_1 \cap A_2 \cap A_3) = \frac{1}{100} \cdot \frac{1}{99} \cdot \frac{1}{98} = \cdots\]
+Then continuing this sequence we have
+\begin{align*}
+    P\left(\bigcup_{i=1}^{100}\right) &= 100\left(\frac{1}{100}\right) - {100 \choose 2}\left(\frac{1}{100\cdot99}\right)+ \cdots - \cdots - {100 \choose 100}\left(\frac{1}{100 \cdot 99 \cdots 1}\right)\\
+    &= 1 - \frac{100 \cdot 99}{2!} \cdot \frac{1}{100 \cdot 99} + \frac{100 \cdot 99 \cdot 98}{3!}\cdot\frac{1}{100 \cdot 99 \cdot 98} - \cdots - \frac{1}{100!}\\
+    &= 1 - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \cdots - \frac{1}{100!}\\ 
+\end{align*}
+Now recall that $e^x$ can be written as the infinite series 
+\[e^x = \sum_{n=1}^\infty \frac{x^n}{n!}\]
+So, 
+\[e^{-1} = 1 - 1 + \frac{1}{2!} - \frac{1}{3!} + \frac{1}{4!} - \cdots\]
+\[1 - e^{-1} = 1 - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \cdots\]
+Now since $100!$ is incredibly large, it is sufficiently large for this infinite sum. So we get that 
+\[P(\text{At least one letter goes to the right address}) = 1 - \frac{1}{e}\]
+\begin{lemma}[Fatou's Lemma]
+    If $\{A_n\}$ is a family of events, then 
+    \begin{enumerate}
+        \item $P(\liminf A_n) \leq \liminf P(A_n) \leq \limsup P(A_n) \leq P(\limsup A_n)$
+        \item If $\lim A_n = A$, then $\lim P(A_n) = P(A)$
+    \end{enumerate}
+\end{lemma}
+To prove this lemma, we first need to prove the following lemma. 
+\begin{lemma}\label{lem:1.5.2}
+    If $A_n \subset A_{n+1}$ for any $n \in \nat$, then $\lim P(A_n) = P(A)$. Similarly, if $A_{n+1} \subset A_n$ for any $n \in \nat$, then $\lim P(A_n) = P(A)$ where in both cases $\lim A_n = A$.
+\end{lemma} 
+\begin{proof}
+    If $A_n$ is increasing (i.e $A_n \subset A_{n+1}$), start by defining $B_n = A_n \setminus A_{n-1}$ with $B_1 = A_1$. Then, 
+    \[\bigcup_{i=1}^n B_i = \bigcup_{i=1}^n A_i= A_n\]
+    The point of this is now we have that the $B_i$'s are disjoint. Now if we take the limit we get 
+    \[\bigcup_{i=1}^\infty B_i = \bigcup_{i=1}^\infty A_i = A\]
+    Taking the probability now, 
+    \[P(A) = P\left(\bigcup_{i=1}^\infty B_i\right) = \sum_{i=1}^\infty P(B_i) = \lim_{n\rightarrow\infty} \sum_{i=1}^n P(B_i) = \lim_{n\rightarrow\infty}P(A_n)\]
+    If $A_n$ is decreasing ($A_{n+1} \subset A_n$), then $A_n^c$ is increasing. So, 
+    \[\lim_{n\rightarrow\infty}P(A_n^c) = \lim(1 - P(A_n)) = P(A^c) = 1 - P(A)\]
+    Therefore, 
+    \[\lim_{n\rightarrow\infty} P(A_n) = A\]
+\end{proof}
+\noindent
+To summarize, when $A_n$ is increasing, we have 
+\[\lim P(A_n) = P\left(\bigcup_{i=1}^\infty A_i\right) = P\left(\lim_{n\rightarrow\infty}A_n\right)\]
+when $A_n$ is decreasing, 
+\[\lim P(A_n) = P\left(\bigcap_{i=1}^\infty A_i\right) = P\left(\lim_{n\rightarrow\infty}A_n\right)\]
+Now we can prove Fatou's Lemma.
+\begin{proof}
+    To prove (1), notice that from the first part of lemma 1.5.2, we can write 
+    \[P(\liminf A_n) = P\left(\lim_{n\rightarrow\infty} \cap_{i=n}^\infty A_i\right) = \lim_{n\rightarrow \infty} P \left(\cap_{i=n}^\infty A_i\right)\leq \liminf P(A_n)\]
+    since $\bigcap\limits_{i=n}^\infty A_i \subset A_n$. Likewise, 
+    \[P(\limsup A_n) = P\left(\lim_{n\rightarrow\infty} \bigcup_{i=n}^\infty A_i\right) = \lim_{n\rightarrow\infty} P\left(\bigcup_{i=1}^\infty A_i\right) \geq \limsup P(A_n)\]
+    since $A_n \subset \bigcup\limits_{i=n}^\infty A_i$. For part (2), notice that if 
+    \[A = \limsup A_n = \liminf A_n\]
+    we have 
+    \[P(A) = P(\liminf A_n) \leq \liminf P(A_n) \leq \limsup P(A_n) \leq  P(\limsup A_n) = P(A)\]
+    Then this implies that 
+    \[\lim_{n\rightarrow\infty} P(A_n) = P(A)\]
+\end{proof}
+
+
+\section{Independence}
+\begin{definition}
+    Let $A$ and $B$ be events. We say that $A$ and $B$ are independent if 
+    \[P(A \cap B) = P(A)P(B)\]
+\end{definition}
+\noindent
+\textbf{Example.} Flip a coin and roll a die, 
+\[\Omega = \{1H, 2H, \ldots, 6H, 1T, 2T, \ldots, 6T\}\]
+Let $A = \{1H, 1T\}$ and $B = \{1H, 2H, 3H,4H, 5H,6H\}$. Are $A,B$ independent? 
+\[A \cap B = \{1H\} \neq \emptyset\]
+\[P(A \cap B) = \frac{1}{12}\]
+\[P(A) = \frac{1}{6}, \ P(B) = \frac{1}{2}\]
+\[P(A)P(B) = \frac{1}{6}\cdot \frac{1}{2} = \frac{1}{12} = P(A\cap B)\]
+Therefore, $A$ and $B$ are independent. 
+\subsection{Properties of Independence}
+\begin{enumerate}
+    \item  If $A$ and $B$ are independent, then $A$ and $B^c$ are independent, $A^c$ and $B$ are independent, and $A^c$ and $B^c$ are independent.
+    \item If $A,B,C$ are indepdent then $A$ and $B \cup C$ are independent. similarly $A$ and $B \cap C$ are independent.
+    \item An event $A$ is independent of itself if and only if $A = \emptyset$ or $A = \Omega$.
+    \item Any event $A$ is independent of $\Omega$.
+\end{enumerate}
+
+\begin{proof}
+    \begin{enumerate}
+        \item To prove that $A^c$ and $B$ are independent, recall that
+        \[P(A^c \cap B) = P(B) - P(A \cap B)\]
+        So, 
+        \begin{align*}
+            P(A^c \cap B) &= P(B) - P(A \cap B)\\
+            &= P(B) - P(A)P(B)\\
+            &= P(B)(1 - P(A))\\
+            &=P(B)P(A^c)
+        \end{align*}
+        The proof for $A$ and $B^c$ follows the same. To prove $A^c$ and $B^c$ are independent, 
+        \begin{align*}
+            P(A^c \cap B^c) &= P((A\cup B)^c)\\
+            &= 1 - P(A\cup B)\\
+            &= 1 - [P(A) + P(B) - P(A\cap B)]\\
+            &= 1 - P(A) - P(B) + P(A)P(B)\\
+            &= 1 - P(A) - P(B)(1 - P(A))\\
+            &= (1-P(A))(1-P(B))\\
+            &= P(A^c)P(B^c)
+        \end{align*}
+        \item Given 3 independent events $A,B,C$, then any operations between the sets is independent. So we can show $A$ and $B \cup C$ is independent since 
+        \begin{align*}
+            P(A \cap (B \cup C)) &= P((A \cap B) \cup (A \cap C)) \\
+            &= P(A \cap B) + P(A \cap C) - P(A \cap B \cap A \cap C)\\
+            &= P(A)P(B) + P(A)P(B) - P(A)P(B)P(C)\\
+            &= P(A)(P(B) + P(C) - P(B)P(C))\\
+            &= P(A)P(B \cup C)
+        \end{align*}
+        Similarly for $A$ and $B \cap C$, 
+        \begin{align*}
+            P(A \cap (B \cap C)) &= P((A \cap B) \cap (A \cap C)) \\
+            &= P(A \cap B \cap A \cap C)\\
+            &= P(A)P(B)P(C)\\
+            &= P(A)P(B \cap C)
+        \end{align*}
+        \item ($\implies$) If $A$ is independent of itself, then 
+        \[P(A \cap A) = P(A)P(A) \implies P(A) = P(A)^2 \implies P(A) =0, 1 \implies A = \emptyset, A = \Omega\]
+        ($\impliedby$) If $A = \emptyset$, then 
+        \[P(A \cap A) = P(A) = 0 = P(\emptyset)P(\emptyset)\]
+        If $A = \Omega$, then
+        \[P(A \cap A) = P(A) = 1 = P(\Omega)P(\Omega)\]
+        \item Every event is independent of $\Omega$ since
+        \[P(A \cap \Omega) = P(A)P(\Omega) = P(A) \cdot 1\]
+    \end{enumerate}
+    
+\end{proof}
+\noindent
+
+\begin{lemma}[Borel Cantelli Lemma]
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space and let $\{E_i\}$ be a sequence of events. Then,
+    \begin{enumerate}[label=(\roman*)]
+        \item If $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $P(\limsup E_n )= 0$
+        \item If $\{E_i\}$ is a sequence of independent events, then $P(\limsup E_n) = 0$ or 1 according to to whether the series $\sum\limits_{i=1}^\infty P(E_i)$ diverges or converges respectively.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Set $E = \limsup E_n$. We have $E = \bigcap\limits_{n=1}^\infty F_n$ where $F_n = \bigcup\limits_{m=n}^\infty E_m$. For every positive integer $n$, 
+    \[0 \leq P(F_n) \leq \sum_{m=n}^\infty P(E_m)\]
+    Since $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $\lim\limits_{n\rightarrow \infty} P(E_n) = 0$. Since $F_n \downarrow E$, from Fatou's lemma we can write 
+    \[0 = \lim_{n\rightarrow \infty} P(F_n) = P \left(\lim_{n\rightarrow\infty} F_n\right) = P(\limsup E_n)\]
+    Thus (i) is proved. For (ii), suppose $E_1, E_2, \ldots$ are independent. From (ii), we know that $P(\limsup E_n) = 0$  if the sum $\sum_{n=1}^\infty E_n$ is finite. It remains to show that if the sum is infinite, then $E_n$ occurs infinitely often. Let $E = \limsup E_n$. Then 
+    \[E^c = \liminf E_n^c\]
+    The sequence of events $\{E_n^c\}$ are also independent, so we have 
+    \[P\left(\bigcap_{m=n}^\infty E_m^c\right) \leq P\left(\bigcap_{m=n}^N E_m^c\right) = \prod_{m=n}^N (1 - P(E_m)) \leq \exp \left(- \sum_{m=n}^N P(E_m)\right)\]
+    This inequality comes from the Talor Series expansion of $e^x$, so
+    \[e^{-x} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + \cdots\] 
+    \[e^{-x} \geq 1 - x\]
+    As $N \rightarrow \infty$, we get $\bigcap\limits_{m=n}^N E_{m}^C \downarrow E^c$. Thus, 
+    \[P\left(\bigcap_{m=n}^N E_m^c\right) \leq \exp\left(-\sum_{m=n}^N P(E_m)\right) \leq \exp \left(-\sum_{m=n}^N P(E_m)\right) \rightarrow 0\]
+    This implies that $P(E^c) = 0$, thus $P(E) = 1$.
+ \end{proof}
+ \begin{corollary}
+    If $\{E_i\}$ is a sequence of independent events then 
+    \[P(\limsup E_n) =  0 \iff \sum_{i=1}^{\infty} P(E_i) < \infty\]
+\end{corollary}
+\begin{proof}
+    ($\impliedby$) We know from the Borel Cantelli lemma that if $\sum\limits_{i=1}^\infty P(E_i) < \infty$, then $P(\limsup E_n) = 0$.\\[1ex]
+    ($\implies$) Suppose $P(\limsup E_n) = 0$. Then from part (2), $P(\limsup E_n) = 1$ when $\sum\limits_{i=1}^\infty P(E_i) = \infty$. So it must be that $\sum\limits_{i=1}^\infty P(E_i) < \infty$ as required. 
+\end{proof}
+\noindent
+\textbf{Remark.} Notice that indepdence is required by Corollary 1.6.1. To see this, let $(\Omega = [0,1], B, P)$ be a probability space with 
+\[P(A) = \int_A dx\]
+for a Borel set $A$. It's easy to show that $P$ is a probability measure on $[0,1]$. Now define $E = \left(0, \frac{1}{n}\right)$ and notice that $E_n \downarrow \emptyset$. Therefore, 
+\[P(\limsup E_n) = P(\lim E_n) = 0\]
+Since 
+\[P(E_n) = \int_0^\frac{1}{n} dx = \frac{1}{n}\]
+we have 
+\[\sum_{n=1}^\infty P(E_n) = \sum_{n=1}^\infty \frac{1}{n} = \infty\]
+This does not violate Corollary 1.6.1 since the events $E_n$ are not independent. For example. consider $E_2 = (0,1/2)$, and $E_3 = (0,1/3)$. Then 
+\[P(E_2) = \frac{1}{2}, \ \ P(E_3) = \frac{1}{3}\]
+\[P(E_2 \cap E_3) = P(E_3) = \frac{1}{3} \neq P(E_2)P(E_3) = \frac{1}{6}\]
+\textbf{Example.} Let $E_n$ denote the event that the result of a fair coin flip is heads on both the $n$th and the $(n + 1)$st toss. Then,
+$\limsup E_n$ is the event that in repeated tossing of a fair coin two
+successive head appears infinitely often times. Since ${E_{2n}}$ is an
+independent sequence of events and
+\[\sum_{n=1}^\infty P(E_{2n}) = \sum_{n=1}^\infty \frac{1}{4} = \infty\]
+we have $P(\limsup E_{2n}) = 1$. This implies that $P(\limsup E_n) = 1$ since 
+\[\limsup E_{2n} \subset \limsup E_n\]
