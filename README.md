@@ -1,3 +1,3 @@
-# MAT-3172-Notes
+# Foundations Of Probability Notes
 
-Lecture notes written by Mohamed Shakir for the Foundations of Probability course at uOttawa. For easy access, use the github pages link: https://mohamedshakir3.github.io/MAT-3172-Notes/main.pdf
+Link to PDF: https://mohamedshakir3.github.io/Foundations-Of-Probability/main.pdf
